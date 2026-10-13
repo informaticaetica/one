@@ -22,8 +22,14 @@ Aggiungi un oggetto all'array `GUIDE` in `assets/guide.js`:
   aggiornata: "2026-10-13",
   sommario: "Breve descrizione.",
   contenuto: "<p>Testo in HTML…</p>",
+  // facoltativo: regole con una pagina ciascuna (#/guide/nome-url/1, /2, …)
+  regole: [{ titolo: "…", sintesi: "…", contenuto: "<p>…</p>" }],
+  conclusione: "<p>…</p>",
 }
 ```
+
+I testi della home e della sezione "Come iniziare" sono in `SITO` nello
+stesso file; la fonte dei contenuti è in `FONTE`.
 
 ## Anteprima locale
 

@@ -14,6 +14,29 @@ una voce qui sotto e creare il tag git corrispondente (es. `v1.1.0`).
 
 ## [Non rilasciato]
 
+## [1.1.0] - 2026-10-13
+
+### Aggiunto
+- Home dedicata al metodo APPO: le quattro parole (Aspirazione, Problema,
+  Progetto, Opportunità), il "mezzo secondo" fra impulso e scelta, le aree
+  della vita a cui saranno dedicate le prossime guide.
+- Sezione **Come iniziare** (`#/inizia`): il metodo in 60 secondi, tempi
+  reali, i primi tre gesti, il piano della prima settimana, cosa aspettarsi,
+  scheda di riferimento rapido.
+- **Guida rapida alla produttività** con 10 regole in elenco numerato e una
+  pagina dedicata per ogni regola (`#/guide/produttivita/1` … `/10`), con
+  navigazione fra regola precedente e successiva.
+- Indicazione della fonte: *Metodo APPO 2.0 — Osa Realizzarti Ora* di
+  Marco Costanzo.
+
+### Modificato
+- Domande frequenti riscritte sul metodo APPO.
+- La ricerca nelle guide cerca anche nei titoli delle regole.
+- Menu compatto anche sui tablet (fino a 820px).
+
+### Rimosso
+- Le guide modello "Primi passi" e "Guida di esempio passo-passo".
+
 ## [1.0.0] - 2026-10-13
 
 ### Aggiunto
@@ -26,5 +49,6 @@ una voce qui sotto e creare il tag git corrispondente (es. `v1.1.0`).
 - Licenza Creative Commons BY-NC-ND 4.0, numero di versione nel piè di pagina.
 - Pubblicazione automatica su GitHub Pages e creazione automatica delle release.
 
-[Non rilasciato]: https://github.com/informaticaetica/one/compare/v1.0.0...HEAD
+[Non rilasciato]: https://github.com/informaticaetica/one/compare/v1.1.0...HEAD
+[1.1.0]: https://github.com/informaticaetica/one/releases/tag/v1.1.0
 [1.0.0]: https://github.com/informaticaetica/one/releases/tag/v1.0.0
