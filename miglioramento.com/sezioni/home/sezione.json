@@ -1,12 +1,12 @@
 {
   "titolo": "Home",
   "menu": "Home",
-  "versione": "1.0.0",
+  "versione": "1.1.0",
   "aggiornata": "2026-10-13",
   "pagine": [
     {
       "file": "index.html",
-      "titolo": "miglioramento.com — crescita personale con il metodo APPO",
+      "titolo": "miglioramento.com — Scegli meglio, un giorno alla volta",
       "descrizione": "Crescita personale concreta con il metodo APPO: Aspirazione, Problema, Progetto, Opportunità. Una riga al mattino, una alla sera."
     }
   ]

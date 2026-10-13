@@ -41,13 +41,18 @@ main { flex: 1; padding-top: 32px; padding-bottom: 72px; outline: none; }
 .salta { position: absolute; left: -999px; }
 .salta:focus { left: 16px; top: 8px; z-index: 20; background: var(--superficie); padding: 8px 12px; }
 
-.banner { background: var(--primario); color: var(--primario-testo); font-size: .92rem; padding: 8px 0; text-align: center; }
-.banner a { color: inherit; font-weight: 600; }
+.fascia-libro { margin: 8px 0 16px; padding: 16px 20px; border-radius: var(--raggio); background: var(--primario); color: var(--primario-testo); }
+.fascia-libro p { margin: 0; }
+.fascia-libro a { color: inherit; font-weight: 600; }
+.fascia-libro .etichetta { display: inline-block; margin-right: 6px; padding: 1px 9px; border: 1px solid currentColor; border-radius: 999px; font-size: .75rem; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; }
 
 .testata { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 10; background: var(--superficie); border-bottom: 1px solid var(--bordo); }
 .testata-interna { display: flex; align-items: center; justify-content: space-between; gap: 16px; min-height: 64px; }
 .marchio { display: flex; align-items: center; gap: 10px; color: var(--testo); text-decoration: none; font-weight: 700; font-size: 1.15rem; }
 .marchio .punto { color: var(--accento); }
+.marchio-testo { display: flex; flex-direction: column; line-height: 1.15; }
+.marchio .claim { font-size: .8rem; font-weight: 500; color: var(--tenue); }
+@media (max-width: 420px) { .marchio .claim { display: none; } }
 .menu { display: flex; align-items: center; gap: 2px; }
 .menu a { color: var(--tenue); text-decoration: none; padding: 8px 11px; border-radius: 8px; }
 .menu a:hover, .menu a[aria-current] { color: var(--testo); background: var(--primario-tenue); }
@@ -140,7 +145,7 @@ section.scheda { border: 2px solid var(--primario); }
 .piede .meta { margin-bottom: 0; }
 
 @media print {
-  .testata, .piede, .banner, .azioni, .salta, .no-stampa { display: none !important; }
+  .testata, .piede, .fascia-libro, .azioni, .salta, .no-stampa { display: none !important; }
   body { background: #fff; color: #000; font-size: 12pt; }
   main { padding: 0; }
   .foglio { border: 0; padding: 0; margin: 0; }

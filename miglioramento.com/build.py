@@ -116,9 +116,10 @@ def banner_libro(sito, compatto=False):
     )
     if compatto:
         return (
-            f'<div class="banner"><div class="wrap">Il libro <strong>{esc(lib["titolo"])}</strong> è {link}. '
-            f'Intanto puoi <a href="{sito["base"]}libro/leggi/">leggere gratis l\'edizione {esc(lib["edizione"])}</a>.'
-            "</div></div>"
+            '<aside class="fascia-libro" aria-label="Il libro">'
+            f'<p><span class="etichetta">Il libro</span> <strong>{esc(lib["titolo"])}</strong> è {link}. '
+            f'Intanto puoi <a href="{sito["base"]}libro/leggi/">leggere gratis l\'edizione {esc(lib["edizione"])}</a>.</p>'
+            "</aside>"
         )
     return (
         '<aside class="avviso-edizione" role="note">'
@@ -138,9 +139,9 @@ def menu_html(sito, sezioni, attiva):
     return "\n        ".join(voci)
 
 
-def impagina(sito, sezioni, modello, *, slug, titolo, descrizione, contenuto, url, extra_classi="", banner=""):
+def impagina(sito, sezioni, modello, *, slug, titolo, descrizione, contenuto, url, extra_classi=""):
     sez = sezioni.get(slug)
-    titolo_completo = titolo if slug == "home" and titolo == sito["titolo"] else f"{titolo} — {sito['nome']}"
+    titolo_completo = titolo if slug == "home" else f"{titolo} — {sito['nome']}"
     valori = {
         "lingua": sito["lingua"],
         "titolo": esc(titolo_completo),
@@ -149,7 +150,7 @@ def impagina(sito, sezioni, modello, *, slug, titolo, descrizione, contenuto, ur
         "base": sito["base"],
         "nome": esc(sito["nome"]),
         "menu": menu_html(sito, sezioni, slug),
-        "banner": banner,
+        "claim": esc(sito["claim"]),
         "contenuto": contenuto,
         "classi": extra_classi,
         "versioni": (
@@ -476,6 +477,8 @@ def main():
             "email": esc(sito["email"]),
             "autore": esc(sito["autore"]),
             "sito_versione": esc(sito["versione"]),
+            "claim": esc(sito["claim"]),
+            "fascia_libro": banner_libro(sito, compatto=True),
         }
 
         scritte = []
@@ -485,8 +488,7 @@ def main():
                 contenuto = sostituisci((s["cartella"] / pagina["file"]).read_text(encoding="utf-8"), valori)
                 scrivi(url, sito, impagina(
                     sito, sezioni, modello, slug=slug, titolo=pagina["titolo"],
-                    descrizione=pagina["descrizione"], contenuto=contenuto, url=url,
-                    banner=banner_libro(sito, compatto=True) if slug == "home" else ""), scritte)
+                    descrizione=pagina["descrizione"], contenuto=contenuto, url=url), scritte)
         n_libro = genera_libro(sito, sezioni, modello, scritte)
         genera_versioni(sito, sezioni, modello, scritte)
         genera_extra(sito, sezioni, modello, scritte)

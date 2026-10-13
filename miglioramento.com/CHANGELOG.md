@@ -9,6 +9,15 @@ Formato [Keep a Changelog](https://keepachangelog.com/it-IT/1.1.0/),
 
 ## [Non rilasciato]
 
+## [1.2.0] - 2026-10-13
+
+### Aggiunto
+- Claim «Scegli meglio, un giorno alla volta.» sotto il logo in tutte le pagine
+  (`claim` in `sito.json`) e come titolo della home (sezione Home 1.1.0).
+
+### Modificato
+- La fascia sul libro su Amazon scende dalla cima della pagina a sotto l'apertura della home.
+
 ## [1.1.1] - 2026-10-13
 
 ### Modificato
