@@ -150,3 +150,11 @@ section.scheda { border: 2px solid var(--primario); }
   a { color: #000; text-decoration: none; }
 }
 .btn.disattivo { opacity: .65; cursor: default; }
+
+/* Inizia qui: ambiti d'uso del metodo */
+.usi { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); gap: 16px; margin: 20px 0 8px; }
+.usi section { min-width: 0; padding: 4px 20px 8px; background: var(--superficie); border: 1px solid var(--bordo); border-radius: var(--raggio); }
+.usi h3 { margin: 14px 0 6px; font-size: 1.1rem; color: var(--accento); }
+.usi ul { margin: 0 0 8px; padding-left: 1.1em; }
+.usi li { margin: .35em 0; }
+.usi section:last-child:nth-child(odd) { grid-column: 1 / -1; }

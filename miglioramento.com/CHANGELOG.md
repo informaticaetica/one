@@ -9,6 +9,12 @@ Formato [Keep a Changelog](https://keepachangelog.com/it-IT/1.1.0/),
 
 ## [Non rilasciato]
 
+## [1.1.0] - 2026-10-13
+
+### Modificato
+- Sezione Inizia qui 1.1.0: nuova apertura su come è nato il metodo APPO e su
+  tutto ciò a cui serve.
+
 ## [1.0.0] - 2026-10-13
 
 ### Aggiunto

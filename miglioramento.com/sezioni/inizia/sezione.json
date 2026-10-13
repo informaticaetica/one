@@ -1,13 +1,13 @@
 {
   "titolo": "Inizia qui",
   "menu": "Inizia qui",
-  "versione": "1.0.0",
+  "versione": "1.1.0",
   "aggiornata": "2026-10-13",
   "pagine": [
     {
       "file": "index.html",
-      "titolo": "Inizia qui: la tua prima settimana con APPO",
-      "descrizione": "Il metodo APPO in sessanta secondi e il piano della prima settimana, giorno per giorno."
+      "titolo": "Inizia qui: il metodo APPO dall'inizio",
+      "descrizione": "Come è nato il metodo APPO, a cosa serve nella vita di tutti i giorni e il piano della prima settimana."
     }
   ]
 }
