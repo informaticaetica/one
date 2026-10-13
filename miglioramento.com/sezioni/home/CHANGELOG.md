@@ -1,5 +1,11 @@
 # Changelog — sezione Home
 
+## [1.3.0] - 2026-10-13
+
+### Aggiunto
+- Il logo del metodo APPO (il francobollo con il cigno nero e il cigno d'oro)
+  accanto al claim.
+
 ## [1.2.0] - 2026-10-13
 
 ### Modificato

@@ -9,6 +9,16 @@ Formato [Keep a Changelog](https://keepachangelog.com/it-IT/1.1.0/),
 
 ## [Non rilasciato]
 
+## [1.4.0] - 2026-10-13
+
+### Aggiunto
+- Logo del metodo APPO (francobollo con cigno nero e cigno d'oro) nella testata
+  di tutte le pagine, come icona del sito e in grande nella home (sezione Home 1.3.0).
+- Anteprima per la condivisione sui social (Open Graph) con il logo.
+
+### Rimosso
+- L'icona provvisoria `statici/favicon.svg`.
+
 ## [1.3.0] - 2026-10-13
 
 ### Modificato

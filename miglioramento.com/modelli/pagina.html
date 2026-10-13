@@ -6,7 +6,14 @@
   <title>{{titolo}}</title>
   <meta name="description" content="{{descrizione}}">
   <link rel="canonical" href="{{canonical}}">
-  <link rel="icon" href="{{base}}statici/favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="{{base}}statici/icona-32.png" type="image/png" sizes="32x32">
+  <link rel="apple-touch-icon" href="{{base}}statici/icona-180.png">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="{{nome}}">
+  <meta property="og:title" content="{{titolo}}">
+  <meta property="og:description" content="{{descrizione}}">
+  <meta property="og:url" content="{{canonical}}">
+  <meta property="og:image" content="{{immagine_condivisione}}">
   <link rel="stylesheet" href="{{base}}statici/stile.css">
   <script>try{var t=localStorage.getItem("tema");if(t)document.documentElement.setAttribute("data-theme",t)}catch(e){}</script>
 </head>
@@ -15,7 +22,7 @@
   <header class="testata">
     <div class="wrap testata-interna">
       <a class="marchio" href="{{base}}">
-        <img src="{{base}}statici/favicon.svg" alt="" width="30" height="30">
+        <img class="logo" src="{{base}}statici/logo-96.png" alt="" width="44" height="44">
         <span class="marchio-testo"><span class="nome">miglioramento<span class="punto">.com</span></span>
         <span class="claim">{{claim}}</span></span>
       </a>

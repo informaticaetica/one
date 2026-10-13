@@ -151,6 +151,7 @@ def impagina(sito, sezioni, modello, *, slug, titolo, descrizione, contenuto, ur
         "nome": esc(sito["nome"]),
         "menu": menu_html(sito, sezioni, slug),
         "claim": esc(sito["claim"]),
+        "immagine_condivisione": esc(sito["url"].rstrip("/") + sito["base"] + "statici/logo-francobollo.png"),
         "contenuto": contenuto,
         "classi": extra_classi,
         "versioni": (

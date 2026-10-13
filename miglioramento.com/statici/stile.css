@@ -177,3 +177,17 @@ section.scheda { border: 2px solid var(--primario); }
 .cigno.oro .nome-cigno::before { background: var(--accento); }
 .fonte-cigni { grid-column: 1 / -1; margin: 0; font-size: .9rem; color: var(--tenue); }
 .visivamente-nascosto { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+/* Logo: francobollo del metodo APPO */
+.marchio .logo { width: 44px; height: 44px; flex: none; }
+.eroe.con-logo { max-width: none; display: grid; grid-template-columns: minmax(0, 760px) auto; gap: 48px; align-items: center; }
+.eroe-testo { min-width: 0; }
+.francobollo { width: 260px; max-width: 100%; height: auto; transform: rotate(3deg); filter: drop-shadow(0 8px 18px rgba(20, 30, 60, .25)); }
+@media (max-width: 900px) {
+  .eroe.con-logo { grid-template-columns: 1fr; gap: 8px; }
+  .francobollo { order: -1; width: 150px; margin: 0 0 4px; }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .francobollo { transition: transform .4s ease; }
+  .francobollo:hover { transform: rotate(0deg) scale(1.03); }
+}
