@@ -299,8 +299,8 @@ class DocBookHTML:
         return out
 
 
-def carica_libro(cartella):
-    radice = ET.parse(cartella / "libro.xml").getroot()
+def carica_libro(cartella, file="libro.xml"):
+    radice = ET.parse(cartella / file).getroot()
     ElementInclude.include(radice, loader=lambda href, parse, encoding=None: (
         ET.parse(cartella / href).getroot() if parse == "xml" else (cartella / href).read_text(encoding="utf-8")
     ))
@@ -327,21 +327,17 @@ def etichetta(el):
     return ""
 
 
-def genera_libro(sito, sezioni, modello, scritte):
-    sez = sezioni["libro"]
-    cartella = sez["cartella"] / "docbook"
-    info, componenti = carica_libro(cartella)
-    base = url_pagina(sito, "libro", "index.html") + "leggi/"
-    conv = DocBookHTML(base)
-    banner = banner_libro(sito)
-    titolo_libro = "".join(info.find(DB + "title").itertext())
-    edizione = info.findtext(DB + "edition")
-    if edizione != sito["libro"]["edizione"]:
-        raise ErroreSorgente(
-            f"libro: edizione {edizione} nel DocBook diversa da sito.json ({sito['libro']['edizione']})"
-        )
+def titolo_di(el):
+    return "".join(el.find(DB + "title").itertext())
 
-    # Indice
+
+def pubblica_docbook(sito, sezioni, modello, scritte, *, slug, componenti, base, titolo_opera,
+                     intestazione, avviso, nota_indice, descrizione_indice, descrizione_capitolo,
+                     fine_url, fine_testo, badge_livello=False):
+    """Pubblica un'opera DocBook come indice + una pagina per componente (prefazione, capitolo, appendice)."""
+    conv = DocBookHTML(base)
+
+    # Indice, raggruppato per parti se ci sono
     righe, parte_corrente = [], object()
     for parte, el in componenti:
         if parte != parte_corrente:
@@ -351,57 +347,131 @@ def genera_libro(sito, sezioni, modello, scritte):
                 righe.append(f'<h2 class="parte">{esc(parte)}</h2>')
             righe.append('<ol class="indice-libro">')
             parte_corrente = parte
-        tit = "".join(el.find(DB + "title").itertext())
-        liv = el.find(DB + "para[@role='livello']")
-        badge = f'<span class="livello">{esc(liv.text.split(":")[1].split("—")[0].strip())}</span>' if liv is not None else ""
-        eti = etichetta(el)
+        badge = ""
+        liv = el.find(DB + "para[@role='livello']") if badge_livello else None
+        if liv is not None:
+            badge = f'<span class="livello">{esc(liv.text.split(":")[1].split("—")[0].strip())}</span>'
         righe.append(
-            f'<li><a href="{base}{esc(el.get(XML_ID))}/"><small>{esc(eti)}</small>'
-            f"<span>{esc(tit)}</span>{badge}</a></li>"
+            f'<li><a href="{base}{esc(el.get(XML_ID))}/"><small>{esc(etichetta(el))}</small>'
+            f"<span>{esc(titolo_di(el))}</span>{badge}</a></li>"
         )
     righe.append("</ol>")
     indice = (
-        f'<article class="lettura"><p class="occhiello">Leggi online</p><h1>{esc(titolo_libro)}</h1>'
-        f'<p class="lead">{esc(info.findtext(DB + "subtitle"))} · di {esc(sito["autore"])}</p>{banner}'
-        '<p class="nota-indice">Ogni capitolo ha un\'etichetta: <strong>F</strong> fondamenta (si legge una volta), '
-        "<strong>G</strong> giornaliero, <strong>S</strong> settimanale, <strong>M</strong> mensile. "
-        "Se hai fretta, leggi prima tutti gli F.</p>"
+        f'<article class="lettura">{intestazione}{avviso}'
+        + (f'<p class="nota-indice">{nota_indice}</p>' if nota_indice else "")
         + "".join(righe) + "</article>"
     )
     scrivi(base, sito, impagina(
-        sito, sezioni, modello, slug="libro", titolo=f"{titolo_libro} — edizione {edizione} online",
-        descrizione=f"Leggi gratis online l'edizione {edizione} di {titolo_libro}, capitolo per capitolo.",
-        contenuto=indice, url=base, extra_classi="pagina-libro"), scritte)
+        sito, sezioni, modello, slug=slug, titolo=f"{titolo_opera} — indice",
+        descrizione=descrizione_indice, contenuto=indice, url=base, extra_classi="pagina-libro"), scritte)
 
-    # Un file per componente
+    # Una pagina per componente
     for i, (parte, el) in enumerate(componenti):
-        ident = el.get(XML_ID)
-        tit = "".join(el.find(DB + "title").itertext())
-        eti = etichetta(el)
+        tit, eti = titolo_di(el), etichetta(el)
         nav = '<nav class="pager" aria-label="Capitoli">'
         if i > 0:
             p = componenti[i - 1][1]
-            nav += f'<a class="prev" href="{base}{esc(p.get(XML_ID))}/"><small>← Precedente</small>{esc("".join(p.find(DB + "title").itertext()))}</a>'
+            nav += f'<a class="prev" href="{base}{esc(p.get(XML_ID))}/"><small>← Precedente</small>{esc(titolo_di(p))}</a>'
         else:
             nav += f'<a class="prev" href="{base}"><small>← Indice</small>Torna all\'indice</a>'
         if i < len(componenti) - 1:
             n = componenti[i + 1][1]
-            nav += f'<a class="next" href="{base}{esc(n.get(XML_ID))}/"><small>Successivo →</small>{esc("".join(n.find(DB + "title").itertext()))}</a>'
+            nav += f'<a class="next" href="{base}{esc(n.get(XML_ID))}/"><small>Successivo →</small>{esc(titolo_di(n))}</a>'
         else:
-            nav += f'<a class="next" href="{url_pagina(sito, "libro", "index.html")}"><small>Fine →</small>Il libro</a>'
+            nav += f'<a class="next" href="{fine_url}"><small>Fine →</small>{esc(fine_testo)}</a>'
         nav += "</nav>"
         corpo = (
-            f'<article class="lettura"><p class="briciole"><a href="{base}">{esc(titolo_libro)}</a>'
+            f'<article class="lettura"><p class="briciole"><a href="{base}">{esc(titolo_opera)}</a>'
             + (f" · {esc(parte)}" if parte else "") + "</p>"
             + (f'<p class="occhiello">{esc(eti)}</p>' if eti else "")
-            + f"<h1>{esc(tit)}</h1>{banner}" + conv.blocchi(el, 1) + nav + "</article>"
+            + f"<h1>{esc(tit)}</h1>{avviso}" + conv.blocchi(el, 1) + nav + "</article>"
         )
-        url = f"{base}{ident}/"
+        url = f"{base}{el.get(XML_ID)}/"
         scrivi(url, sito, impagina(
-            sito, sezioni, modello, slug="libro", titolo=f"{(eti + ': ') if eti else ''}{tit}",
-            descrizione=f"{titolo_libro}, edizione {edizione}: {tit}.",
-            contenuto=corpo, url=url, extra_classi="pagina-libro"), scritte)
+            sito, sezioni, modello, slug=slug, titolo=f"{(eti + ': ') if eti else ''}{tit} — {titolo_opera}",
+            descrizione=descrizione_capitolo.format(titolo=tit), contenuto=corpo, url=url,
+            extra_classi="pagina-libro"), scritte)
     return len(componenti)
+
+
+def genera_libro(sito, sezioni, modello, scritte):
+    info, componenti = carica_libro(sezioni["libro"]["cartella"] / "docbook")
+    titolo = titolo_di(info)
+    edizione = info.findtext(DB + "edition")
+    if edizione != sito["libro"]["edizione"]:
+        raise ErroreSorgente(
+            f"libro: edizione {edizione} nel DocBook diversa da sito.json ({sito['libro']['edizione']})"
+        )
+    return pubblica_docbook(
+        sito, sezioni, modello, scritte, slug="libro", componenti=componenti,
+        base=url_pagina(sito, "libro", "index.html") + "leggi/", titolo_opera=titolo,
+        intestazione=(f'<p class="occhiello">Leggi online</p><h1>{esc(titolo)}</h1>'
+                      f'<p class="lead">{esc(info.findtext(DB + "subtitle"))} · di {esc(sito["autore"])}</p>'),
+        avviso=banner_libro(sito),
+        nota_indice=("Ogni capitolo ha un'etichetta: <strong>F</strong> fondamenta (si legge una volta), "
+                     "<strong>G</strong> giornaliero, <strong>S</strong> settimanale, <strong>M</strong> mensile. "
+                     "Se hai fretta, leggi prima tutti gli F."),
+        descrizione_indice=f"Leggi gratis online l'edizione {edizione} di {titolo}, capitolo per capitolo.",
+        descrizione_capitolo=f"{titolo}, edizione {edizione}: {{titolo}}.",
+        fine_url=url_pagina(sito, "libro", "index.html"), fine_testo="Il libro", badge_livello=True,
+    )
+
+
+def carica_guide(sezione):
+    """Le guide sono le sottocartelle di sezioni/guide con docbook/guida.xml."""
+    guide = []
+    for cartella in sorted(p for p in sezione["cartella"].iterdir() if (p / "docbook" / "guida.xml").exists()):
+        info, componenti = carica_libro(cartella / "docbook", "guida.xml")
+        extra = leggi_json(cartella / "guida.json") if (cartella / "guida.json").exists() else {}
+        guide.append({"slug": cartella.name, "info": info, "componenti": componenti, **extra})
+    return guide
+
+
+def scheda_guida(sito, g):
+    info = g["info"]
+    licenza = info.findtext(f"{DB}legalnotice/{DB}para") or ""
+    dati = " · ".join(x for x in (
+        f"Versione {info.findtext(DB + 'edition')}" if info.findtext(DB + "edition") else "",
+        info.findtext(DB + "pubdate") or "",
+        f"{len(g['componenti'])} parti",
+    ) if x)
+    return (
+        f'<a class="scheda-link" href="{url_pagina(sito, "guide", "index.html")}{g["slug"]}/">'
+        f'<span class="etichetta-sezione">Guida</span><h2>{esc(titolo_di(info))}</h2>'
+        f'<p>{esc(info.findtext(DB + "subtitle") or "")}</p>'
+        f'<span class="metadati">{esc(dati)}' + (f"<br>Licenza: {esc(licenza)}" if licenza else "") + "</span></a>"
+    )
+
+
+def genera_guide(sito, sezioni, modello, scritte):
+    if "guide" not in sezioni:
+        return 0
+    totale = 0
+    for g in carica_guide(sezioni["guide"]):
+        info = g["info"]
+        titolo = titolo_di(info)
+        autore = " ".join(info.find(f"{DB}author/{DB}personname").itertext()).split()
+        licenza = info.findtext(f"{DB}legalnotice/{DB}para") or ""
+        edizione = info.findtext(DB + "edition") or ""
+        avviso = (
+            '<div class="avviso-guida" role="note">'
+            + (f'<p class="etichetta">Versione {esc(edizione)}'
+               + (f" · {esc(info.findtext(DB + 'pubdate'))}" if info.findtext(DB + "pubdate") else "") + "</p>")
+            + (f"<p>{esc(g['avviso'])}</p>" if g.get("avviso") else "")
+            + (f'<p class="licenza">Licenza: {esc(licenza)}.</p>' if licenza else "")
+            + "</div>"
+        )
+        totale += pubblica_docbook(
+            sito, sezioni, modello, scritte, slug="guide", componenti=g["componenti"],
+            base=f'{url_pagina(sito, "guide", "index.html")}{g["slug"]}/', titolo_opera=titolo,
+            intestazione=(f'<p class="occhiello">Guide · {esc(" ".join(autore))}</p><h1>{esc(titolo)}</h1>'
+                          f'<p class="lead">{esc(info.findtext(DB + "subtitle") or "")}</p>'),
+            avviso=avviso, nota_indice="",
+            descrizione_indice=f"{titolo}: {info.findtext(DB + 'subtitle') or ''}. Guida online, una pagina per capitolo.",
+            descrizione_capitolo=f"{titolo}: {{titolo}}.",
+            fine_url=url_pagina(sito, "guide", "index.html"), fine_testo="Tutte le guide",
+        )
+    return totale
 
 
 # ---------------------------------------------------------------------------
@@ -491,6 +561,8 @@ def main():
         sito, sezioni = carica()
         if a.verifica:
             carica_libro(sezioni["libro"]["cartella"] / "docbook")
+            if "guide" in sezioni:
+                carica_guide(sezioni["guide"])
             print(f"OK: sito {sito['versione']}, {len(sezioni)} sezioni con versioni coerenti.")
             return 0
 
@@ -516,6 +588,8 @@ def main():
             "claim": esc(sito["claim"]),
             "fascia_libro": banner_libro(sito, compatto=True),
             "collana": collana_html(sito),
+            "guide_elenco": "".join(scheda_guida(sito, g) for g in carica_guide(sezioni["guide"]))
+            if "guide" in sezioni else "",
         }
 
         scritte = []
@@ -527,6 +601,7 @@ def main():
                     sito, sezioni, modello, slug=slug, titolo=pagina["titolo"],
                     descrizione=pagina["descrizione"], contenuto=contenuto, url=url), scritte)
         n_libro = genera_libro(sito, sezioni, modello, scritte)
+        n_guide = genera_guide(sito, sezioni, modello, scritte)
         genera_versioni(sito, sezioni, modello, scritte)
         genera_extra(sito, sezioni, modello, scritte)
 
@@ -541,7 +616,7 @@ def main():
                 mancanti.append(str(f.relative_to(DIST)))
             if re.search(r"\{\{\w+\}\}", t):
                 raise ErroreSorgente(f"{f.relative_to(DIST)}: segnaposto {{{{...}}}} non sostituito")
-        print(f"Generato dist/: sito {sito['versione']}, {len(scritte)} pagine ({n_libro} del libro).")
+        print(f"Generato dist/: sito {sito['versione']}, {len(scritte)} pagine ({n_libro} del libro, {n_guide} delle guide).")
         if not sito["libro"]["amazon_url"]:
             mancanti.append("sito.json: libro.amazon_url vuoto")
         for libro in sito.get("collana", []):

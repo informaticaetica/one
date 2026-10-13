@@ -210,3 +210,16 @@ section.scheda { border: 2px solid var(--primario); }
 .libro-collana .sottotitolo { color: var(--tenue); font-style: italic; }
 .libro-collana .azioni { margin: auto 0 0; padding-top: 8px; }
 .libro-collana.in-uscita { border: 2px dashed var(--accento); }
+
+/* Guide: avviso con versione, stato e licenza */
+.avviso-guida { margin: 20px 0 28px; padding: 14px 20px; border: 1px solid var(--bordo); border-left: 4px solid var(--primario); border-radius: 8px; background: var(--superficie); font-family: var(--sans); font-size: 1rem; line-height: 1.55; }
+.avviso-guida p { margin: 0; }
+.avviso-guida p + p { margin-top: 6px; }
+.avviso-guida .etichetta { font-size: .8rem; font-weight: 800; letter-spacing: .06em; text-transform: uppercase; color: var(--primario); }
+.avviso-guida .licenza { color: var(--tenue); font-size: .92rem; }
+
+/* Testata con 8 voci di menu: contenitore più largo, claim sotto il logo solo dove c'è spazio */
+.testata .wrap { max-width: 1320px; }
+@media (max-width: 1360px) { .marchio .claim { display: none; } }
+@media (min-width: 421px) and (max-width: 1100px) { .marchio .claim { display: block; } }
+.griglia-guide { grid-template-columns: repeat(auto-fill, minmax(min(100%, 320px), 1fr)); }

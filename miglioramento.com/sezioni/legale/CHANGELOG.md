@@ -3,6 +3,11 @@
 Ogni modifica sostanziale a privacy o cookie va annotata qui con la data:
 la versione e la data compaiono in fondo a ogni pagina della sezione.
 
+## [1.1.1] - 2026-10-13
+
+### Modificato
+- Diritti d'autore: le guide possono avere una licenza propria; Il metodo Z.D.C. è in CC BY-SA 4.0.
+
 ## [1.1.0] - 2026-10-13
 
 ### Modificato

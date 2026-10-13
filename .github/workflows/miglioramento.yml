@@ -22,11 +22,14 @@ jobs:
         run: python3 build.py --verifica
       - name: Contrasto e daltonismo della palette
         run: python3 scripts/verifica_colori.py
-      - name: Valida il libro con lo schema ufficiale DocBook 5
+      - name: Valida libro e guide con lo schema ufficiale DocBook 5
         run: |
           sudo apt-get update -qq
           sudo apt-get install -y -qq docbook5-xml libxml2-utils
           xmllint --noout --xinclude --relaxng /usr/share/xml/docbook/schema/rng/5.0/docbook.rng sezioni/libro/docbook/libro.xml
+          for g in sezioni/guide/*/docbook/guida.xml; do
+            xmllint --noout --xinclude --relaxng /usr/share/xml/docbook/schema/rng/5.0/docbook.rng "$g"
+          done
       - name: Genera il sito
         run: python3 build.py
       - name: Accessibilità WCAG 2.2 AA (axe-core) su tutte le pagine

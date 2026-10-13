@@ -1,5 +1,10 @@
 # Changelog — sezione Home
 
+## [1.4.1] - 2026-10-13
+
+### Modificato
+- Nel «prossimo passo» la scheda delle Guide (Il metodo Z.D.C.) sostituisce quella degli Articoli, che restano nel menu.
+
 ## [1.4.0] - 2026-10-13
 
 ### Modificato

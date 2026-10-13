@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<chapter xmlns="http://docbook.org/ns/docbook" xml:id="capitolo-01" version="5.0" xml:lang="it" label="1">
+  <title>Introduzione teorica</title>
+  <section xml:id="capitolo-01-1-1-definizione-formale">
+    <title>1.1 Definizione Formale</title>
+    <para>Il <emphasis role="strong">Metodo Z.D.C.</emphasis> è un sistema di gestione progetti basato su tre azioni iterative che trasformano un obiettivo vago in una struttura ricorsiva, misurabile e tracciabile.</para>
+    <para>
+      <emphasis role="strong">Definizione</emphasis>: Un framework metacognitivo strutturato che, attraverso tre fasi iterative (Zooma, Descrivi, Controlla), decompose un obiettivo generico in progetti gerarchicamente organizzati, traccia ogni azione mediante nodi-informazione, e sottopone il progresso a controlli pianificati per permettere aggiustamenti tempestivi.</para>
+  </section>
+  <section xml:id="capitolo-01-1-2-nomenclatura">
+    <title>1.2 Nomenclatura</title>
+    <para>L'acronimo Z.D.C. rappresenta tre verbi che descrivono il ciclo di gestione:</para>
+    <itemizedlist>
+      <listitem>
+        <para>
+          <emphasis role="strong">Z - ZOOMA</emphasis>: Definire l'obiettivo in modo specifico e misurabile</para>
+      </listitem>
+      <listitem>
+        <para>
+          <emphasis role="strong">D - DESCRIVI</emphasis>: Articolare le domande guida (Nodi-Strumento) e registrare le azioni (Nodi-Informazione)</para>
+      </listitem>
+      <listitem>
+        <para>
+          <emphasis role="strong">C - CONTROLLA</emphasis>: Monitorare il progresso mediante checkpoint regolari e aggiustamenti</para>
+      </listitem>
+    </itemizedlist>
+  </section>
+  <section xml:id="capitolo-01-1-3-contesto-storico">
+    <title>1.3 Contesto Storico</title>
+    <para>Negli ultimi due decenni, il panorama delle metodologie di gestione progetti si è ampiamente diversificato:</para>
+    <informaltable>
+      <thead>
+        <tr>
+          <th>
+            <emphasis role="strong">Metodologia</emphasis>
+          </th>
+          <th>
+            <emphasis role="strong">Anno</emphasis>
+          </th>
+          <th>
+            <emphasis role="strong">Complessità</emphasis>
+          </th>
+          <th>
+            <emphasis role="strong">Costo</emphasis>
+          </th>
+          <th>
+            <emphasis role="strong">Pubblico Target</emphasis>
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Waterfall</td>
+          <td>1970</td>
+          <td>Bassa</td>
+          <td>Basso</td>
+          <td>Progetti lineari</td>
+        </tr>
+        <tr>
+          <td>PRINCE2</td>
+          <td>1989</td>
+          <td>Altissima</td>
+          <td>Altissimo</td>
+          <td>Grandi organizzazioni</td>
+        </tr>
+        <tr>
+          <td>Agile/Scrum</td>
+          <td>2001</td>
+          <td>Media-Alta</td>
+          <td>Medio</td>
+          <td>Team tech</td>
+        </tr>
+        <tr>
+          <td>Lean</td>
+          <td>1950*</td>
+          <td>Media</td>
+          <td>Medio</td>
+          <td>Produzione</td>
+        </tr>
+        <tr>
+          <td>
+            <emphasis role="strong">Z.D.C.</emphasis>
+          </td>
+          <td>2020</td>
+          <td>
+            <emphasis role="strong">Bassa</emphasis>
+          </td>
+          <td>
+            <emphasis role="strong">Bassissimo</emphasis>
+          </td>
+          <td>
+            <emphasis role="strong">Individui e PMI</emphasis>
+          </td>
+        </tr>
+      </tbody>
+    </informaltable>
+    <para>Il Metodo Z.D.C. emerge come risposta alla necessità di una metodologia:</para>
+    <itemizedlist>
+      <listitem>
+        <para>
+          <emphasis role="strong">Facilmente apprendibile</emphasis> (&lt; 3 minuti)</para>
+      </listitem>
+      <listitem>
+        <para>
+          <emphasis role="strong">Universalmente applicabile</emphasis> (qualsiasi dominio)</para>
+      </listitem>
+      <listitem>
+        <para>
+          <emphasis role="strong">Minimamente invasiva</emphasis> (nessun software specializzato)</para>
+      </listitem>
+      <listitem>
+        <para>
+          <emphasis role="strong">Altamente flessibile</emphasis> (scalabile da micro a macro progetti)</para>
+      </listitem>
+    </itemizedlist>
+  </section>
+  <section xml:id="capitolo-01-1-4-principi-fondamentali">
+    <title>1.4 Principi Fondamentali</title>
+    <section xml:id="capitolo-01-principio-1-semplicita-radicale">
+      <title>Principio 1: Semplicità Radicale</title>
+      <para>Il metodo può essere compreso e implementato in meno di tre minuti. Non richiede certificazioni, software costoso, o competenze tecniche avanzate.</para>
+    </section>
+    <section xml:id="capitolo-01-principio-2-ricorsione-illimitata">
+      <title>Principio 2: Ricorsione Illimitata</title>
+      <para>Ogni progetto è scomponibile in sotto-progetti identici nella struttura. Questa proprietà permette scalabilità infinita.</para>
+    </section>
+    <section xml:id="capitolo-01-principio-3-tracciabilita-totale">
+      <title>Principio 3: Tracciabilità Totale</title>
+      <para>Ogni azione, dubbio, e inefficienza è documentato, creando una base di conoscenza personale duratura.</para>
+    </section>
+    <section xml:id="capitolo-01-principio-4-controllo-e-adattamento">
+      <title>Principio 4: Controllo e Adattamento</title>
+      <para>Non prevede piani rigidi. I checkpoint permettono valutazione costante e aggiustamento tempestivo.</para>
+    </section>
+  </section>
+</chapter>

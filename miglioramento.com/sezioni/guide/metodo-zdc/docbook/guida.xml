@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<book xmlns="http://docbook.org/ns/docbook" xmlns:xi="http://www.w3.org/2001/XInclude" xml:id="il-metodo-z-d-c" version="5.0" xml:lang="it">
+  <info>
+    <title>Il metodo Z.D.C.</title>
+    <subtitle>Zooma, Descrivi e Controlla: Una Metodologia Strutturata per la Gestione di Progetti e Obiettivi</subtitle>
+    <author>
+      <personname>
+        <firstname>Marco</firstname>
+        <surname>Costanzo</surname>
+      </personname>
+    </author>
+    <edition>2.0 Accademica</edition>
+    <pubdate>Settembre 2026</pubdate>
+    <legalnotice>
+      <para>Creative Commons - Attribuzione - Condividi allo stesso modo 4.0</para>
+    </legalnotice>
+  </info>
+  <xi:include href="capitoli/prefazione.xml" />
+  <xi:include href="capitoli/capitolo-01.xml" />
+  <xi:include href="capitoli/capitolo-02.xml" />
+  <xi:include href="capitoli/capitolo-03.xml" />
+</book>

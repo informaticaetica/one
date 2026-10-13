@@ -2,7 +2,7 @@
   "nome": "miglioramento.com",
   "titolo": "miglioramento.com — crescita personale con il metodo APPO",
   "claim": "Affronta il cigno nero e scopri il cigno d'oro.",
-  "versione": "1.6.0",
+  "versione": "1.7.0",
   "url": "https://miglioramento.com",
   "base": "/",
   "lingua": "it",
@@ -11,6 +11,7 @@
   "menu": [
     "metodo",
     "inizia",
+    "guide",
     "strumenti",
     "articoli",
     "libro",

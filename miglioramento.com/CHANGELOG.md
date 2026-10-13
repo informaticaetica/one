@@ -9,6 +9,20 @@ Formato [Keep a Changelog](https://keepachangelog.com/it-IT/1.1.0/),
 
 ## [Non rilasciato]
 
+## [1.7.0] - 2026-10-13
+
+### Aggiunto
+- Sezione **Guide** (`/guide/`, 1.0.0) con le guide in DocBook 5 pubblicate una pagina
+  per capitolo. Prima guida: *Il metodo Z.D.C.* (`/guide/metodo-zdc/`), versione 2.0
+  Accademica, licenza CC BY-SA 4.0. Online prefazione e capitoli 1–3 di 9.
+- `scripts/md2docbook.py`: importa una guida in Markdown in sorgenti DocBook 5.
+
+### Modificato
+- `build.py`: libro e guide usano la stessa funzione di pubblicazione (`pubblica_docbook`);
+  il contenuto delle pagine del libro è identico.
+- Testata: 8 voci di menu su una riga; il claim sotto il logo compare dove c'è spazio.
+- Home 1.4.1, Note legali 1.1.1.
+
 ## [1.6.0] - 2026-10-13
 
 ### Aggiunto

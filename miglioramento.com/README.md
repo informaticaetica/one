@@ -60,6 +60,7 @@ Indirizzi: `sezioni/metodo/index.html` → `/metodo/`,
 | Strumenti | `/strumenti/` | schede da stampare: giornaliera, settimanale, mensile |
 | Articoli | `/articoli/` | approfondimenti con fonti (2 articoli iniziali) |
 | Il libro | `/libro/`, `/libro/leggi/`, `/libro/collana/` | presentazione, lettura online dell'edizione 1.8, collana APPO su Amazon |
+| Guide | `/guide/`, `/guide/<guida>/` | guide in DocBook, una pagina per capitolo (prima: Il metodo Z.D.C.) |
 | Comunità | `/comunita/` | Comunità pensanti APPO, contatto WhatsApp dell'autore |
 | L'autore | `/autore/` | biografia e contatti |
 | Note legali | `/legale/` | disclaimer, privacy, cookie, diritti d'autore |
@@ -186,6 +187,23 @@ schiarisci quel token finché non passa. Inoltre nessuna informazione è affidat
 al solo colore: i link nel testo sono sottolineati, la pagina corrente del menu
 è in grassetto, i livelli dei capitoli hanno una lettera (F, G, S, M).
 
+## Le guide in DocBook
+
+Ogni guida è una cartella in `sezioni/guide/<guida>/`:
+- `docbook/guida.xml` (metadati: titolo, sottotitolo, autore, `<edition>`, `<pubdate>`,
+  licenza in `<legalnotice>`) e `docbook/capitoli/*.xml`, un file per capitolo;
+- `guida.json` (facoltativo): `avviso`, un testo mostrato in cima a ogni pagina.
+
+`build.py` trova da solo le guide, le elenca in `/guide/` e pubblica indice e capitoli in
+`/guide/<guida>/`. Per importare una guida scritta in Markdown:
+
+```sh
+python3 scripts/md2docbook.py guida.md sezioni/guide/<guida>/docbook
+xmllint --noout --xinclude --relaxng /usr/share/xml/docbook/schema/rng/5.0/docbook.rng sezioni/guide/<guida>/docbook/guida.xml
+```
+
+Reimportare sovrascrive le correzioni fatte a mano nei file DocBook.
+
 ## Prima di andare online
 
 `python3 build.py --rigoroso` deve terminare senza avvisi. Oggi mancano:
@@ -194,6 +212,7 @@ al solo colore: i link nel testo sono sottolineati, la pagina corrente del menu
       (nome o ragione sociale, indirizzo, email, partita IVA se c'è un'attività economica);
 - [ ] durata dei log e nome del fornitore di hosting in `privacy.html`;
 - [ ] titoli, descrizioni e link Amazon dei libri della collana in `sito.json` → `collana`;
+- [ ] testo completo della guida *Il metodo Z.D.C.* (capitoli 3–9) e aggiornamento di `guida.json`;
 - [ ] biografia estesa in `sezioni/autore/index.html`;
 - [ ] link Amazon dell'edizione 2.0 in `sito.json` → `libro.amazon_url`.
 
