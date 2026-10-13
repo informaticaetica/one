@@ -152,6 +152,7 @@
   });
 
   document.getElementById("year").textContent = new Date().getFullYear();
+  document.getElementById("versione").textContent = S.versione;
   window.addEventListener("hashchange", route);
   route();
 })();
