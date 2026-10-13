@@ -43,7 +43,7 @@ main { flex: 1; padding-top: 32px; padding-bottom: 72px; outline: none; }
 .banner { background: var(--primario); color: var(--primario-testo); font-size: .92rem; padding: 8px 0; text-align: center; }
 .banner a { color: inherit; font-weight: 600; }
 
-.testata { position: sticky; top: 0; z-index: 10; background: var(--superficie); border-bottom: 1px solid var(--bordo); }
+.testata { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 10; background: var(--superficie); border-bottom: 1px solid var(--bordo); }
 .testata-interna { display: flex; align-items: center; justify-content: space-between; gap: 16px; min-height: 64px; }
 .marchio { display: flex; align-items: center; gap: 10px; color: var(--testo); text-decoration: none; font-weight: 700; font-size: 1.15rem; }
 .marchio .punto { color: var(--accento); }

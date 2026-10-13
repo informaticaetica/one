@@ -417,12 +417,37 @@ def genera_extra(sito, sezioni, modello, scritte):
     (DIST / "robots.txt").write_text(f"User-agent: *\nAllow: /\nSitemap: {radice}/sitemap.xml\n", encoding="utf-8")
 
 
+def rendi_relativi(sito):
+    """Riscrive href/src che partono dalla radice in percorsi relativi a ogni file.
+
+    Le cartelle diventano .../index.html, così le pagine funzionano anche aperte
+    dal disco o da un'anteprima che non serve gli indici di cartella.
+    """
+    base = sito["base"]
+    for f in DIST.rglob("*.html"):
+        risali = "../" * (len(f.relative_to(DIST).parts) - 1)
+
+        def relativo(m):
+            attr, url = m.group(1), m.group(2)
+            percorso, _, ancora = url.partition("#")
+            percorso = percorso[len(base):]
+            if percorso == "" or percorso.endswith("/"):
+                percorso += "index.html"
+            return f'{attr}="{risali}{percorso}{"#" + ancora if ancora else ""}"'
+
+        t = f.read_text(encoding="utf-8")
+        t = re.sub(r'\b(href|src)="(' + re.escape(base) + r'[^"]*)"', relativo, t)
+        f.write_text(t, encoding="utf-8")
+
+
 # ---------------------------------------------------------------------------
 
 def main():
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--verifica", action="store_true", help="controlla i sorgenti senza generare dist/")
     ap.add_argument("--rigoroso", action="store_true", help=f"fallisce se resta il segnaposto '{SEGNAPOSTO}'")
+    ap.add_argument("--relativi", action="store_true",
+                    help="link relativi (anteprima senza server: doppio clic sui file); non usare per il deploy")
     a = ap.parse_args()
 
     try:
@@ -465,6 +490,9 @@ def main():
         n_libro = genera_libro(sito, sezioni, modello, scritte)
         genera_versioni(sito, sezioni, modello, scritte)
         genera_extra(sito, sezioni, modello, scritte)
+
+        if a.relativi:
+            rendi_relativi(sito)
 
         # Segnaposto rimasti e {{chiavi}} non sostituite
         mancanti = []

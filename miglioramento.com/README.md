@@ -14,6 +14,10 @@ cd dist && python3 -m http.server 8000   # anteprima su http://localhost:8000
 
 Non serve installare nulla: basta Python 3.9 o successivo. Per pubblicare serve anche `rsync`.
 
+Per un'anteprima senza server, aprendo i file con il doppio clic, genera con
+`python3 build.py --relativi`: i link diventano relativi. Non usarla per il deploy;
+`deploy.sh` rigenera comunque il sito con i link normali.
+
 ## Come è fatto
 
 ```
