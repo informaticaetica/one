@@ -1,0 +1,60 @@
+# Pubblica il sito Guide APPO su GitHub Pages e crea la release
+# corrispondente alla versione indicata in guide/assets/guide.js.
+name: Pubblica
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+concurrency:
+  group: pubblica
+  cancel-in-progress: false
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - name: Crea la release se la versione è nuova
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          VERSIONE=$(sed -n 's/^ *versione: "\([0-9.]*\)".*/\1/p' guide/assets/guide.js)
+          TAG="v$VERSIONE"
+          if [ -z "$VERSIONE" ]; then echo "Versione non trovata"; exit 1; fi
+          if gh release view "$TAG" >/dev/null 2>&1; then
+            echo "La release $TAG esiste già: nulla da fare."
+            exit 0
+          fi
+          # Note di rilascio: la sezione del CHANGELOG relativa a questa versione
+          awk -v v="$VERSIONE" '
+            $0 ~ "^## \\[" v "\\]" { dentro=1; next }
+            dentro && /^## \[/ { exit }
+            dentro && /^\[/ { exit }
+            dentro { print }
+          ' CHANGELOG.md > note.md
+          gh release create "$TAG" --target "$GITHUB_SHA" \
+            --title "Guide APPO $VERSIONE" --notes-file note.md
+
+  pages:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deploy.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Copia la licenza nel sito
+        run: cp LICENSE guide/LICENSE.txt
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: guide
+      - id: deploy
+        uses: actions/deploy-pages@v4
