@@ -35,3 +35,8 @@ cd guide && python3 -m http.server 8000
 
 Su GitHub: *Settings → Pages → Deploy from a branch*, cartella `/ (root)`.
 Il sito sarà raggiungibile all'indirizzo `…/guide/`.
+
+## Versione e licenza
+
+Versione corrente in `assets/guide.js` (campo `versione`), storico nel
+[CHANGELOG](../CHANGELOG.md). Licenza [CC BY-NC-ND 4.0](../LICENSE).

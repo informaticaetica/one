@@ -11,6 +11,7 @@ window.SITO = {
   progetto:
     "<p>Guide APPO nasce per rendere semplici e accessibili le informazioni che servono davvero. Ogni guida è scritta in linguaggio chiaro, divisa in passaggi brevi e verificata prima della pubblicazione.</p>" +
     "<h2>I nostri principi</h2><ul><li><strong>Chiarezza</strong>: niente gergo inutile.</li><li><strong>Accessibilità</strong>: leggibile da tutti, su ogni dispositivo.</li><li><strong>Aggiornamento</strong>: ogni guida riporta la data dell'ultima revisione.</li></ul>",
+  versione: "1.0.0",
   email: "info@example.com", // TODO: sostituire con l'indirizzo reale
 };
 
