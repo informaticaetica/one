@@ -9,6 +9,12 @@ Formato [Keep a Changelog](https://keepachangelog.com/it-IT/1.1.0/),
 
 ## [Non rilasciato]
 
+## [1.3.0] - 2026-10-13
+
+### Modificato
+- Claim del sito: «Resisti al cigno nero. Cogli il cigno d'oro.» (sezione Home 1.2.0,
+  con due riquadri che spiegano i due termini).
+
 ## [1.2.0] - 2026-10-13
 
 ### Aggiunto

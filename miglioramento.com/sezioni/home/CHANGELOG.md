@@ -1,5 +1,15 @@
 # Changelog — sezione Home
 
+## [1.2.0] - 2026-10-13
+
+### Modificato
+- Nuovo claim «Resisti al cigno nero. Cogli il cigno d'oro.» e nuova frase
+  d'apertura sugli imprevisti.
+
+### Aggiunto
+- Due riquadri che spiegano il cigno nero (Taleb, 2007) e il cigno d'oro,
+  con il rimando al capitolo 16 del libro.
+
 ## [1.1.0] - 2026-10-13
 
 ### Aggiunto
