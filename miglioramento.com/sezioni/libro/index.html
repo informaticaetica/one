@@ -1,0 +1,46 @@
+<article class="testo">
+  <p class="occhiello">Il libro</p>
+  <h1>{{libro_titolo}}</h1>
+  <p class="lead">di {{autore}}</p>
+
+  <aside class="avviso-edizione" role="note">
+    <p class="etichetta">Due edizioni, un solo metodo</p>
+    <p>Qui puoi leggere <strong>gratis</strong> l'<strong>edizione {{libro_edizione}}</strong>: una versione di
+    lavoro del manoscritto, pubblicata in anteprima. L'<strong>edizione {{libro_prossima}}</strong>, quella
+    definitiva, rivista e completa, è <strong>in uscita su Amazon</strong>.</p>
+  </aside>
+
+  <h2>Di cosa parla</h2>
+  <p>Non è un libro sull'organizzazione del tempo, né su come fare di più. È un manuale per scegliere una
+  direzione invece di subire ciò che accade, con uno strumento abbastanza leggero da reggere anche nei
+  giorni peggiori: una riga al mattino, una alla sera, cinque minuti a settimana, dieci al mese.</p>
+  <ul>
+    <li>Le quattro parole del metodo: Aspirazione, Problema, Progetto, Opportunità.</li>
+    <li>La domanda del mattino e quella della sera, nella versione essenziale.</li>
+    <li>Il QuDiVi: un voto alla qualità della giornata, non alla produttività.</li>
+    <li>Perché i metodi si abbandonano dopo la prima settimana, e come evitarlo.</li>
+    <li>Revisione settimanale e mensile, rituali, il ciclo che trasforma le opportunità in nuove aspirazioni.</li>
+    <li>Un eserciziario con tutte le schede e una bibliografia verificata.</li>
+  </ul>
+
+  <div class="azioni">
+    <a class="btn" href="{{base}}libro/leggi/">Leggi l'edizione {{libro_edizione}} online</a>
+    {{amazon_bottone}}
+  </div>
+
+  <h2>Differenze fra le edizioni</h2>
+  <div class="tabella"><table>
+    <thead><tr><th></th><th>Edizione {{libro_edizione}} (questo sito)</th><th>Edizione {{libro_prossima}} (Amazon)</th></tr></thead>
+    <tbody>
+      <tr><th>Stato</th><td>Anteprima del manoscritto</td><td>Definitiva, rivista</td></tr>
+      <tr><th>Dove</th><td>Online, gratis, capitolo per capitolo</td><td>Amazon</td></tr>
+      <tr><th>Aggiornamenti</th><td>Può contenere refusi e passaggi in revisione</td><td>Testo finale</td></tr>
+    </tbody>
+  </table></div>
+
+  <p class="nota">Il libro ha scopo informativo ed educativo e non sostituisce il parere di un professionista
+  della salute. Il manoscritto è stato sviluppato con l'assistenza di un modello di intelligenza artificiale,
+  sotto la direzione e con i contenuti originali dell'autore: lo dichiara la nota di trasparenza nel
+  capitolo 19. <a href="{{base}}legale/disclaimer/">Disclaimer</a> ·
+  <a href="{{base}}legale/diritti/">Diritti d'autore</a>.</p>
+</article>

@@ -1,0 +1,33 @@
+# Verifica e genera il sito miglioramento.com a ogni modifica della sua cartella.
+# Il sito generato si scarica dalla pagina dell'esecuzione (artifact "miglioramento-dist").
+name: miglioramento.com
+
+on:
+  pull_request:
+    paths: ["miglioramento.com/**", ".github/workflows/miglioramento.yml"]
+  push:
+    branches: [main]
+    paths: ["miglioramento.com/**", ".github/workflows/miglioramento.yml"]
+  workflow_dispatch:
+
+jobs:
+  verifica:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: miglioramento.com
+    steps:
+      - uses: actions/checkout@v4
+      - name: Versioni di sito e sezioni coerenti con i CHANGELOG
+        run: python3 build.py --verifica
+      - name: Valida il libro con lo schema ufficiale DocBook 5
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq docbook5-xml libxml2-utils
+          xmllint --noout --xinclude --relaxng /usr/share/xml/docbook/schema/rng/5.0/docbook.rng sezioni/libro/docbook/libro.xml
+      - name: Genera il sito
+        run: python3 build.py
+      - uses: actions/upload-artifact@v4
+        with:
+          name: miglioramento-dist
+          path: miglioramento.com/dist

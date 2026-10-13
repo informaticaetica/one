@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<book xmlns="http://docbook.org/ns/docbook" xmlns:xi="http://www.w3.org/2001/XInclude" xml:id="metodo-appo" version="5.0" xml:lang="it">
+  <info>
+    <title>Metodo APPO 2.0</title>
+    <subtitle>Osa Realizzarti Ora</subtitle>
+    <author>
+      <personname>
+        <firstname>Marco</firstname>
+        <surname>Costanzo</surname>
+      </personname>
+    </author>
+    <edition>1.8</edition>
+    <releaseinfo>Edizione 1.8: anteprima gratuita. L'edizione 2.0 definitiva è in uscita su Amazon.</releaseinfo>
+    <copyright>
+      <year>2026</year>
+      <holder>Marco Costanzo</holder>
+    </copyright>
+  </info>
+  <xi:include href="capitoli/nota-sullanteprima.xml" />
+  <xi:include href="capitoli/dedica.xml" />
+  <xi:include href="capitoli/uno-strumento-per-una-mente-che-non-e-cambiata.xml" />
+  <xi:include href="capitoli/un-attrezzo-per-una-testa-antica.xml" />
+  <xi:include href="capitoli/perche-questo-metodo-non-e-come-gli-altri.xml" />
+  <xi:include href="capitoli/perche-un-libro-come-questo-conta-piu-di-quanto-sembri.xml" />
+  <xi:include href="capitoli/a-cosa-serve-davvero-un-libro-come-questo.xml" />
+  <xi:include href="capitoli/il-metodo-in-60-secondi.xml" />
+  <xi:include href="capitoli/prefazione.xml" />
+  <xi:include href="capitoli/mappa-del-metodo.xml" />
+  <xi:include href="capitoli/introduzione-come-si-usa-questo-libro.xml" />
+  <part xml:id="parte-1">
+    <title>Parte I: Aspirazione</title>
+    <xi:include href="capitoli/capitolo-01.xml" />
+    <xi:include href="capitoli/capitolo-02.xml" />
+    <xi:include href="capitoli/capitolo-03.xml" />
+    <xi:include href="capitoli/capitolo-04.xml" />
+    <xi:include href="capitoli/capitolo-05.xml" />
+    <xi:include href="capitoli/capitolo-06.xml" />
+    <xi:include href="capitoli/capitolo-07.xml" />
+  </part>
+  <part xml:id="parte-2">
+    <title>Parte II: Problema</title>
+    <xi:include href="capitoli/capitolo-08.xml" />
+    <xi:include href="capitoli/capitolo-09.xml" />
+    <xi:include href="capitoli/capitolo-10.xml" />
+    <xi:include href="capitoli/capitolo-11.xml" />
+    <xi:include href="capitoli/intermezzo-meta-libro.xml" />
+  </part>
+  <part xml:id="parte-3">
+    <title>Parte III: Progetto</title>
+    <xi:include href="capitoli/capitolo-12.xml" />
+    <xi:include href="capitoli/capitolo-13.xml" />
+    <xi:include href="capitoli/capitolo-14.xml" />
+    <xi:include href="capitoli/capitolo-15.xml" />
+    <xi:include href="capitoli/capitolo-16.xml" />
+  </part>
+  <part xml:id="parte-4">
+    <title>Parte IV: Opportunità</title>
+    <xi:include href="capitoli/capitolo-17.xml" />
+    <xi:include href="capitoli/capitolo-18.xml" />
+    <xi:include href="capitoli/capitolo-19.xml" />
+  </part>
+  <xi:include href="capitoli/eserciziario.xml" />
+</book>

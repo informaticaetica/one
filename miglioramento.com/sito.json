@@ -1,0 +1,17 @@
+{
+  "nome": "miglioramento.com",
+  "titolo": "miglioramento.com — crescita personale con il metodo APPO",
+  "versione": "1.0.0",
+  "url": "https://miglioramento.com",
+  "base": "/",
+  "lingua": "it",
+  "autore": "Marco Costanzo",
+  "email": "DA COMPLETARE: indirizzo email di contatto",
+  "menu": ["metodo", "inizia", "strumenti", "articoli", "libro", "autore"],
+  "libro": {
+    "titolo": "Metodo APPO 2.0 — Osa Realizzarti Ora",
+    "edizione": "1.8",
+    "prossima": "2.0",
+    "amazon_url": ""
+  }
+}

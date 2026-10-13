@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<chapter xmlns="http://docbook.org/ns/docbook" xml:id="capitolo-07" label="7" version="5.0" xml:lang="it">
+  <title>Il QuDiVi: misurare la qualità della vita, non la produttività</title>
+  <para role="livello">Livello: G — Da usare ogni giorno</para>
+  <epigraph>
+    <para>“Puoi avere una giornata piena di cose fatte e darle un 3, e una giornata apparentemente vuota e darle un 9.”</para>
+  </epigraph>
+  <sidebar role="obiettivi">
+    <title>Cosa imparerai qui</title>
+    <itemizedlist>
+      <listitem>
+        <para>Cos’è il QuDiVi e perché misura la qualità della vita, non quanto hai prodotto</para>
+      </listitem>
+      <listitem>
+        <para>Come si assegna il numero, e le tre regole che lo rendono un dato affidabile</para>
+      </listitem>
+      <listitem>
+        <para>Perché un solo QuDiVi non dice nulla, ma quattro settimane di QuDiVi rivelano correlazioni che nessun singolo giorno potrebbe mostrarti</para>
+      </listitem>
+    </itemizedlist>
+  </sidebar>
+  <para>Fino a questo capitolo hai imparato due righe: una al mattino, una alla sera. C’è un terzo elemento, piccolissimo sulla pagina ma prezioso nella sostanza, che completa la pratica quotidiana del metodo. Lo chiamo <emphasis role="strong">QuDiVi</emphasis>, Qualità della Vita, e non a caso non l’ho chiamato “indice di produttività”. La differenza non è cosmetica, è il cuore di questo capitolo.</para>
+  <para>Ogni sera, dopo aver scritto la tua riga, assegnati un numero da 1 a 10. Non è un voto su quanto hai fatto. È un giudizio, onesto e immediato, sulla qualità della giornata che hai vissuto. Puoi aver risposto a cinquanta email, chiuso tre pratiche urgenti e finito la giornata esausto e vuoto: quella giornata può valere un 3. Puoi aver passato un pomeriggio intero a giocare con tuo figlio, senza concludere nulla di “produttivo” secondo i criteri con cui siamo abituati a giudicarci, quella giornata può valere un 9. Se l’unica cosa che questo capitolo ti insegna è imparare a distinguere le due, avrà già ripagato il tempo che ci hai dedicato.</para>
+  <para>
+    <emphasis role="strong">Come si assegna il numero.</emphasis> Non serve una scala complicata: bastano quattro fasce, larghe abbastanza da non farti perdere tempo a scegliere tra un 6 e un 7.</para>
+  <informaltable>
+    <thead>
+      <tr>
+        <th>Voto</th>
+        <th>Nome</th>
+        <th>Cosa significa</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>1-3</td>
+        <td>Giornata subìta</td>
+        <td>Hai attraversato le ore senza sceglierle, trascinato dagli eventi</td>
+      </tr>
+      <tr>
+        <td>4-6</td>
+        <td>Giornata ordinaria</td>
+        <td>Qualcosa ha funzionato, qualcosa no: la media dei giorni feriali</td>
+      </tr>
+      <tr>
+        <td>7-9</td>
+        <td>Giornata scelta</td>
+        <td>La tua Aspirazione ha retto anche sotto pressione</td>
+      </tr>
+      <tr>
+        <td>10</td>
+        <td>Giornata piena</td>
+        <td>Rara: annota cosa l’ha resa tale, ti servirà da riferimento</td>
+      </tr>
+    </tbody>
+  </informaltable>
+  <para>
+    <emphasis role="strong">Tre regole per non falsare il dato.</emphasis> Primo: assegna il numero <emphasis>prima</emphasis> di rileggere la riga della sera che hai appena scritto, non dopo, altrimenti rischi di aggiustare il numero per farlo coincidere con quello che hai scritto, invece di lasciarlo dire la sua verità indipendente. Secondo, non è un voto sulla tua persona, è un dato su una giornata, un 3 di oggi non dice nulla sul tuo valore, dice solo che oggi è stata una giornata subìta. Terzo, non correggerlo il giorno dopo. Un dato modificato a posteriori, per farlo sembrare migliore o peggiore di quanto sentito nel momento, smette di essere un dato e diventa una narrazione. Il QuDiVi serve a evitare questo.</para>
+  <para>
+    <emphasis role="strong">A cosa serve.</emphasis> Preso da solo, un singolo QuDiVi non ti dice quasi nulla: è solo un numero isolato, e come tale ha lo stesso limite di ogni singola giornata osservata senza contesto. Ma preso su quattro settimane, come la revisione settimanale che hai già imparato a fare con le tue righe, il QuDiVi comincia a mostrare qualcosa che nessuna singola giornata potrebbe mai rivelare, i tuoi 8 e i tuoi 9 cadono quasi sempre negli stessi giorni della settimana, dopo le stesse azioni, in compagnia delle stesse persone. E, altrettanto rivelatore, i tuoi 3 e i tuoi 4 si concentrano spesso attorno a pattern altrettanto riconoscibili. Nessuna singola giornata avrebbe potuto mostrarti questa correlazione. È la ripetizione, riletta con attenzione, a renderla visibile, lo stesso identico principio della revisione settimanale, applicato questa volta a un numero invece che a una parola.</para>
+  <para>Non serve un grafico complesso per usare questo dato: sette numeri, sommati e divisi per sette, ti danno la media della settimana. È il grafico più semplice che esista, e nella sua semplicità sta la sua forza, perché uno strumento che richiede trenta secondi sopravvive alle settimane storte molto più spesso di uno che richiede un foglio di calcolo.</para>
+  <para>
+    <emphasis role="strong">Cosa resta del metodo originale, cosa Kaizen ha introdotto</emphasis>
+  </para>
+  <itemizedlist>
+    <listitem>
+      <para>
+        <emphasis role="strong">Resta</emphasis>: il principio di fondo, osservare la propria giornata con onestà, senza giudicarsi.</para>
+    </listitem>
+    <listitem>
+      <para>
+        <emphasis role="strong">Kaizen ha introdotto</emphasis>: il QuDiVi stesso è un’aggiunta nata dall’uso reale del metodo nel tempo, non presente nella primissima versione, la dimostrazione che anche uno strumento già solido può accogliere un piccolo miglioramento, se resta fedele allo spirito di leggerezza che regge tutto il resto.</para>
+    </listitem>
+    <listitem>
+      <para>
+        <emphasis role="strong">Resta</emphasis>: nessuna nuova pagina, nessun nuovo foglio, il QuDiVi si barra sulla stessa riga della domanda della sera, in pochi secondi.</para>
+    </listitem>
+  </itemizedlist>
+  <para>Il numero da 1 a 10 di questo capitolo:</para>
+  <orderedlist>
+    <listitem>
+      <para>
+        <emphasis role="strong">1-3</emphasis>: giornata subìta.</para>
+    </listitem>
+    <listitem>
+      <para>
+        <emphasis role="strong">4-6</emphasis>: giornata ordinaria.</para>
+    </listitem>
+    <listitem>
+      <para>
+        <emphasis role="strong">7-9</emphasis>: giornata scelta.</para>
+    </listitem>
+    <listitem>
+      <para>
+        <emphasis role="strong">10</emphasis>: giornata piena.</para>
+    </listitem>
+  </orderedlist>
+  <section xml:id="capitolo-07-riquadro-di-sintesi-capitolo-7" role="sintesi">
+    <title>Riquadro di sintesi — Capitolo 7</title>
+    <itemizedlist>
+      <listitem>
+        <para>
+          <emphasis role="strong">QuDiVi</emphasis>: dieci pallini, un numero al giorno, che misura la qualità della vita vissuta, non quanto hai prodotto.</para>
+      </listitem>
+      <listitem>
+        <para>
+          <emphasis role="strong">Quattro fasce</emphasis>: 1-3 subìta, 4-6 ordinaria, 7-9 scelta, 10 piena.</para>
+      </listitem>
+      <listitem>
+        <para>
+          <emphasis role="strong">Tre regole</emphasis>: assegna prima di rileggere la riga, non è un voto su di te, non correggerlo a posteriori.</para>
+      </listitem>
+      <listitem>
+        <para>
+          <emphasis role="strong">Il valore è nella ripetizione</emphasis>: un solo QuDiVi non dice nulla, quattro settimane rivelano correlazioni reali.</para>
+      </listitem>
+      <listitem>
+        <para>
+          <emphasis role="strong">Kaizen in azione</emphasis>: un elemento nuovo, aggiunto solo dopo che l’uso reale del metodo ne ha mostrato il bisogno.</para>
+      </listitem>
+    </itemizedlist>
+    <para>
+      <emphasis role="strong">Rispondi con poche parole.</emphasis>
+    </para>
+    <orderedlist>
+      <listitem>
+        <para>Hai capito la differenza tra qualità della vita e produttività?</para>
+      </listitem>
+    </orderedlist>
+    <orderedlist startingnumber="2">
+      <listitem>
+        <para>Che voto daresti alla tua giornata di ieri, da 1 a 10?</para>
+      </listitem>
+    </orderedlist>
+  </section>
+</chapter>

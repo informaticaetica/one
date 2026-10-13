@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<preface xmlns="http://docbook.org/ns/docbook" xml:id="mappa-del-metodo" version="5.0" xml:lang="it">
+  <title>La mappa del metodo</title>
+  <para>
+    <emphasis role="strong">Come leggere questo indice</emphasis>: ogni capitolo ha un’etichetta — <emphasis role="strong">F</emphasis> (fondamenta, da leggere una volta), <emphasis role="strong">G</emphasis> (giornaliero), <emphasis role="strong">S</emphasis> (settimanale), <emphasis role="strong">M</emphasis> (mensile). Se hai fretta, leggi prima tutti gli <emphasis role="strong">F</emphasis>, poi torna a <emphasis role="strong">G</emphasis>, <emphasis role="strong">S</emphasis> e <emphasis role="strong">M</emphasis> quando ti servono.</para>
+  <section xml:id="mappa-del-metodo-la-mappa-del-metodo-a-colpo-docchio">
+    <title>La mappa del metodo, a colpo d’occhio</title>
+    <para>Le quattro parole del metodo (righe) incrociate con i tre livelli di uso (colonne). In ogni casella, il capitolo dove trovi quello strumento.</para>
+    <informaltable>
+      <thead>
+        <tr>
+          <th />
+          <th>Ogni giorno</th>
+          <th>Ogni settimana</th>
+          <th>Ogni mese</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+            <emphasis role="strong">Aspirazione</emphasis>
+          </td>
+          <td>Cap. 5 — riga del mattino</td>
+          <td>—</td>
+          <td>Cap. 16 — scheda mensile</td>
+        </tr>
+        <tr>
+          <td>
+            <emphasis role="strong">Problema</emphasis>
+          </td>
+          <td>Cap. 6 — riga della sera</td>
+          <td>Cap. 13 — revisione</td>
+          <td>Cap. 16 — scheda mensile</td>
+        </tr>
+        <tr>
+          <td>
+            <emphasis role="strong">Progetto</emphasis>
+          </td>
+          <td>Cap. 12 — scheda giornaliera, Cap. 14 — rituali</td>
+          <td>Cap. 13 — revisione</td>
+          <td>Cap. 16 — scheda mensile</td>
+        </tr>
+        <tr>
+          <td>
+            <emphasis role="strong">Opportunità</emphasis>
+          </td>
+          <td>Cap. 7 — QuDiVi</td>
+          <td>—</td>
+          <td>Cap. 16 — cigni neri e d’oro, Cap. 17</td>
+        </tr>
+      </tbody>
+    </informaltable>
+    <para>Se non sai da dove cominciare, comincia dalla prima riga in alto a sinistra: <emphasis role="strong">Aspirazione, ogni giorno, Capitolo 5.</emphasis>
+    </para>
+  </section>
+</preface>

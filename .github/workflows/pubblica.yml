@@ -5,6 +5,7 @@ name: Pubblica
 on:
   push:
     branches: [main]
+    paths: ["guide/**", "CHANGELOG.md", "LICENSE", ".github/workflows/pubblica.yml"]
   workflow_dispatch:
 
 concurrency:

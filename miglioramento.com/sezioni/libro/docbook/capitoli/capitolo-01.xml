@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<chapter xmlns="http://docbook.org/ns/docbook" xml:id="capitolo-01" label="1" version="5.0" xml:lang="it">
+  <title>Una dichiarazione d’amore</title>
+  <para role="livello">Livello: F — Fondamenta (si legge una volta)</para>
+  <epigraph>
+    <para>“Non ti sto vendendo un metodo. Ti sto restituendo una responsabilità che ti appartiene già.”</para>
+  </epigraph>
+  <sidebar role="obiettivi">
+    <title>Cosa imparerai qui</title>
+    <itemizedlist>
+      <listitem>
+        <para>Perché la crescita personale, se presa sul serio, cambia concretamente il mondo attorno a te</para>
+      </listitem>
+      <listitem>
+        <para>La differenza tra efficacia ed efficienza, e perché ti servono entrambe</para>
+      </listitem>
+      <listitem>
+        <para>Cos’è il metodo ZDC e come le metafore informatiche possono affinare il modo in cui studi</para>
+      </listitem>
+      <listitem>
+        <para>Perché l’uso dell’intelligenza artificiale non toglie nulla alla paternità di un’idea</para>
+      </listitem>
+    </itemizedlist>
+  </sidebar>
+  <para>Prima di iniziare a spiegarti qualunque cosa, voglio dirti una cosa vera, senza filtri, come farei se fossi seduto davanti a te invece che dall’altra parte di una pagina. Ti voglio bene. Non nel senso vago con cui si usa questa frase per chiudere una conversazione. Lo intendo nel senso più concreto e più scomodo del termine. Mi importa abbastanza di te, che non ti conosco, da aver passato anni a costruire uno strumento capace di aiutarti. E da aver passato le ultime settimane a renderlo ancora più leggero. So che il tempo che hai è poco. Non volevo che questo libro diventasse un altro peso nella tua vita, invece che un alleggerimento.</para>
+  <para>Ho dedicato gran parte della mia vita adulta alla crescita personale: non come argomento da conferenza, non come etichetta da mettere su un biglietto da visita, ma come pratica quotidiana, fatta di cadute, ripartenze, ostinazione. Il mio percorso in questo campo non è nato per caso. I miei studi in informatica e in Scienze Economiche e Bancarie mi hanno insegnato a pensare per sistemi, prima ancora che me ne accorgessi. A scomporre un problema complesso nelle sue parti minime. E a costruire processi che funzionano perché progettati con rigore, non lasciati al caso. Sono stati quegli anni di formazione tecnica, apparentemente lontani dalla crescita personale, a rendermi capace, più avanti, di trasformare un’intuizione umana in un metodo di problem solving replicabile, quello che oggi conosci come APPO.</para>
+  <para>Su questo punto la scienza ha qualcosa di scomodo da dire, e riguarda tutti quelli che a scuola si sono sentiti dire ‘‘devi solo studiare di più’’.</para>
+  <para>Nel 2013 un gruppo di ricercatori guidato da John Dunlosky ha passato in rassegna dieci tecniche di studio, misurandone l’efficacia reale su decine di ricerche. Il risultato ha ribaltato il senso comune. Le due tecniche più usate dagli studenti di tutto il mondo — <emphasis role="strong">sottolineare</emphasis> e <emphasis role="strong">rileggere</emphasis> — sono state giudicate a <emphasis role="strong">bassa utilità</emphasis>. Servono a poco. Danno la sensazione di stare imparando, e quella sensazione è proprio l’inganno.</para>
+  <para>Le tecniche giudicate efficaci sono altre due: <emphasis role="strong">mettersi alla prova</emphasis> cercando di recuperare l’informazione a memoria, e <emphasis role="strong">distribuire lo studio nel tempo</emphasis> invece di concentrarlo la notte prima. A metà strada, con giudizio intermedio, c’è lo <emphasis role="strong">spiegarsi le cose da soli</emphasis>, a parole proprie.</para>
+  <para>Guarda adesso cosa sono, in fondo, i tre passi dello ZDC. <emphasis>Descrivi</emphasis> è lo spiegarsi le cose da soli. <emphasis>Controlla</emphasis> è il mettersi alla prova. Non l’ho costruito leggendo quella ricerca — è arrivata dopo — ma quando l’ho letta ho capito perché quel metodo funzionava sui miei studenti mentre altri no.</para>
+  <para>E c’è una conseguenza che ti riguarda anche se hai finito la scuola da trent’anni: <emphasis role="strong">non è il diploma o la laurea a rendere una persona capace di imparare.</emphasis> È il metodo che usa. Una persona con la terza media e un buon metodo impara più in fretta di un laureato che sottolinea.</para>
+  <para>Non è stato l’unico frutto di quella formazione. Anni prima di costruire APPO, quella stessa abitudine mentale mi aveva già portato a ideare un metodo di studio che chiamai <emphasis role="strong">ZDC</emphasis>, Zooma, Descrivi, Controlla, nato da una metafora presa in prestito di peso dal mondo informatico. Chi lavora con il codice lo sa bene. Un sistema complesso non si legge tutto insieme, riga per riga. Prima si <emphasis role="strong">zooma</emphasis> fuori, per vedere l’architettura generale. È come guardare un diagramma prima di aprire un singolo file. Poi si <emphasis role="strong">descrive</emphasis>, a parole proprie, cosa fa ciascuna parte. Un buon commento nel codice spiega l’intenzione dietro una funzione, non solo la sua sintassi. Infine si <emphasis role="strong">controlla</emphasis>: si verifica che la propria comprensione regga alla prova dei fatti, come un test verifica che una funzione si comporti come previsto. Applicato allo studio, questo stesso ciclo trasforma un capitolo denso in qualcosa di affrontabile, zoom sulla struttura, descrizione con parole tue, controllo della comprensione. La stessa disciplina mentale, applicata anni dopo a un problema diverso, non più un manuale da studiare, ma una vita da orientare, è diventata il seme da cui è nato APPO.</para>
+  <para>E qui voglio dirti una cosa con la stessa franchezza con cui ti ho parlato fin qui, perché credo che tu meriti trasparenza, non finzione. L’evoluzione di questo metodo, nella versione che stai leggendo, si è avvalsa anche di tecnologie di intelligenza artificiale. E lo dichiaro con orgoglio, non con imbarazzo. Le ho usate come un bravo artigiano usa uno strumento di lavoro. Un tornio non scolpisce da solo. Un pennello non dipinge da solo. Allo stesso modo, nessuno strumento di intelligenza artificiale ha deciso al posto mio cosa questo libro dovesse dire, cosa il metodo dovesse diventare, o cosa tu avessi bisogno di sentirti dire. Ogni idea contenuta in queste pagine: le quattro parole del metodo, lo schema snello, il rito di amarsi, e persino questo stesso capitolo, porta la mia firma, e ne rivendico pienamente la paternità. Uno strumento resta uno strumento, per quanto sofisticato, l’intenzione, la direzione, la responsabilità di ciò che ti sto consegnando restano, dal primo all’ultimo istante, mie.</para>
+  <para>E in tutti questi anni ho maturato una convinzione che porto con me come si porta una cosa preziosa: il mondo cambierebbe, davvero, concretamente, se ogni persona si prendesse la responsabilità della propria crescita, spirituale, mentale, fisica. Non parlo di un mondo perfetto, senza conflitti, senza fatica. Parlo di un mondo in cui meno persone scaricano sugli altri il peso della propria infelicità irrisolta, perché hanno smesso di rimandare il lavoro su se stesse. Un mondo in cui l’efficacia e l’efficienza non sono più privilegio di pochi. Efficacia significa fare le cose giuste. Efficienza significa farle nel modo giusto, con il minimo spreco. Entrambe alla portata di chiunque abbia il coraggio di iniziare.</para>
+  <para>Voglio fermarmi un istante su questa distinzione, perché non è un dettaglio tecnico: è, in fondo, il cuore di tutto ciò che troverai in questo libro. Puoi essere efficiente e sbagliare direzione, puoi correre benissimo, con grande disciplina, verso un obiettivo che in realtà non ti appartiene, che hai ereditato da aspettative altrui o da un’idea di successo che non hai mai scelto. È una delle trappole più diffuse e più silenziose che conosco, persone estremamente organizzate, capaci, instancabili, che però stanno ottimizzando la scala sbagliata, appoggiata al muro sbagliato. Vale anche il contrario. Puoi avere in mente l’obiettivo perfettamente giusto per te, quello autentico. Ma senza un metodo capace di portarti lì con costanza, quell’obiettivo resta un desiderio bellissimo e inerte. Destinato a spegnersi sotto il peso delle giornate. Efficacia senza efficienza è un sogno che non decolla mai. Efficienza senza efficacia è una corsa velocissima nella direzione sbagliata. Il metodo che imparerai in queste pagine esiste per tenerle insieme, entrambe, ogni singolo giorno, prima la direzione giusta, poi il modo più leggero e sostenibile di percorrerla.</para>
+  <para>E qui voglio essere ancora più diretto, perché è la parte più importante di questo capitolo, forse di tutto il libro. Tu che stai leggendo, in questo momento, io ti vedo. Con tutte le tue imperfezioni. Con le promesse che ti sei fatto e non hai mantenuto. Con le mattine in cui ti sei detto “da oggi cambio” e la sera hai ceduto di nuovo alla stessa abitudine. E non ti giudico. Anzi, ti dirò di più: ti rispetto profondamente, proprio per il fatto che continui a provarci. Non esiste nessuna persona di successo, in nessun ambito della vita, che non abbia fallito decine, centinaia di volte prima di trovare la propria strada. La differenza non sta nell’assenza di imperfezione. Sta nella capacità di riconoscerla senza usarla come scusa per fermarsi, e di rimettersi in cammino il giorno dopo, con un po’ più di consapevolezza rispetto al giorno prima. Se questo libro ti aiuta anche solo a fare questo, a lottare ogni giorno per il tuo miglioramento, senza pretendere la perfezione da te stesso, avrà fatto il suo lavoro, indipendentemente da qualunque altro risultato concreto arriverà.</para>
+  <para>Voglio raccontarti perché sono arrivato a credere così fortemente in questo. Negli anni ho incontrato centinaia di persone attraverso il mio lavoro di accompagnamento, e ho visto, con i miei occhi, cosa succede quando qualcuno smette di aspettare che la propria vita cambi da sola e inizia, con metodo, a costruirla. Ho visto persone uscire da anni di stagnazione professionale non grazie a un colpo di fortuna, ma grazie a una domanda posta ogni mattina con costanza. Ho visto relazioni familiari ricucite non da un gesto eclatante, ma da mesi di piccole azioni scelte con intenzione invece che subite per abitudine. Non è magia. È la prova, ripetuta decine di volte, che la determinazione, unita a un metodo valido, produce risultati che la sola forza di volontà, per quanto ammirevole, non riesce mai a sostenere abbastanza a lungo da sola.</para>
+  <para>E la storia, quella con la S maiuscola, è piena di conferme di questo stesso principio, in situazioni molto più difficili di quelle che la maggior parte di noi si trova ad affrontare. Voglio farti dei nomi, non degli esempi generici, perché credo che i nomi ti restino addosso più a lungo. <emphasis role="strong">J.K. Rowling</emphasis> stava scrivendo <emphasis>Harry Potter</emphasis> nei bar di Edimburgo perché a casa non poteva permettersi il riscaldamento. Era una madre sola con una figlia di pochi mesi, viveva del sussidio statale, e in quel periodo si è descritta come la persona che aveva fallito più di chiunque conoscesse. Batteva il manoscritto a macchina, perché non aveva un computer. <emphasis role="strong">Dodici case editrici lo rifiutarono.</emphasis> La tredicesima accettò, e l’editore le consigliò di trovarsi un lavoro vero, perché con i libri per bambini non si campa. Il punto non è che poi è diventata ricca: è che per cinque anni ha continuato a scrivere senza avere una sola prova che ne valesse la pena.</para>
+  <para>
+    <emphasis role="strong">Howard Schultz</emphasis> è cresciuto in una casa popolare di Brooklyn. Aveva sette anni quando suo padre, autista di furgoni, si ruppe una caviglia sul lavoro: nessuna assicurazione, nessuna indennità, nessun lavoro. Schultz ha raccontato più volte che l’immagine del padre steso sul divano, umiliato, è la ragione per cui decenni dopo, costruendo Starbucks, volle l’assistenza sanitaria anche per i dipendenti part-time. Da un’unica caffetteria a un’azienda mondiale, portandosi dietro quel ricordo come bussola.</para>
+  <para>
+    <emphasis role="strong">Nelson Mandela</emphasis> ha passato ventisette anni in carcere, diciotto dei quali a Robben Island, in una cella di due metri per due, dormendo su una stuoia e spaccando pietre di giorno. Poteva ricevere una lettera ogni sei mesi. In quegli anni studiò per corrispondenza, imparò la lingua dei suoi carcerieri e cominciò a parlarci. Non uscì con l’intenzione di vendicarsi: uscì con un piano. E il piano funzionò proprio perché aveva usato ventisette anni per costruirlo invece che per consumarsi. Diciotto di quelli a Robben Island, in una cella di due metri per due, dormendo su una stuoia, spaccando pietre in una cava di calcare la cui polvere gli danneggiò la vista per sempre. Poteva ricevere una lettera ogni sei mesi. Gli fu negato il permesso di andare al funerale di sua madre e, l’anno dopo, a quello del figlio maggiore. In quegli anni studiò diritto per corrispondenza, imparò l’afrikaans — la lingua dei suoi carcerieri — e cominciò a discutere con loro. Uscito, nel 1990, avrebbe potuto guidare una vendetta: scelse una commissione per la verità e la riconciliazione. <emphasis role="strong">Ventisette anni non lo avevano indurito: lo avevano reso più preciso.</emphasis>
+  </para>
+  <para>E poi c’è <emphasis role="strong">Richard Branson</emphasis>. Dislessico in un’epoca in cui la dislessia non aveva ancora un nome nelle scuole inglesi: era semplicemente considerato pigro e poco intelligente. A quindici anni lasciò la scuola, e il preside gli disse una frase diventata famosa: o sarebbe finito in prigione, o sarebbe diventato milionario. Non sapeva distinguere il fatturato dal profitto e dovette farselo spiegare in una riunione del consiglio di amministrazione con un disegno. Ha costruito il Virgin Group perché, non potendo affidarsi ai documenti scritti, aveva imparato a <emphasis role="strong">fidarsi delle persone e a semplificare tutto</emphasis>. Quella che la scuola aveva chiamato incapacità era un modo diverso di elaborare, e in azienda è diventato un vantaggio.</para>
+  <para>Quattro storie diversissime per epoca, cultura, campo. Ma condividono tutte lo stesso nucleo, nessuna di queste persone ha aspettato che le condizioni diventassero favorevoli prima di agire. Hanno agito, con costanza, dentro condizioni sfavorevoli, fino a cambiarle.</para>
+  <para>Non ti sto raccontando queste storie perché tu debba paragonarti a loro, o sentirti in colpa se la tua vita, oggi, sembra lontana da imprese di quella portata. Te le racconto perché voglio che tu creda, con la stessa forza con cui ci credo io, che la determinazione unita a un metodo valido non conosce davvero un punto di partenza troppo difficile. Il tuo punto di partenza, qualunque esso sia oggi, non decide il tuo punto di arrivo. Decide solo da dove inizi a camminare.</para>
+  <para>E qui devo dirti una cosa che mi sta a cuore, e che in parte spiega perché ho scritto questo libro con questa urgenza. In Italia la crescita personale è ancora guardata con sospetto. Viene liquidata come moda americana, o come argomento da guru dei social. Invece è una disciplina pratica e verificabile, che cambia in modo misurabile la vita di chi la applica con serietà. Sono grato, profondamente grato, a tutte le realtà, scuole di formazione, coach, aziende private, che ogni giorno lavorano fuori dai programmi scolastici tradizionali per colmare questo vuoto, spesso senza il riconoscimento che meriterebbero. È un lavoro prezioso, e senza di loro migliaia di persone non avrebbero mai incontrato gli strumenti che hanno cambiato la loro vita.</para>
+  <para>Ma non basta, e lo dico con la stessa franchezza con cui ti ho parlato finora: la crescita personale non dovrebbe restare un’opzione riservata a chi, da adulto, ha la fortuna e le risorse per cercarla fuori dai canali tradizionali. Dovrebbe entrare nella scuola pubblica, con la stessa dignità della matematica o della storia. I nostri ragazzi escono da anni di istruzione sapendo risolvere equazioni che non useranno mai più, ma spesso senza gli strumenti minimi per gestire una relazione difficile, un conflitto, la propria frustrazione. La mancanza di capacità relazionali tra i più giovani non è un problema che possiamo permetterci di rimandare. Se ignorato oggi, si presenterà domani sotto forma di solitudine diffusa, di fragilità emotiva, di relazioni professionali e affettive che si rompono per mancanza degli strumenti più elementari. E c’è un dato scientifico che dovrebbe farci riflettere ancora di più. Il ricercatore Dan Buettner lo ha raccontato nel libro <emphasis>The Blue Zones</emphasis>, del 2008. Le “Zone Blu” sono le aree del pianeta dove si vive più a lungo e in salute, e tra queste c’è la Sardegna. In quei luoghi la qualità delle relazioni umane risulta uno dei fattori più determinanti della longevità, al pari dell’alimentazione e del movimento. Non stiamo parlando di benessere astratto. Stiamo parlando di anni di vita in più, guadagnati non da un farmaco, ma dalla qualità dei legami che una persona coltiva. Se questo non basta a convincere chi decide i programmi scolastici che le competenze relazionali meritano un’ora in classe tanto quanto la geometria, non so cosa potrebbe farlo.</para>
+  <para>C’è un’immagine che uso spesso per spiegare cosa intendo con “svegliarsi”. Probabilmente la conosci già: è entrata nell’immaginario di intere generazioni. Una persona vive dentro un sistema che la usa come fonte di energia, senza che lei se ne accorga. È cullata da una realtà comoda, ma non vera. Fuori, intanto, esiste un mondo che potrebbe scegliere di vedere e abitare. Non ti sto chiedendo di credere a una teoria del complotto sul mondo che ci circonda. Ti sto chiedendo di guardare con onestà a quante ore della tua giornata, della tua settimana, del tuo anno, passano scorrendo dentro flussi che qualcun altro ha progettato per catturare la tua attenzione, non per servire la tua crescita. Il consumo passivo, la distrazione costante, il rimandare a “domani” ciò che conta davvero, sono la versione moderna, silenziosa e quasi invisibile, di quella stessa cattura. E la buona notizia è che, esattamente come in quella storia, esiste sempre una scelta, puoi restare dentro il flusso comodo, oppure puoi scegliere di svegliarti, un giorno alla volta, con gli strumenti giusti in mano. Questo libro non ti chiede di prendere una pillola immaginaria. Ti chiede una cosa molto più semplice e alla tua portata. Una riga scritta ogni mattina, una riga ogni sera. Con la determinazione di chi ha deciso di vedere il mondo con i propri occhi, invece che attraverso lo schermo che qualcun altro gli ha messo davanti. Le regole del gioco, quelle vecchie regole che ti hanno insegnato che il cambiamento richiede circostanze eccezionali, puoi riscriverle tu, da qui, con la penna in mano.</para>
+  <para>Prima di lasciarti al resto del libro, voglio farti un ultimo regalo, che è anche un invito. Questo libro non nasce nel vuoto. È parte di una conversazione più ampia, che va avanti da decenni. La portano avanti persone che, come me, anche se su scale molto più grandi, hanno dedicato la vita a essere generose. Generose verso un’umanità che troppo spesso preferisce distrarsi, piuttosto che affrontare il lavoro scomodo della propria crescita. Se questo libro ti avrà acceso qualcosa, ti invito a non fermarti qui. Vai a leggere Eckhart Tolle, e la sua capacità di riportarti nel presente quando la mente corre altrove. Vai a leggere Tony Robbins, e la sua insistenza instancabile sul fatto che lo stato emotivo con cui affronti un problema cambia radicalmente la qualità delle tue soluzioni. Vai a leggere Ray Dalio, e il suo modo quasi ingegneristico di trasformare gli errori in principi riutilizzabili, invece che in motivi di vergogna. Non sono nomi che ti butto lì per farti sognare. Sono, ciascuno a modo proprio, persone che hanno scelto di condividere ciò che hanno imparato invece di tenerlo per sé: come sto provando a fare io, in questo momento, con te.</para>
+  <para>Questo libro può essere l’inizio di qualcosa, se glielo permetti. Non perché contenga una formula magica, non esiste, e diffida di chiunque te ne prometta una, ma perché contiene una struttura semplice abbastanza da essere usata, giorno dopo giorno, fino a diventare parte di come vivi. Il resto lo costruirai tu, riga dopo riga, a partire dal capitolo che segue. L’efficacia nello scegliere gli obiettivi giusti. L’efficienza nel raggiungerli con il minimo spreco. E la pazienza di trattarti con la stessa gentilezza che avresti per una persona cara che sta lottando per migliorare.</para>
+  <para>I quattro pilastri di questa dichiarazione, da tenere con te per tutto il libro:</para>
+  <orderedlist>
+    <listitem>
+      <para>
+        <emphasis role="strong">La tua imperfezione non ti squalifica</emphasis>: nemmeno Rowling, Schultz, Mandela o Branson lo erano, prima di riuscire.</para>
+    </listitem>
+    <listitem>
+      <para>
+        <emphasis role="strong">Il tuo punto di partenza non decide il tuo punto di arrivo</emphasis>: decide solo da dove inizi a camminare, oggi, con il metodo giusto in mano.</para>
+    </listitem>
+    <listitem>
+      <para>
+        <emphasis role="strong">La crescita personale è una competenza, non una moda</emphasis>: merita spazio in classe quanto in azienda.</para>
+    </listitem>
+    <listitem>
+      <para>
+        <emphasis role="strong">Svegliarsi è una scelta quotidiana, non un evento</emphasis>: ogni riga che scrivi è un piccolo atto di presenza, contro la distrazione che ti vorrebbe altrove.</para>
+    </listitem>
+  </orderedlist>
+  <section xml:id="capitolo-01-cosa-rende-buona-una-vita-quello-che-sappiamo-davvero">
+    <title>Cosa rende buona una vita: quello che sappiamo davvero</title>
+    <para>Ti faccio una domanda diretta. Se ti chiedessi adesso, senza pensarci troppo, cosa renderà buona la tua vita fra trent’anni, cosa risponderesti?</para>
+    <para>Quasi tutti rispondono con qualche variante di due cose: più soldi, più successo. Non ti sto giudicando, è la risposta che ci hanno insegnato a dare. Il punto è che qualcuno è andato a verificarla sul serio, e i risultati non tornano.</para>
+    <para>Nel 1938, a Harvard, è partito uno studio che ha seguito 724 persone per tutta la vita. Oggi ha superato gli ottantasette anni ed è arrivato a coinvolgere circa 2.500 persone, contando mogli, figli e nipoti dei partecipanti originali. È la ricerca più lunga mai condotta sulla vita adulta. Il suo direttore attuale, lo psichiatra Robert Waldinger, riassume la conclusione principale in una frase sola: <emphasis role="strong">le buone relazioni ci rendono più felici e più sani. Punto.</emphasis>
+    </para>
+    <para>Guarda bene cosa dice quel risultato. Le persone più soddisfatte delle proprie relazioni a cinquant’anni sono risultate le più sane a ottanta. E il legame ha retto anche togliendo dall’equazione il reddito, la fama, la classe sociale e il quoziente intellettivo.</para>
+    <para>Prima che tu prenda questo dato come una verità assoluta, ti devo la precisazione che merita: quello studio è partito da un gruppo di soli uomini, in gran parte bianchi e americani. È un pattern robusto osservato su una popolazione specifica, non una legge universale. Ma va nella stessa direzione della ricerca sulle Zone Blu di cui ti ho parlato poco fa, e due strade indipendenti che portano allo stesso posto meritano attenzione.</para>
+    <para>Adesso però arriva la parte che riguarda te, e che di solito nessuno dice.</para>
+    <para>
+      <emphasis role="strong">Sapere questo non ti serve a niente, se non hai un modo per agirci.</emphasis>
+    </para>
+    <para>Immagina di aver appena letto che le relazioni contano più del conto in banca. Chiudi il libro. Domani mattina suona la sveglia, ti aspettano quarantatré email non lette, una scadenza spostata, il pediatra da chiamare. Dove finisce, in quella giornata, la consapevolezza che hai acquisito ieri sera? Da nessuna parte. Evapora entro le nove e mezza.</para>
+    <para>Si capisce allora perché la consapevolezza da sola non basta mai, e perché ti sto proponendo un metodo invece di un discorso motivazionale. Guarda cosa cambia, concretamente, quando alla consapevolezza aggiungi uno strumento che sopravvive alla tua giornata reale.</para>
+    <itemizedlist>
+      <listitem>
+        <para>
+          <emphasis role="strong">Hai un genitore anziano che senti troppo poco.</emphasis> Senza metodo, ci pensi con un senso di colpa che torna la domenica sera e passa il lunedì. Con il metodo, una mattina scrivi: <emphasis>“Oggi chiamo mio padre.”</emphasis> Non è una rivoluzione. Ma tra un anno saranno cinquanta telefonate che altrimenti non ci sarebbero state.</para>
+      </listitem>
+      <listitem>
+        <para>
+          <emphasis role="strong">Il tuo matrimonio è diventato una staffetta organizzativa.</emphasis> Vi parlate di turni, spesa e bollette. Senza metodo aspetti la crisi per accorgertene. Con il metodo, la parola <emphasis>“corsa”</emphasis> comincia a ricomparire nelle tue righe della sera, settimana dopo settimana, finché non la vedi. E a quel punto puoi decidere cosa farne.</para>
+      </listitem>
+      <listitem>
+        <para>
+          <emphasis role="strong">Ti hanno appena affidato un ruolo più grande al lavoro.</emphasis> Senza metodo, l’urgenza divora l’importante e dopo sei mesi sei bravissimo a spegnere incendi e non hai costruito nulla. Con il metodo, ogni mattina pianti una bandierina su ciò che conta, prima che il telefono cominci a squillare.</para>
+      </listitem>
+      <listitem>
+        <para>
+          <emphasis role="strong">Hai ripreso a studiare a quarant’anni.</emphasis> Senza metodo, ogni sessione dipende da quanta motivazione hai quel giorno. Con il metodo, hai un gesto agganciato a un’abitudine che già esisteva, e funziona anche nei giorni in cui la motivazione non si presenta.</para>
+      </listitem>
+      <listitem>
+        <para>
+          <emphasis role="strong">Stai attraversando un periodo che non hai scelto</emphasis>: una malattia, una separazione, un lavoro perso. Senza metodo, l’unica cosa che puoi fare è resistere. Con il metodo hai comunque una riga al giorno che ti appartiene, piccola, ma tua.</para>
+      </listitem>
+    </itemizedlist>
+    <para>Nota una cosa che accomuna tutti questi esempi. In nessuno di essi il metodo ti dà qualcosa che prima non avevi. Ti restituisce <emphasis role="strong">la capacità di agire su ciò che già sapevi.</emphasis>
+    </para>
+    <para>E funziona per una ragione precisa, perché è facile. Se ti avessi chiesto quaranta minuti di meditazione al giorno, alla terza settimana avresti smesso. E non per colpa tua, ma perché quarantatré email non lette vincono sempre contro un buon proposito. Una riga, invece, la scrivi anche nel giorno peggiore.</para>
+    <para>
+      <emphasis role="strong">Il vero scopo della tua vita, qualunque esso sia, non si realizza in un giorno di ispirazione. Si realizza in un numero molto alto di giorni ordinari.</emphasis> E i giorni ordinari si governano solo con strumenti ordinari, abbastanza semplici da usarli quando non hai voglia di usarli.</para>
+  </section>
+  <section xml:id="capitolo-01-riquadro-di-sintesi-capitolo-1" role="sintesi">
+    <title>Riquadro di sintesi — Capitolo 1</title>
+    <itemizedlist>
+      <listitem>
+        <para>
+          <emphasis role="strong">Responsabilità della crescita</emphasis>: efficacia ed efficienza diffuse, non riservate a pochi, cambiano concretamente il mondo attorno a te.</para>
+      </listitem>
+      <listitem>
+        <para>
+          <emphasis role="strong">Nomi, non teoria</emphasis>: Rowling, Schultz, Mandela, Branson, determinazione e metodo, non condizioni favorevoli, fanno la differenza.</para>
+      </listitem>
+      <listitem>
+        <para>
+          <emphasis role="strong">Il metodo ZDC</emphasis>: Zooma, Descrivi, Controlla, una disciplina di studio nata dalle metafore del mondo informatico, seme di APPO.</para>
+      </listitem>
+      <listitem>
+        <para>
+          <emphasis role="strong">La crescita personale in Italia</emphasis>: ancora sottovalutata; un debito di riconoscenza verso chi la insegna fuori dalla scuola pubblica.</para>
+      </listitem>
+      <listitem>
+        <para>
+          <emphasis role="strong">Relazioni e longevità (Zone Blu)</emphasis>: la qualità dei legami umani è tra i fattori più determinanti di una vita lunga e sana.</para>
+      </listitem>
+      <listitem>
+        <para>
+          <emphasis role="strong">AI come strumento, non come autore</emphasis>: usata come un artigiano usa un attrezzo, la paternità di ogni idea resta dichiarata e rivendicata.</para>
+      </listitem>
+      <listitem>
+        <para>
+          <emphasis role="strong">Continua a formarti</emphasis>: Eckhart Tolle, Tony Robbins, Ray Dalio, voci diverse, stesso impegno verso la crescita umana.</para>
+      </listitem>
+    </itemizedlist>
+    <para>
+      <emphasis role="strong">Rispondi con poche parole.</emphasis>
+    </para>
+    <orderedlist>
+      <listitem>
+        <para>Ti è chiaro perché la crescita personale è una competenza e non un carattere?</para>
+      </listitem>
+    </orderedlist>
+    <orderedlist startingnumber="2">
+      <listitem>
+        <para>Cosa vuoi cambiare, in concreto, nei prossimi tre mesi?</para>
+      </listitem>
+    </orderedlist>
+  </section>
+</chapter>

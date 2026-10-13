@@ -1,0 +1,11 @@
+{
+  "titolo": "Articoli",
+  "menu": "Articoli",
+  "versione": "1.0.0",
+  "aggiornata": "2026-10-13",
+  "pagine": [
+    {"file": "index.html", "titolo": "Articoli", "descrizione": "Approfondimenti di crescita personale: abitudini, tempo, decisioni. Con le fonti dichiarate."},
+    {"file": "il-mito-dei-21-giorni.html", "titolo": "Il mito dei 21 giorni: quanto serve davvero per creare un'abitudine", "descrizione": "Non 21 giorni ma in media 66, con enormi differenze tra persone. Cosa dice lo studio di Lally e perché saltare un giorno non rovina nulla."},
+    {"file": "non-ho-tempo.html", "titolo": "«Non ho tempo»: cosa vuol dire davvero", "descrizione": "Tre significati nascosti dietro la frase più comune della crescita personale, e perché alzarsi alle cinque non è la soluzione."}
+  ]
+}

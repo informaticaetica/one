@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<appendix xmlns="http://docbook.org/ns/docbook" xml:id="eserciziario" label="A" version="5.0" xml:lang="it">
+  <title>Eserciziario</title>
+  <para>Tutte le schede del libro, raccolte in un unico blocco. Ogni scheda è numerata secondo il capitolo a cui appartiene.</para>
+  <section xml:id="eserciziario-scheda-5-sette-mattine-capitolo-5">
+    <title>Scheda 5 — Sette mattine (Capitolo 5)</title>
+    <informaltable>
+      <thead>
+        <tr>
+          <th>Giorno</th>
+          <th>La cosa più importante di oggi</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Lun ……….</td>
+          <td>………. ………. ……….</td>
+        </tr>
+        <tr>
+          <td>Mar ……….</td>
+          <td>………. ………. ……….</td>
+        </tr>
+        <tr>
+          <td>Mer ……….</td>
+          <td>………. ………. ……….</td>
+        </tr>
+        <tr>
+          <td>Gio ……….</td>
+          <td>………. ………. ……….</td>
+        </tr>
+        <tr>
+          <td>Ven ……….</td>
+          <td>………. ………. ……….</td>
+        </tr>
+        <tr>
+          <td>Sab ……….</td>
+          <td>………. ………. ……….</td>
+        </tr>
+        <tr>
+          <td>Dom ……….</td>
+          <td>………. ………. ……….</td>
+        </tr>
+      </tbody>
+    </informaltable>
+  </section>
+  <section xml:id="eserciziario-scheda-6-sette-sere-capitolo-6">
+    <title>Scheda 6 — Sette sere (Capitolo 6)</title>
+    <informaltable>
+      <thead>
+        <tr>
+          <th>Giorno</th>
+          <th>Cosa mi ha rallentato di più (o: cosa ho imparato oggi)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Lun ……….</td>
+          <td>………. ………. ……….</td>
+        </tr>
+        <tr>
+          <td>Mar ……….</td>
+          <td>………. ………. ……….</td>
+        </tr>
+        <tr>
+          <td>Mer ……….</td>
+          <td>………. ………. ……….</td>
+        </tr>
+        <tr>
+          <td>Gio ……….</td>
+          <td>………. ………. ……….</td>
+        </tr>
+        <tr>
+          <td>Ven ……….</td>
+          <td>………. ………. ……….</td>
+        </tr>
+        <tr>
+          <td>Sab ……….</td>
+          <td>………. ………. ……….</td>
+        </tr>
+        <tr>
+          <td>Dom ……….</td>
+          <td>………. ………. ……….</td>
+        </tr>
+      </tbody>
+    </informaltable>
+  </section>
+  <section xml:id="eserciziario-scheda-7-il-mio-qudivi-settimanale-capitolo-7">
+    <title>Scheda 7 — Il mio QuDiVi settimanale (Capitolo 7)</title>
+    <informaltable>
+      <thead>
+        <tr>
+          <th>Giorno</th>
+          <th>QuDiVi (1-10)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Lun ……….</td>
+          <td>………. ………. ……….</td>
+        </tr>
+        <tr>
+          <td>Mar ……….</td>
+          <td>………. ………. ……….</td>
+        </tr>
+        <tr>
+          <td>Mer ……….</td>
+          <td>………. ………. ……….</td>
+        </tr>
+        <tr>
+          <td>Gio ……….</td>
+          <td>………. ………. ……….</td>
+        </tr>
+        <tr>
+          <td>Ven ……….</td>
+          <td>………. ………. ……….</td>
+        </tr>
+        <tr>
+          <td>Sab ……….</td>
+          <td>………. ………. ……….</td>
+        </tr>
+        <tr>
+          <td>Dom ……….</td>
+          <td>………. ………. ……….</td>
+        </tr>
+      </tbody>
+    </informaltable>
+    <para>Media della settimana (somma diviso sette): ………. ………. ………. ……….</para>
+  </section>
+  <section xml:id="eserciziario-scheda-8-il-tuo-carico-reale-capitolo-8">
+    <title>Scheda 8 — Il tuo carico reale (Capitolo 8)</title>
+    <para>Quanti minuti hai realmente a disposizione ogni giorno per un’attività di crescita personale, senza sottrarli al sonno? ………. ………. ………. ……….</para>
+    <para>Quale strumento hai abbandonato in passato, e dopo quanti giorni? ………. ………. ………. ……….</para>
+  </section>
+  <section xml:id="eserciziario-scheda-9-il-tuo-ciclo-di-affilatura-capitolo-9">
+    <title>Scheda 9 — Il tuo ciclo di affilatura (Capitolo 9)</title>
+    <para>Cosa, nel tuo modo di applicare APPO finora, ha funzionato meglio? ………. ………. ………. ……….</para>
+    <para>Cosa, invece, ti ha fatto perdere più tempo del necessario? ………. ………. ………. ……….</para>
+    <para>Quale piccolo aggiustamento puoi fare questa settimana, senza cambiare lo strumento nella sostanza? ………. ………. ………. ……….</para>
+  </section>
+  <section xml:id="eserciziario-scheda-10-il-filtro-del-rumore-capitolo-10">
+    <title>Scheda 10 — Il filtro del rumore (Capitolo 10)</title>
+    <para>Pensa all’ultimo strumento di crescita personale che hai provato. Rispondi con onestà:</para>
+    <para>Quanto tempo richiedeva solo per essere impostato, prima di poter iniziare a usarlo davvero? ………. ………. ………. ……….</para>
+    <para>Ha ridotto un problema concreto della tua giornata, o ti ha solo tenuto occupato? ………. ………. ………. ……….</para>
+  </section>
+  <section xml:id="eserciziario-scheda-12-la-scheda-giornaliera-appo-capitolo-12">
+    <title>Scheda 12 — La scheda giornaliera APPO (Capitolo 12)</title>
+    <para>
+      <emphasis role="strong">Giorno 1</emphasis> Domanda del mattino: ………. ………. ………. ………. Domanda della sera, ………. ………. ………. ……….</para>
+    <para>
+      <emphasis role="strong">Giorno 2</emphasis> Domanda del mattino: ………. ………. ………. ………. Domanda della sera, ………. ………. ………. ……….</para>
+    <para>
+      <emphasis role="strong">Giorno 3</emphasis> Domanda del mattino: ………. ………. ………. ………. Domanda della sera, ………. ………. ………. ……….</para>
+    <para>
+      <emphasis role="strong">Giorno 4</emphasis> Domanda del mattino: ………. ………. ………. ………. Domanda della sera, ………. ………. ………. ……….</para>
+    <para>
+      <emphasis role="strong">Giorno 5</emphasis> Domanda del mattino: ………. ………. ………. ………. Domanda della sera, ………. ………. ………. ……….</para>
+    <para>
+      <emphasis role="strong">Giorno 6</emphasis> Domanda del mattino: ………. ………. ………. ………. Domanda della sera, ………. ………. ………. ……….</para>
+    <para>
+      <emphasis role="strong">Giorno 7</emphasis> Domanda del mattino: ………. ………. ………. ………. Domanda della sera, ………. ………. ………. ……….</para>
+  </section>
+  <section xml:id="eserciziario-scheda-13-revisione-settimanale-in-cinque-minuti-capitolo-13">
+    <title>Scheda 13 — Revisione settimanale in cinque minuti (Capitolo 13)</title>
+    <para>Quale riga, tra le sette del mattino, si ripete più spesso questa settimana? ………. ………. ………. ……….</para>
+    <para>Quale riga, tra le sette della sera, si ripete più spesso questa settimana? ………. ………. ………. ……….</para>
+    <para>Cosa mi dice questa ripetizione? ………. ………. ………. ……….</para>
+  </section>
+  <section xml:id="eserciziario-scheda-14-il-mio-rituale-capitolo-14">
+    <title>Scheda 14 — Il mio rituale (Capitolo 14)</title>
+    <para>A quale gesto quotidiano, che faccio già senza eccezioni, aggancio la domanda del mattino? ………. ………. ………. ……….</para>
+    <para>A quale gesto quotidiano, che faccio già senza eccezioni, aggancio la domanda della sera? ………. ………. ………. ……….</para>
+  </section>
+  <section xml:id="eserciziario-scheda-15-il-continuum-delle-mie-azioni-capitolo-15">
+    <title>Scheda 15 — Il continuum delle mie azioni (Capitolo 15)</title>
+    <para>Quale piccola azione di questo mese, presa da sola, sembrava irrilevante ma potrebbe aprire qualcosa in futuro? ………. ………. ………. ………. ………. ………. ………. ……….</para>
+  </section>
+  <section xml:id="eserciziario-scheda-16-revisione-mensile-capitolo-16">
+    <title>Scheda 16 — Revisione mensile (Capitolo 16)</title>
+    <para>Quale Aspirazione è rimasta costante per tutto il mese? ………. ………. ………. ……….</para>
+    <para>Quale Problema si è ripresentato più volte? ………. ………. ………. ……….</para>
+    <para>Quale Opportunità, anche piccola, è comparsa senza che l’avessi pianificata? ………. ………. ………. ……….</para>
+  </section>
+</appendix>

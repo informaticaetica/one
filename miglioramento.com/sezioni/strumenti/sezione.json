@@ -1,0 +1,12 @@
+{
+  "titolo": "Strumenti",
+  "menu": "Strumenti",
+  "versione": "1.0.0",
+  "aggiornata": "2026-10-13",
+  "pagine": [
+    {"file": "index.html", "titolo": "Strumenti: le schede APPO da stampare", "descrizione": "Schede APPO gratuite da stampare: scheda giornaliera, revisione settimanale, revisione mensile."},
+    {"file": "scheda-giornaliera.html", "titolo": "Scheda giornaliera APPO (7 giorni)", "descrizione": "Una settimana di righe del mattino e della sera, con il voto alla giornata. Da stampare."},
+    {"file": "revisione-settimanale.html", "titolo": "Revisione settimanale in cinque minuti", "descrizione": "La scheda per rileggere la settimana, trovare la riga che si ripete e scegliere un piccolo esperimento."},
+    {"file": "revisione-mensile.html", "titolo": "Revisione mensile APPO", "descrizione": "Tre domande sulla direzione del mese: Aspirazione costante, Problema ricorrente, Opportunità inattesa."}
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "titolo": "Note legali",
+  "menu": "Note legali",
+  "versione": "1.0.0",
+  "aggiornata": "2026-10-13",
+  "pagine": [
+    {"file": "index.html", "titolo": "Note legali", "descrizione": "Titolare del sito, disclaimer, privacy, cookie e diritti d'autore di miglioramento.com."},
+    {"file": "disclaimer.html", "titolo": "Disclaimer", "descrizione": "I contenuti di miglioramento.com hanno scopo informativo ed educativo e non sostituiscono il parere di professionisti."},
+    {"file": "privacy.html", "titolo": "Informativa sulla privacy", "descrizione": "Come miglioramento.com tratta i dati personali, ai sensi del Regolamento UE 2016/679 (GDPR)."},
+    {"file": "cookie.html", "titolo": "Cookie", "descrizione": "miglioramento.com non usa cookie di profilazione né strumenti di analisi."},
+    {"file": "diritti.html", "titolo": "Diritti d'autore e trasparenza", "descrizione": "Diritti d'autore, citazioni, uso delle schede, intelligenza artificiale e link di affiliazione."}
+  ]
+}

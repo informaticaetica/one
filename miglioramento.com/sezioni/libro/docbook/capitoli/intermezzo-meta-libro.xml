@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<chapter xmlns="http://docbook.org/ns/docbook" xml:id="intermezzo-meta-libro" version="5.0" xml:lang="it">
+  <title>Scheda di riferimento rapido — a metà libro</title>
+  <para>Sei a metà. Prima di entrare nella parte pratica, un ripasso in una pagina di quello che hai già imparato.</para>
+  <section xml:id="intermezzo-meta-libro-le-quattro-parole">
+    <title>Le quattro parole</title>
+    <para>
+      <emphasis role="strong">Aspirazione</emphasis> — dove vuoi arrivare. <emphasis role="strong">Problema</emphasis> — cosa te lo impedisce davvero. <emphasis role="strong">Progetto</emphasis> — il primo passo piccolo. <emphasis role="strong">Opportunità</emphasis> — quello che si apre restando in movimento.</para>
+  </section>
+  <section xml:id="intermezzo-meta-libro-i-due-strumenti-quotidiani">
+    <title>I due strumenti quotidiani</title>
+    <informaltable>
+      <thead>
+        <tr>
+          <th>Quando</th>
+          <th>Domanda</th>
+          <th>Tempo</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Mattina</td>
+          <td>Qual è la cosa più importante di oggi?</td>
+          <td>15 secondi</td>
+        </tr>
+        <tr>
+          <td>Sera</td>
+          <td>Cosa mi ha rallentato (o: cosa ho imparato oggi)? Voto da 1 a 10 alla giornata</td>
+          <td>15 secondi</td>
+        </tr>
+      </tbody>
+    </informaltable>
+  </section>
+  <section xml:id="intermezzo-meta-libro-cosa-hai-imparato-finora-in-tre-righe">
+    <title>Cosa hai imparato finora, in tre righe</title>
+    <itemizedlist>
+      <listitem>
+        <para>Il metodo funziona con un’ora al mese, non serve più tempo di quanto ne hai (Capitolo 2).</para>
+      </listitem>
+      <listitem>
+        <para>La costanza batte la volontà: un’abitudine minuscola sopravvive ai giorni peggiori (Capitolo 4).</para>
+      </listitem>
+      <listitem>
+        <para>Il Kaizen ti dice di affilare quello che hai, non di cambiarlo ogni volta che qualcosa si inceppa (Capitolo 9).</para>
+      </listitem>
+    </itemizedlist>
+  </section>
+  <section xml:id="intermezzo-meta-libro-cosa-trovi-da-qui-in-avanti">
+    <title>Cosa trovi da qui in avanti</title>
+    <para>Da questo capitolo in poi il libro entra nella parte più operativa: la scheda giornaliera, la revisione settimanale, i rituali, la scheda mensile. Meno teoria, più strumenti da usare subito.</para>
+  </section>
+</chapter>
