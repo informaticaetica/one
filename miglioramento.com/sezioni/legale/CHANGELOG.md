@@ -3,6 +3,11 @@
 Ogni modifica sostanziale a privacy o cookie va annotata qui con la data:
 la versione e la data compaiono in fondo a ogni pagina della sezione.
 
+## [1.0.2] - 2026-10-13
+
+### Modificato
+- Pagina Cookie: spiegato come viene ricordata la scelta del tema.
+
 ## [1.0.1] - 2026-10-13
 
 ### Rimosso

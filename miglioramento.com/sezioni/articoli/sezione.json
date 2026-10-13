@@ -1,7 +1,7 @@
 {
   "titolo": "Articoli",
   "menu": "Articoli",
-  "versione": "1.0.0",
+  "versione": "1.0.1",
   "aggiornata": "2026-10-13",
   "pagine": [
     {"file": "index.html", "titolo": "Articoli", "descrizione": "Approfondimenti di crescita personale: abitudini, tempo, decisioni. Con le fonti dichiarate."},

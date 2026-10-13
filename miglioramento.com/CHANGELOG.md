@@ -9,6 +9,24 @@ Formato [Keep a Changelog](https://keepachangelog.com/it-IT/1.1.0/),
 
 ## [Non rilasciato]
 
+## [1.5.0] - 2026-10-13
+
+### Aggiunto
+- Tema a tre stati (automatico, chiaro, scuro): la scelta resta per tutto il sito
+  e per le visite successive e si aggiorna nelle altre schede aperte. Il pulsante
+  dice qual è il tema attivo, ha un'icona diversa per ogni stato e misura 44×44 px.
+- `Esc` chiude il menu su schermi stretti.
+- `scripts/verifica_accessibilita.mjs`: axe-core (WCAG 2.2 AA) su tutte le pagine,
+  in entrambi i temi, desktop e telefono; eseguito anche dalla CI.
+- Regole permanenti di accessibilità e daltonismo in `CLAUDE.md`.
+
+### Corretto (accessibilità)
+- Titoli senza salti di livello, celle d'angolo vuote delle tabelle non più
+  intestazioni, riquadri come note dentro la pagina invece di `aside` annidati,
+  tabelle e schede scorrevoli raggiungibili da tastiera e con nomi distinti,
+  pulsante "presto su Amazon" senza trasparenza (contrasto insufficiente).
+- Sezioni: Articoli 1.0.1, Strumenti 1.0.1, Il libro 1.0.1, Note legali 1.0.2.
+
 ## [1.4.0] - 2026-10-13
 
 ### Aggiunto

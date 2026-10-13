@@ -1,7 +1,7 @@
 {
   "titolo": "Strumenti",
   "menu": "Strumenti",
-  "versione": "1.0.0",
+  "versione": "1.0.1",
   "aggiornata": "2026-10-13",
   "pagine": [
     {"file": "index.html", "titolo": "Strumenti: le schede APPO da stampare", "descrizione": "Schede APPO gratuite da stampare: scheda giornaliera, revisione settimanale, revisione mensile."},

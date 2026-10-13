@@ -29,6 +29,13 @@ jobs:
           xmllint --noout --xinclude --relaxng /usr/share/xml/docbook/schema/rng/5.0/docbook.rng sezioni/libro/docbook/libro.xml
       - name: Genera il sito
         run: python3 build.py
+      - name: Accessibilità WCAG 2.2 AA (axe-core) su tutte le pagine
+        run: |
+          npm install --no-save --no-package-lock playwright@1.47.2 axe-core@4.10.2
+          npx playwright install --with-deps chromium
+          (cd dist && python3 -m http.server 8000 >/dev/null 2>&1 &)
+          sleep 1
+          node scripts/verifica_accessibilita.mjs http://localhost:8000
       - uses: actions/upload-artifact@v4
         with:
           name: miglioramento-dist

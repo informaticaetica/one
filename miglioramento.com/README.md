@@ -154,7 +154,24 @@ con un indice generato e l'avviso sull'edizione in cima a ogni pagina.
 - **Reimportare da un nuovo EPUB**: `python3 scripts/epub2docbook.py nuovo.epub sezioni/libro/docbook --edizione X.Y`.
   Attenzione: sovrascrive le correzioni fatte a mano nei capitoli.
 
-## Accessibilità dei colori
+## Accessibilità
+
+Le regole complete sono in `CLAUDE.md`, nella radice del repository. In sintesi:
+il sito deve rispettare le WCAG 2.2 AA in tema chiaro e scuro, con una palette
+adatta ai daltonici e senza informazioni affidate al solo colore. Due controlli
+automatici, eseguiti anche dalla CI:
+
+- `python3 scripts/verifica_colori.py`: contrasto e daltonismo della palette;
+- `node scripts/verifica_accessibilita.mjs http://localhost:8000` (dopo aver avviato
+  l'anteprima di `dist/`): axe-core su tutte le pagine, in entrambi i temi, su
+  desktop e telefono. Serve una volta `npm install --no-save playwright@1.47.2 axe-core@4.10.2`.
+
+**Tema.** Il pulsante nella testata alterna *automatico* (segue il dispositivo),
+*chiaro* e *scuro*. La scelta resta nel browser (`localStorage`, chiave `tema`),
+vale per tutto il sito e per le visite successive, si aggiorna nelle altre schede
+aperte e si cancella tornando ad *automatico*.
+
+### Colori
 
 `python3 scripts/verifica_colori.py` legge la palette da `statici/stile.css` e
 controlla, per entrambi i temi, che ogni coppia testo/sfondo raggiunga il

@@ -116,17 +116,17 @@ def banner_libro(sito, compatto=False):
     )
     if compatto:
         return (
-            '<aside class="fascia-libro" aria-label="Il libro">'
+            '<div class="fascia-libro" role="note" aria-label="Il libro">'
             f'<p><span class="etichetta">Il libro</span> <strong>{esc(lib["titolo"])}</strong> è {link}. '
             f'Intanto puoi <a href="{sito["base"]}libro/leggi/">leggere gratis l\'edizione {esc(lib["edizione"])}</a>.</p>'
-            "</aside>"
+            "</div>"
         )
     return (
-        '<aside class="avviso-edizione" role="note">'
+        '<div class="avviso-edizione" role="note">'
         f'<p class="etichetta">Edizione {esc(lib["edizione"])} · anteprima gratuita</p>'
         f"<p>Stai leggendo l'<strong>edizione {esc(lib['edizione'])}</strong> di <em>{esc(lib['titolo'])}</em>, "
         f"una versione di lavoro del manoscritto. L'<strong>edizione {esc(lib['prossima'])}</strong>, quella "
-        f"definitiva, rivista e completa, è {link}.</p></aside>"
+        f"definitiva, rivista e completa, è {link}.</p></div>"
     )
 
 
@@ -164,10 +164,25 @@ def impagina(sito, sezioni, modello, *, slug, titolo, descrizione, contenuto, ur
     return sostituisci(modello, valori)
 
 
+def accessibile(testo):
+    """Ritocchi di accessibilità validi per tutte le pagine (WCAG 2.2 AA)."""
+    # Le cornici scorrevoli devono essere raggiungibili e scorribili da tastiera
+    # (con nomi diversi fra loro, se in una pagina ce n'è più d'una)
+    for classe, nome in (("tabella", "Tabella"), ("foglio", "Scheda da compilare")):
+        tag = f'<div class="{classe}">'
+        totale, n = testo.count(tag), iter(range(1, 10_000))
+        etichetta = (lambda: nome) if totale == 1 else (lambda: f"{nome} {next(n)} di {totale}")
+        while tag in testo:
+            testo = testo.replace(
+                tag, f'<div class="{classe}" role="region" aria-label="{etichetta()}" tabindex="0">', 1)
+    # Una cella d'angolo vuota non è un'intestazione
+    return testo.replace("<th></th>", "<td></td>")
+
+
 def scrivi(url, sito, testo, scritte):
     p = percorso_dist(url, sito)
     p.parent.mkdir(parents=True, exist_ok=True)
-    p.write_text(testo, encoding="utf-8")
+    p.write_text(accessibile(testo), encoding="utf-8")
     scritte.append(url)
 
 
@@ -230,7 +245,7 @@ class DocBookHTML:
             elif tag == "sidebar":
                 titolo = c.find(DB + "title")
                 testa = f'<p class="titolo-box">{self.inline(titolo)}</p>' if titolo is not None else ""
-                out.append(f'<aside class="box {esc(c.get("role") or "")}">{testa}{self.blocchi(c, livello)}</aside>')
+                out.append(f'<div class="box {esc(c.get("role") or "")}" role="note">{testa}{self.blocchi(c, livello)}</div>')
             elif tag == "epigraph":
                 attr = c.find(DB + "attribution")
                 firma = f'<p class="attribuzione">— {self.inline(attr)}</p>' if attr is not None else ""
@@ -256,7 +271,9 @@ class DocBookHTML:
             nome = parte.tag.replace(DB, "")
             righe = "".join(
                 "<tr>" + "".join(
-                    f"<{c.tag.replace(DB, '')}>{self.inline(c)}</{c.tag.replace(DB, '')}>" for c in tr
+                    f"<{t}>{self.inline(c)}</{t}>"
+                    for c in tr
+                    for t in [("td" if not "".join(c.itertext()).strip() else c.tag.replace(DB, ""))]
                 ) + "</tr>"
                 for tr in parte
             )
@@ -408,9 +425,9 @@ def genera_extra(sito, sezioni, modello, scritte):
         '<article class="testo"><h1>Pagina non trovata</h1><p>La pagina che cerchi non esiste o è stata spostata.</p>'
         f'<p><a class="btn" href="{sito["base"]}">Torna alla home</a></p></article>'
     )
-    (DIST / "404.html").write_text(impagina(
+    (DIST / "404.html").write_text(accessibile(impagina(
         sito, sezioni, modello, slug="", titolo="Pagina non trovata", descrizione="Pagina non trovata.",
-        contenuto=corpo, url=sito["base"] + "404.html"), encoding="utf-8")
+        contenuto=corpo, url=sito["base"] + "404.html")), encoding="utf-8")
     radice = sito["url"].rstrip("/")
     voci = "".join(f"<url><loc>{esc(radice + u)}</loc></url>" for u in scritte)
     (DIST / "sitemap.xml").write_text(

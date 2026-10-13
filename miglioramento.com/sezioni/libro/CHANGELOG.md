@@ -3,6 +3,11 @@
 Questa è la versione della **sezione web**. L'edizione del libro (oggi 1.8) è
 indicata separatamente in `sito.json` e in `docbook/libro.xml` (`<edition>`).
 
+## [1.0.1] - 2026-10-13
+
+### Modificato
+- L'avviso sull'edizione è una nota dentro la pagina (non più un riquadro laterale per gli screen reader).
+
 ## [1.0.0] - 2026-10-13
 
 ### Aggiunto
