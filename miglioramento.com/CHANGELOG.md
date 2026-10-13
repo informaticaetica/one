@@ -18,3 +18,10 @@ Formato [Keep a Changelog](https://keepachangelog.com/it-IT/1.1.0/),
   edizione 1.8, un capitolo per pagina, generata da sorgenti DocBook 5.
 - Pagina "Versioni" e file `versioni.json` con la versione di ogni sezione.
 - Generatore `build.py` con verifica delle versioni, `sitemap.xml`, `robots.txt`, `404.html`.
+
+### Accessibilità
+- Palette verificata per daltonismo (protanopia, deuteranopia, tritanopia) e
+  contrasto WCAG AA (almeno 4,5:1 per tutti i testi, in entrambi i temi).
+- Ambra del tema chiaro scurito (`#b8742a` → `#8f5719`): il testo in ambra era a 3,0–3,5:1.
+- Contorno di focus marcato per la navigazione da tastiera; pagina corrente
+  del menu in grassetto, non segnalata solo dal colore.

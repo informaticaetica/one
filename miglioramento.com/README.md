@@ -154,6 +154,16 @@ con un indice generato e l'avviso sull'edizione in cima a ogni pagina.
 - **Reimportare da un nuovo EPUB**: `python3 scripts/epub2docbook.py nuovo.epub sezioni/libro/docbook --edizione X.Y`.
   Attenzione: sovrascrive le correzioni fatte a mano nei capitoli.
 
+## Accessibilità dei colori
+
+`python3 scripts/verifica_colori.py` legge la palette da `statici/stile.css` e
+controlla, per entrambi i temi, che ogni coppia testo/sfondo raggiunga il
+contrasto WCAG AA (4,5:1) anche simulando protanopia, deuteranopia e tritanopia.
+Lo esegue anche la CI. Se cambi un colore e il controllo fallisce, scurisci o
+schiarisci quel token finché non passa. Inoltre nessuna informazione è affidata
+al solo colore: i link nel testo sono sottolineati, la pagina corrente del menu
+è in grassetto, i livelli dei capitoli hanno una lettera (F, G, S, M).
+
 ## Prima di andare online
 
 `python3 build.py --rigoroso` deve terminare senza avvisi. Oggi mancano:

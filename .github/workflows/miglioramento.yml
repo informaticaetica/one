@@ -20,6 +20,8 @@ jobs:
       - uses: actions/checkout@v4
       - name: Versioni di sito e sezioni coerenti con i CHANGELOG
         run: python3 build.py --verifica
+      - name: Contrasto e daltonismo della palette
+        run: python3 scripts/verifica_colori.py
       - name: Valida il libro con lo schema ufficiale DocBook 5
         run: |
           sudo apt-get update -qq
