@@ -9,6 +9,11 @@ Formato [Keep a Changelog](https://keepachangelog.com/it-IT/1.1.0/),
 
 ## [Non rilasciato]
 
+## [1.1.1] - 2026-10-13
+
+### Modificato
+- Sezione Note legali 1.0.1: tolti i riferimenti ad affiliazioni e pubblicità.
+
 ## [1.1.0] - 2026-10-13
 
 ### Modificato

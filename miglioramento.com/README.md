@@ -177,7 +177,5 @@ al solo colore: i link nel testo sono sottolineati, la pagina corrente del menu
 
 Da fare anche:
 - [ ] verificare i testi legali con un professionista (sono una base di partenza);
-- [ ] se aderisci al programma di affiliazione Amazon, aggiorna `legale/diritti.html`
-      con la dicitura obbligatoria e segnala il link come affiliato;
 - [ ] se aggiungi statistiche di visita o contenuti di terze parti (video, font
       esterni, social), aggiorna privacy e cookie e, se servono, il banner di consenso.

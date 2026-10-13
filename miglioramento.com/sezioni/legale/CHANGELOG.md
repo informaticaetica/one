@@ -3,6 +3,12 @@
 Ogni modifica sostanziale a privacy o cookie va annotata qui con la data:
 la versione e la data compaiono in fondo a ogni pagina della sezione.
 
+## [1.0.1] - 2026-10-13
+
+### Rimosso
+- Riferimenti ad affiliazioni e pubblicità (pagina Diritti d'autore,
+  riepilogo delle note legali, informativa privacy).
+
 ## [1.0.0] - 2026-10-13
 
 ### Aggiunto
