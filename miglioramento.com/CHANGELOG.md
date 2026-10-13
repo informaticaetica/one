@@ -9,6 +9,15 @@ Formato [Keep a Changelog](https://keepachangelog.com/it-IT/1.1.0/),
 
 ## [Non rilasciato]
 
+## [1.8.0] - 2026-10-13
+
+### Aggiunto
+- Biografia dell'autore (L'autore 1.2.0).
+- Cronologia delle versioni nell'indice di ogni guida, dalla `<revhistory>` DocBook.
+
+### Modificato
+- Guida *Il metodo Z.D.C.* 2.0.1 Accademica: correzioni di contenuto e fonti (Guide 1.1.0).
+
 ## [1.7.0] - 2026-10-13
 
 ### Aggiunto

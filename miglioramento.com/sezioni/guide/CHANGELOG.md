@@ -3,6 +3,16 @@
 Ogni guida ha anche una propria versione, indicata nei suoi sorgenti DocBook
 (`<edition>` in `<guida>/docbook/guida.xml`).
 
+## [1.1.0] - 2026-10-13
+
+### Modificato
+- *Il metodo Z.D.C.* passa dalla versione 2.0 alla **2.0.1 Accademica** (correzioni:
+  refuso, anno di PRINCE2, origine dello Z.D.C., fonti di Locke e Latham e del
+  principio del progresso). La cronologia è nel DocBook (`<revhistory>`).
+
+### Aggiunto
+- Nell'indice di ogni guida, l'elenco «Versioni di questa guida», letto dalla `<revhistory>`.
+
 ## [1.0.0] - 2026-10-13
 
 ### Aggiunto

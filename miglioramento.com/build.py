@@ -333,7 +333,7 @@ def titolo_di(el):
 
 def pubblica_docbook(sito, sezioni, modello, scritte, *, slug, componenti, base, titolo_opera,
                      intestazione, avviso, nota_indice, descrizione_indice, descrizione_capitolo,
-                     fine_url, fine_testo, badge_livello=False):
+                     fine_url, fine_testo, badge_livello=False, coda_indice=""):
     """Pubblica un'opera DocBook come indice + una pagina per componente (prefazione, capitolo, appendice)."""
     conv = DocBookHTML(base)
 
@@ -359,7 +359,7 @@ def pubblica_docbook(sito, sezioni, modello, scritte, *, slug, componenti, base,
     indice = (
         f'<article class="lettura">{intestazione}{avviso}'
         + (f'<p class="nota-indice">{nota_indice}</p>' if nota_indice else "")
-        + "".join(righe) + "</article>"
+        + "".join(righe) + coda_indice + "</article>"
     )
     scrivi(base, sito, impagina(
         sito, sezioni, modello, slug=slug, titolo=f"{titolo_opera} — indice",
@@ -443,6 +443,19 @@ def scheda_guida(sito, g):
     )
 
 
+def cronologia_html(info):
+    """La <revhistory> della guida come elenco «Versioni di questa guida»."""
+    revisioni = info.findall(f"{DB}revhistory/{DB}revision")
+    if not revisioni:
+        return ""
+    voci = "".join(
+        f'<li><strong>{esc(r.findtext(DB + "revnumber"))}</strong> · {esc(r.findtext(DB + "date"))}'
+        f'<br>{esc("".join(r.find(DB + "revremark").itertext()))}</li>'
+        for r in revisioni
+    )
+    return f'<section class="cronologia" aria-labelledby="cronologia"><h2 id="cronologia">Versioni di questa guida</h2><ul>{voci}</ul></section>'
+
+
 def genera_guide(sito, sezioni, modello, scritte):
     if "guide" not in sezioni:
         return 0
@@ -470,6 +483,7 @@ def genera_guide(sito, sezioni, modello, scritte):
             descrizione_indice=f"{titolo}: {info.findtext(DB + 'subtitle') or ''}. Guida online, una pagina per capitolo.",
             descrizione_capitolo=f"{titolo}: {{titolo}}.",
             fine_url=url_pagina(sito, "guide", "index.html"), fine_testo="Tutte le guide",
+            coda_indice=cronologia_html(info),
         )
     return totale
 

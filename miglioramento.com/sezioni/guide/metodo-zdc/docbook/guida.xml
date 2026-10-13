@@ -9,11 +9,23 @@
         <surname>Costanzo</surname>
       </personname>
     </author>
-    <edition>2.0 Accademica</edition>
-    <pubdate>Settembre 2026</pubdate>
+    <edition>2.0.1 Accademica</edition>
+    <pubdate>Ottobre 2026</pubdate>
     <legalnotice>
       <para>Creative Commons - Attribuzione - Condividi allo stesso modo 4.0</para>
     </legalnotice>
+    <revhistory>
+      <revision>
+        <revnumber>2.0.1</revnumber>
+        <date>2026-10-13</date>
+        <revremark>Correzioni: refuso «decompone»; anno di PRINCE2 (1996); origine dello Z.D.C. e nota sull'asterisco di Lean; tolta la percentuale non documentata attribuita a Locke e Latham; principio del progresso attribuito ad Amabile e Kramer (2011), senza l'affermazione non documentata sulla dopamina.</revremark>
+      </revision>
+      <revision>
+        <revnumber>2.0</revnumber>
+        <date>2026-09</date>
+        <revremark>Versione accademica, prima pubblicazione su miglioramento.com.</revremark>
+      </revision>
+    </revhistory>
   </info>
   <xi:include href="capitoli/prefazione.xml" />
   <xi:include href="capitoli/capitolo-01.xml" />

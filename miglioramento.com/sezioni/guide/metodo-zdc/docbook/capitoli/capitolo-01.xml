@@ -5,7 +5,7 @@
     <title>1.1 Definizione Formale</title>
     <para>Il <emphasis role="strong">Metodo Z.D.C.</emphasis> è un sistema di gestione progetti basato su tre azioni iterative che trasformano un obiettivo vago in una struttura ricorsiva, misurabile e tracciabile.</para>
     <para>
-      <emphasis role="strong">Definizione</emphasis>: Un framework metacognitivo strutturato che, attraverso tre fasi iterative (Zooma, Descrivi, Controlla), decompose un obiettivo generico in progetti gerarchicamente organizzati, traccia ogni azione mediante nodi-informazione, e sottopone il progresso a controlli pianificati per permettere aggiustamenti tempestivi.</para>
+      <emphasis role="strong">Definizione</emphasis>: Un framework metacognitivo strutturato che, attraverso tre fasi iterative (Zooma, Descrivi, Controlla), decompone un obiettivo generico in progetti gerarchicamente organizzati, traccia ogni azione mediante nodi-informazione, e sottopone il progresso a controlli pianificati per permettere aggiustamenti tempestivi.</para>
   </section>
   <section xml:id="capitolo-01-1-2-nomenclatura">
     <title>1.2 Nomenclatura</title>
@@ -27,7 +27,7 @@
   </section>
   <section xml:id="capitolo-01-1-3-contesto-storico">
     <title>1.3 Contesto Storico</title>
-    <para>Negli ultimi due decenni, il panorama delle metodologie di gestione progetti si è ampiamente diversificato:</para>
+    <para>Nel corso dei decenni, il panorama delle metodologie di gestione progetti si è ampiamente diversificato:</para>
     <informaltable>
       <thead>
         <tr>
@@ -58,7 +58,7 @@
         </tr>
         <tr>
           <td>PRINCE2</td>
-          <td>1989</td>
+          <td>1996</td>
           <td>Altissima</td>
           <td>Altissimo</td>
           <td>Grandi organizzazioni</td>
@@ -81,7 +81,7 @@
           <td>
             <emphasis role="strong">Z.D.C.</emphasis>
           </td>
-          <td>2020</td>
+          <td>Prima di APPO**</td>
           <td>
             <emphasis role="strong">Bassa</emphasis>
           </td>
@@ -94,6 +94,7 @@
         </tr>
       </tbody>
     </informaltable>
+    <para role="nota-tabella">* Lean: le origini risalgono al Toyota Production System, sviluppato in Giappone dagli anni Cinquanta. ** Lo Z.D.C. nasce come metodo di studio anni prima del metodo APPO (vedi <citetitle>Metodo APPO 2.0</citetitle>, capitolo 1); questa guida ne descrive l'applicazione alla gestione di progetti e obiettivi.</para>
     <para>Il Metodo Z.D.C. emerge come risposta alla necessità di una metodologia:</para>
     <itemizedlist>
       <listitem>

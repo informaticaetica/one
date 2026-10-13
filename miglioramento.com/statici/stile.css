@@ -223,3 +223,11 @@ section.scheda { border: 2px solid var(--primario); }
 @media (max-width: 1360px) { .marchio .claim { display: none; } }
 @media (min-width: 421px) and (max-width: 1100px) { .marchio .claim { display: block; } }
 .griglia-guide { grid-template-columns: repeat(auto-fill, minmax(min(100%, 320px), 1fr)); }
+
+/* Guide: note sotto le tabelle e cronologia delle versioni */
+p.nota-tabella { margin-top: -8px; font-family: var(--sans); font-size: .88rem; color: var(--tenue); }
+.cronologia { margin-top: 36px; font-family: var(--sans); font-size: .95rem; }
+.cronologia h2 { font-size: 1.15rem; }
+.cronologia ul { padding-left: 1.1em; }
+.cronologia li { margin: .5em 0; color: var(--tenue); }
+.cronologia strong { color: var(--testo); }

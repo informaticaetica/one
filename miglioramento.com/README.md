@@ -204,6 +204,10 @@ xmllint --noout --xinclude --relaxng /usr/share/xml/docbook/schema/rng/5.0/docbo
 
 Reimportare sovrascrive le correzioni fatte a mano nei file DocBook.
 
+**Versioni di una guida.** Si alza `<edition>` in `guida.xml` e si aggiunge una
+`<revision>` in cima alla `<revhistory>` (numero, data, cosa è cambiato): l'indice
+della guida mostra la cronologia. Alza anche la versione della sezione Guide.
+
 ## Prima di andare online
 
 `python3 build.py --rigoroso` deve terminare senza avvisi. Oggi mancano:
@@ -213,7 +217,6 @@ Reimportare sovrascrive le correzioni fatte a mano nei file DocBook.
 - [ ] durata dei log e nome del fornitore di hosting in `privacy.html`;
 - [ ] titoli, descrizioni e link Amazon dei libri della collana in `sito.json` → `collana`;
 - [ ] testo completo della guida *Il metodo Z.D.C.* (capitoli 3–9) e aggiornamento di `guida.json`;
-- [ ] biografia estesa in `sezioni/autore/index.html`;
 - [ ] link Amazon dell'edizione 2.0 in `sito.json` → `libro.amazon_url`.
 
 Da fare anche:

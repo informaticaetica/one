@@ -1,9 +1,9 @@
 {
   "titolo": "L'autore",
   "menu": "L'autore",
-  "versione": "1.1.0",
+  "versione": "1.2.0",
   "aggiornata": "2026-10-13",
   "pagine": [
-    {"file": "index.html", "titolo": "L'autore e i contatti", "descrizione": "Marco Costanzo, autore del metodo APPO. Come contattarlo."}
+    {"file": "index.html", "titolo": "L'autore e i contatti", "descrizione": "Marco Costanzo, ideatore del metodo APPO e del metodo Z.D.C.: il percorso, le idee, i libri e come contattarlo."}
   ]
 }
