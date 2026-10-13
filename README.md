@@ -2,7 +2,7 @@
 
 ## Contenuti
 
-- [`guide/`](guide/) — sito del progetto **Guide APPO** (vedi [guide/README.md](guide/README.md))
+- [`guide/`](guide/) — sito del progetto **Guide APPO**, online su <https://informaticaetica.github.io/one/> (vedi [guide/README.md](guide/README.md))
 
 ## Versioni
 

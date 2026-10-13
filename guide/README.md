@@ -33,8 +33,16 @@ cd guide && python3 -m http.server 8000
 
 ## Pubblicazione
 
-Su GitHub: *Settings → Pages → Deploy from a branch*, cartella `/ (root)`.
-Il sito sarà raggiungibile all'indirizzo `…/guide/`.
+Automatica: a ogni aggiornamento del branch `main` il workflow
+`.github/workflows/pubblica.yml`:
+
+1. pubblica la cartella `guide/` su GitHub Pages
+   (<https://informaticaetica.github.io/one/>);
+2. se la `versione` in `assets/guide.js` non ha ancora una release, crea il tag
+   `vX.Y.Z` e la release con le note prese dal CHANGELOG.
+
+Per rilasciare una nuova versione basta quindi aggiornare `versione` e il
+CHANGELOG, poi unire in `main`.
 
 ## Versione e licenza
 

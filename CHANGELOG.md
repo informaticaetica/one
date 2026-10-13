@@ -24,6 +24,7 @@ una voce qui sotto e creare il tag git corrispondente (es. `v1.1.0`).
 - Tre guide modello: "Primi passi", "Guida di esempio passo-passo",
   "Domande frequenti".
 - Licenza Creative Commons BY-NC-ND 4.0, numero di versione nel piè di pagina.
+- Pubblicazione automatica su GitHub Pages e creazione automatica delle release.
 
 [Non rilasciato]: https://github.com/informaticaetica/one/compare/v1.0.0...HEAD
 [1.0.0]: https://github.com/informaticaetica/one/releases/tag/v1.0.0
