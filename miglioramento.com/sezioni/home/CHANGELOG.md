@@ -1,5 +1,14 @@
 # Changelog — sezione Home
 
+## [1.4.0] - 2026-10-13
+
+### Modificato
+- Claim «Affronta il cigno nero e scopri il cigno d'oro.» e testi riscritti in
+  chiave motivazionale (apertura, riquadri dei due cigni, quattro domande, patto).
+
+### Aggiunto
+- Accessi alla Comunità pensanti APPO e alla collana APPO.
+
 ## [1.3.0] - 2026-10-13
 
 ### Aggiunto

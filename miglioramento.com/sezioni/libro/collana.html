@@ -1,0 +1,19 @@
+<article>
+  <div class="testo">
+    <p class="occhiello">Il libro · La collana</p>
+    <h1>La collana APPO</h1>
+    <p class="lead">Ogni libro della collana è un passo in più nel metodo. Scegli da dove partire e vai fino
+    in fondo.</p>
+  </div>
+  <div class="collana">
+{{collana}}
+    <section class="libro-collana in-uscita" aria-labelledby="libro-prossimo">
+      <p class="etichetta-sezione">In uscita</p>
+      <h2 id="libro-prossimo">{{libro_titolo}}</h2>
+      <p>La nuova edizione del metodo: lo schema snello, la domanda del mattino e della sera, il QuDiVi,
+      le revisioni settimanali e mensili, il ciclo che trasforma le opportunità in nuove aspirazioni.</p>
+      <div class="azioni">{{amazon_bottone}}
+        <a class="btn secondario" href="{{base}}libro/leggi/">Leggi gratis l'edizione {{libro_edizione}}</a></div>
+    </section>
+  </div>
+</article>

@@ -108,6 +108,24 @@ def sostituisci(testo, valori):
     return re.sub(r"\{\{(\w+)\}\}", lambda m: str(valori.get(m.group(1), m.group(0))), testo)
 
 
+def collana_html(sito):
+    """Schede dei libri della collana già su Amazon, da sito.json → collana."""
+    schede = []
+    for i, libro in enumerate(sito.get("collana", []), 1):
+        bottone = (
+            f'<a class="btn" href="{esc(libro["amazon_url"])}" rel="noopener" '
+            f'aria-label="Vedi {esc(libro["titolo"])} su Amazon">Vedi su Amazon</a>'
+            if libro.get("amazon_url") else ""
+        )
+        sotto = f'<p class="sottotitolo">{esc(libro["sottotitolo"])}</p>' if libro.get("sottotitolo") else ""
+        schede.append(
+            f'    <section class="libro-collana" aria-labelledby="libro-{i}">'
+            f'<p class="etichetta-sezione">Su Amazon</p><h2 id="libro-{i}">{esc(libro["titolo"])}</h2>{sotto}'
+            f'<p>{esc(libro["descrizione"])}</p><div class="azioni">{bottone}</div></section>'
+        )
+    return "\n".join(schede)
+
+
 def banner_libro(sito, compatto=False):
     lib = sito["libro"]
     link = (
@@ -497,6 +515,7 @@ def main():
             "sito_versione": esc(sito["versione"]),
             "claim": esc(sito["claim"]),
             "fascia_libro": banner_libro(sito, compatto=True),
+            "collana": collana_html(sito),
         }
 
         scritte = []
@@ -525,6 +544,9 @@ def main():
         print(f"Generato dist/: sito {sito['versione']}, {len(scritte)} pagine ({n_libro} del libro).")
         if not sito["libro"]["amazon_url"]:
             mancanti.append("sito.json: libro.amazon_url vuoto")
+        for libro in sito.get("collana", []):
+            if not libro.get("amazon_url"):
+                mancanti.append(f"sito.json: collana, link Amazon mancante per «{libro['titolo']}»")
         if mancanti:
             print(f"Attenzione, {len(mancanti)} elementi da completare prima della pubblicazione:")
             for m in sorted(mancanti):

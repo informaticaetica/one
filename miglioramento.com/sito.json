@@ -1,18 +1,34 @@
 {
   "nome": "miglioramento.com",
   "titolo": "miglioramento.com — crescita personale con il metodo APPO",
-  "claim": "Resisti al cigno nero. Cogli il cigno d'oro.",
-  "versione": "1.5.0",
+  "claim": "Affronta il cigno nero e scopri il cigno d'oro.",
+  "versione": "1.6.0",
   "url": "https://miglioramento.com",
   "base": "/",
   "lingua": "it",
   "autore": "Marco Costanzo",
-  "email": "DA COMPLETARE: indirizzo email di contatto",
-  "menu": ["metodo", "inizia", "strumenti", "articoli", "libro", "autore"],
+  "email": "marco@metodoappo.com",
+  "menu": [
+    "metodo",
+    "inizia",
+    "strumenti",
+    "articoli",
+    "libro",
+    "comunita",
+    "autore"
+  ],
   "libro": {
     "titolo": "Metodo APPO 2.0 — Osa Realizzarti Ora",
     "edizione": "1.8",
     "prossima": "2.0",
     "amazon_url": ""
-  }
+  },
+  "collana": [
+    {
+      "titolo": "DA COMPLETARE: titolo del libro",
+      "sottotitolo": "",
+      "descrizione": "DA COMPLETARE: una o due frasi sul libro.",
+      "amazon_url": ""
+    }
+  ]
 }

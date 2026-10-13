@@ -43,6 +43,10 @@ e piè di pagina li aggiunge `build.py` dal modello. Nei testi puoi usare questi
 segnaposto: `{{base}}`, `{{autore}}`, `{{email}}`, `{{libro_titolo}}`,
 `{{libro_edizione}}`, `{{libro_prossima}}`, `{{amazon_bottone}}`.
 
+**Collana APPO.** I libri già su Amazon si elencano in `sito.json` → `collana`, uno
+per voce (`titolo`, `sottotitolo`, `descrizione`, `amazon_url`); la pagina
+`/libro/collana/` si aggiorna da sola. Una voce senza link Amazon viene segnalata dal build.
+
 Indirizzi: `sezioni/metodo/index.html` → `/metodo/`,
 `sezioni/legale/privacy.html` → `/legale/privacy/`. La sezione `home` è la radice `/`.
 
@@ -55,7 +59,8 @@ Indirizzi: `sezioni/metodo/index.html` → `/metodo/`,
 | Inizia qui | `/inizia/` | la prima settimana, giorno per giorno |
 | Strumenti | `/strumenti/` | schede da stampare: giornaliera, settimanale, mensile |
 | Articoli | `/articoli/` | approfondimenti con fonti (2 articoli iniziali) |
-| Il libro | `/libro/`, `/libro/leggi/` | presentazione e lettura online dell'edizione 1.8 |
+| Il libro | `/libro/`, `/libro/leggi/`, `/libro/collana/` | presentazione, lettura online dell'edizione 1.8, collana APPO su Amazon |
+| Comunità | `/comunita/` | Comunità pensanti APPO, contatto WhatsApp dell'autore |
 | L'autore | `/autore/` | biografia e contatti |
 | Note legali | `/legale/` | disclaimer, privacy, cookie, diritti d'autore |
 
@@ -188,7 +193,7 @@ al solo colore: i link nel testo sono sottolineati, la pagina corrente del menu
 - [ ] dati del titolare in `sezioni/legale/index.html` e `sezioni/legale/privacy.html`
       (nome o ragione sociale, indirizzo, email, partita IVA se c'è un'attività economica);
 - [ ] durata dei log e nome del fornitore di hosting in `privacy.html`;
-- [ ] email di contatto in `sito.json`;
+- [ ] titoli, descrizioni e link Amazon dei libri della collana in `sito.json` → `collana`;
 - [ ] biografia estesa in `sezioni/autore/index.html`;
 - [ ] link Amazon dell'edizione 2.0 in `sito.json` → `libro.amazon_url`.
 

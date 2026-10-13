@@ -3,6 +3,12 @@
 Questa è la versione della **sezione web**. L'edizione del libro (oggi 1.8) è
 indicata separatamente in `sito.json` e in `docbook/libro.xml` (`<edition>`).
 
+## [1.1.0] - 2026-10-13
+
+### Aggiunto
+- Pagina «La collana APPO» (`/libro/collana/`) con i libri già su Amazon, letti da
+  `sito.json` → `collana`, e Metodo APPO 2.0 in uscita.
+
 ## [1.0.1] - 2026-10-13
 
 ### Modificato

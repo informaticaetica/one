@@ -9,6 +9,20 @@ Formato [Keep a Changelog](https://keepachangelog.com/it-IT/1.1.0/),
 
 ## [Non rilasciato]
 
+## [1.6.0] - 2026-10-13
+
+### Aggiunto
+- Sezione **Comunità pensanti APPO** (`/comunita/`, 1.0.0) con contatto WhatsApp
+  dell'autore (+39 340 493 1860) ed email.
+- Pagina della **collana APPO** su Amazon (`/libro/collana/`), alimentata da
+  `sito.json` → `collana` (Il libro 1.1.0).
+
+### Modificato
+- Claim: «Affronta il cigno nero e scopri il cigno d'oro.»; home riscritta in
+  chiave motivazionale (Home 1.4.0).
+- Email di contatto: marco@metodoappo.com (L'autore 1.1.0, Note legali 1.1.0,
+  con l'informativa privacy aggiornata per WhatsApp).
+
 ## [1.5.0] - 2026-10-13
 
 ### Aggiunto

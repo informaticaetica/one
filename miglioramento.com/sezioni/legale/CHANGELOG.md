@@ -3,6 +3,12 @@
 Ogni modifica sostanziale a privacy o cookie va annotata qui con la data:
 la versione e la data compaiono in fondo a ogni pagina della sezione.
 
+## [1.1.0] - 2026-10-13
+
+### Modificato
+- Informativa privacy: email per le richieste e trattamento dei messaggi WhatsApp.
+- Note legali: email e WhatsApp di contatto.
+
 ## [1.0.2] - 2026-10-13
 
 ### Modificato

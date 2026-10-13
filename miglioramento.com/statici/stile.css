@@ -60,7 +60,7 @@ main { flex: 1; padding-top: 32px; padding-bottom: 72px; outline: none; }
 .apri-menu, .cambia-tema { font: inherit; color: var(--testo); background: transparent; border: 1px solid var(--bordo); border-radius: 8px; padding: 6px 10px; cursor: pointer; display: inline-flex; align-items: center; gap: 8px; min-height: 44px; min-width: 44px; justify-content: center; }
 .etichetta-tema { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
 .apri-menu { display: none; }
-@media (max-width: 900px) {
+@media (max-width: 1100px) {
   .apri-menu { display: inline-flex; }
   .menu { display: none; position: absolute; top: 64px; left: 0; right: 0; flex-direction: column; align-items: stretch; background: var(--superficie); border-bottom: 1px solid var(--bordo); padding: 8px 16px 16px; }
   .menu.aperto { display: flex; }
@@ -193,3 +193,20 @@ section.scheda { border: 2px solid var(--primario); }
   .francobollo { transition: transform .4s ease; }
   .francobollo:hover { transform: rotate(0deg) scale(1.03); }
 }
+
+/* Griglia a tre colonne (home) */
+.griglia-3 { grid-template-columns: repeat(auto-fit, minmax(min(100%, 290px), 1fr)); }
+
+/* Comunità: contatto WhatsApp */
+.contatto-whatsapp { margin-top: 32px; padding: 4px 24px 16px; border: 2px solid var(--primario); border-radius: var(--raggio); background: var(--superficie); }
+.contatto-whatsapp .numero { font-size: 1.1rem; font-variant-numeric: tabular-nums; }
+.btn-whatsapp { display: inline-flex; align-items: center; gap: 10px; }
+
+/* Collana APPO */
+.collana { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr)); gap: 16px; margin: 24px 0; }
+.libro-collana { min-width: 0; display: flex; flex-direction: column; gap: 8px; padding: 20px; background: var(--superficie); border: 1px solid var(--bordo); border-radius: var(--raggio); }
+.libro-collana h2 { margin: 0; font-family: var(--serif); font-size: 1.35rem; }
+.libro-collana p { margin: 0; }
+.libro-collana .sottotitolo { color: var(--tenue); font-style: italic; }
+.libro-collana .azioni { margin: auto 0 0; padding-top: 8px; }
+.libro-collana.in-uscita { border: 2px dashed var(--accento); }
