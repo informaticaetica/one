@@ -3,6 +3,18 @@
 Versionamento semantico. La versione è quella del plugin `statistiche-top`
 (intestazione di `plugin/statistiche-top/statistiche-top.php` e costante `VERSIONE`).
 
+## [0.2.0] - 2026-11-20
+
+### Aggiunto
+- Aspetto del sito sopra Twenty Twenty-Five: serif Newsreader ospitato sul sito (licenza OFL, nessuna richiesta a servizi esterni), testo a 1,25rem con interlinea 1,6, colonna di lettura di 38,75rem, fondo avorio e testo ardesia, link sottolineati.
+- Interruttore del tema a tre stati (automatico, chiaro, scuro) con lo shortcode `[st_tema]`: scelta salvata in `localStorage` con la chiave `tema`, applicata prima del disegno della pagina e sincronizzata fra le schede aperte.
+- Aiuti a fumetto su ogni parte del modulo "Proponi una scheda": pulsante "?" da 44×44 px, chiusura con `Esc`, con il pulsante × o con un clic fuori; senza JavaScript il testo resta visibile sotto il campo; collegati ai campi con `aria-describedby`.
+- Impostazione "Aspetto del sito" per spegnere font, colori e interruttore e usare solo il tema.
+
+### Modificato
+- Palette dei token `--st-*` sui toni avorio e ardesia, con blu e ambra come accenti; contrasto verificato anche con daltonismo.
+- Le descrizioni delle fonti nel modulo si chiamano "Che cosa conferma la fonte".
+
 ## [0.1.0] - 2026-11-20
 
 Prima versione del plugin (MVP del progetto, punti 1–3 della roadmap e classifica di base).

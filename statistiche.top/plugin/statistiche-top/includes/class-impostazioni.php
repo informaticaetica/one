@@ -25,6 +25,7 @@ final class Impostazioni {
 			'min_recensori'          => array( 100, 'eccellenze.org: recensori unici necessari', 'int', 1, 100000 ),
 			'soglia_ingresso'        => array( 4.5, 'eccellenze.org: media bayesiana minima per la candidatura', 'float', 1, 5 ),
 			'soglia_uscita'          => array( 4.3, 'eccellenze.org: sotto questa media si apre la revisione di uscita', 'float', 1, 5 ),
+			'aspetto'                => array( 1, 'Aspetto del sito di statistiche.top: font, colori, tema chiaro/scuro (1 = attivo, 0 = usa solo il tema)', 'int', 0, 1 ),
 			'url_eccellenze'         => array( 'https://eccellenze.org', 'Indirizzo di eccellenze.org', 'url', null, null ),
 		);
 	}

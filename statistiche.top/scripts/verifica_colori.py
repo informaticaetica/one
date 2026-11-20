@@ -32,6 +32,13 @@ COPPIE = [
     ("primario", "primario-tenue", "barra dei criteri", 3.0),
     ("primario", "superficie", "voto scelto rispetto agli altri", 3.0),
     ("primario", "sfondo", "contorno di focus", 3.0),
+    ("testo", "sfondo", "contorno di focus del sito", 3.0),
+    ("testo", "accento-tenue", "testo dei balloon di aiuto", 4.5),
+    ("accento", "superficie", "bordo dei balloon di aiuto", 3.0),
+    ("sfondo", "testo", "pulsanti del sito", 4.5),
+    ("sfondo", "tenue", "pulsanti del sito al passaggio del mouse", 4.5),
+    ("tenue", "superficie", "link al passaggio del mouse", 4.5),
+    ("testo", "superficie", "pista dell interruttore del tema", 3.0),
 ]
 
 SIMULAZIONI = {

@@ -5,31 +5,31 @@
  * Il tema scuro segue la preferenza del sistema, oppure data-theme="dark" su <html>.
  */
 :root {
-  --st-sfondo: #faf8f4;
-  --st-superficie: #ffffff;
-  --st-testo: #1f2430;
-  --st-tenue: #5d6473;
-  --st-bordo: #8a8f99;
+  --st-sfondo: #f0eee6;
+  --st-superficie: #faf9f5;
+  --st-testo: #1f1e1d;
+  --st-tenue: #5e5d59;
+  --st-bordo: #87867f;
   --st-primario: #23395d;
   --st-primario-testo: #ffffff;
-  --st-primario-tenue: #e6ebf3;
-  --st-accento: #8f5719;
-  --st-accento-tenue: #f8ecd9;
+  --st-primario-tenue: #e2e5ec;
+  --st-accento: #82501a;
+  --st-accento-tenue: #f5e9d4;
   --st-errore: #9e2a1e;
-  --st-errore-tenue: #fbe9e6;
+  --st-errore-tenue: #f8e3de;
   --st-raggio: 10px;
 }
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
-    --st-sfondo: #14171d; --st-superficie: #1c2028; --st-testo: #e7e9ee; --st-tenue: #a3aab8;
-    --st-bordo: #7d8696; --st-primario: #9db4dd; --st-primario-testo: #10151f; --st-primario-tenue: #232c3d;
+    --st-sfondo: #1f1e1d; --st-superficie: #2b2a28; --st-testo: #f0eee6; --st-tenue: #b0aea5;
+    --st-bordo: #8f8e87; --st-primario: #9db4dd; --st-primario-testo: #10151f; --st-primario-tenue: #2a3240;
     --st-accento: #f0b35f; --st-accento-tenue: #3a2d1b; --st-errore: #ffa294; --st-errore-tenue: #3b1f1b;
   }
 }
 :root[data-theme="dark"] {
-  --st-sfondo: #14171d; --st-superficie: #1c2028; --st-testo: #e7e9ee; --st-tenue: #a3aab8;
-  --st-bordo: #7d8696; --st-primario: #9db4dd; --st-primario-testo: #10151f; --st-primario-tenue: #232c3d;
-  --st-accento: #f0b35f; --st-accento-tenue: #3a2d1b; --st-errore: #ffa294; --st-errore-tenue: #3b1f1b;
+  --st-sfondo: #1f1e1d; --st-superficie: #2b2a28; --st-testo: #f0eee6; --st-tenue: #b0aea5;
+    --st-bordo: #8f8e87; --st-primario: #9db4dd; --st-primario-testo: #10151f; --st-primario-tenue: #2a3240;
+    --st-accento: #f0b35f; --st-accento-tenue: #3a2d1b; --st-errore: #ffa294; --st-errore-tenue: #3b1f1b;
 }
 
 .st-blocco { color: var(--st-testo); margin: 1.5rem 0; }
@@ -117,7 +117,53 @@
 .st-trappola { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
 .st-blocco .screen-reader-text { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }
 
+/* Aiuti a fumetto: un pulsante "?" accanto a ogni parte del modulo apre un
+   balloon con la spiegazione. Senza JavaScript il testo resta visibile sotto il campo. */
+.st-campo-testa { display: flex; align-items: center; gap: .4rem; flex-wrap: wrap; }
+.st-campo-testa label { margin: 0; }
+.st-campo { margin: 0 0 1rem; max-width: 40rem; }
+/* Nei gruppi la legend resta il primo figlio del fieldset; il "?" le si affianca */
+.st-modulo fieldset > .st-legenda-con-aiuto { float: left; padding: .6rem .3rem 0 0; }
+.st-modulo fieldset > .st-legenda-con-aiuto ~ * { clear: both; }
+.st-modulo fieldset > .st-legenda-con-aiuto ~ .st-campo-testa--gruppo { clear: none; display: flow-root; }
+.st-spunta .st-aiuto-pulsante { margin-top: -.6rem; }
+.st-aiuto-pulsante {
+  display: inline-grid; place-items: center; flex: none;
+  min-width: 44px; min-height: 44px; padding: 0; margin: 0;
+  font: inherit; font-weight: 700; font-size: 1rem; line-height: 1;
+  color: var(--st-testo); background: transparent; border: 0; border-radius: 50%; cursor: pointer;
+}
+.st-aiuto-pulsante[hidden] { display: none; }
+.st-aiuto-pulsante span {
+  display: inline-grid; place-items: center; width: 28px; height: 28px; border-radius: 50%;
+  border: 2px solid var(--st-testo); background: var(--st-superficie);
+}
+.st-aiuto-pulsante[aria-expanded="true"] span { background: var(--st-testo); color: var(--st-sfondo); }
+.st-aiuto-pulsante:focus-visible { outline: 3px solid var(--st-testo); outline-offset: 2px; }
+.st-aiuto {
+  position: relative; max-width: 40rem; margin: .3rem 0 .6rem; padding: .7rem 1rem;
+  font-size: 1rem; line-height: 1.5; color: var(--st-testo);
+  background: var(--st-accento-tenue); border: 2px solid var(--st-accento); border-radius: var(--st-raggio);
+}
+.st-aiuto p { margin: 0 0 .4em; }
+.st-aiuto p:last-child { margin-bottom: 0; }
+/* La punta del fumetto */
+.st-aiuto.st-aiuto--balloon { margin-top: .7rem; box-shadow: 0 2px 8px rgba(0, 0, 0, .15); }
+.st-aiuto.st-aiuto--balloon::before {
+  content: ""; position: absolute; top: -9px; left: 1.1rem; width: 14px; height: 14px;
+  background: var(--st-accento-tenue); border-top: 2px solid var(--st-accento); border-left: 2px solid var(--st-accento);
+  transform: rotate(45deg);
+}
+.st-aiuto[hidden] { display: none; }
+.st-aiuto-chiudi {
+  float: right; min-width: 44px; min-height: 44px; margin: -.6rem -.8rem 0 .5rem; padding: 0;
+  font: inherit; font-size: 1.2rem; color: var(--st-testo); background: transparent; border: 0; cursor: pointer;
+}
+.st-aiuto-chiudi:focus-visible { outline: 3px solid var(--st-testo); outline-offset: -3px; }
+
 @media (prefers-reduced-motion: no-preference) {
+  .st-aiuto--balloon:not([hidden]) { animation: st-compari .15s ease-out; }
+  @keyframes st-compari { from { opacity: 0; transform: translateY(-4px); } to { opacity: 1; transform: none; } }
   .st-voto-scelte label { transition: background-color .15s, color .15s; }
   .st-blocco [data-st-focus] { scroll-margin-top: 5rem; }
 }

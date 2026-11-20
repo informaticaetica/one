@@ -100,6 +100,13 @@ controlla( 'pagina della scheda con punteggio', false !== strpos( $html, 'st-pun
 controlla( 'pagina della scheda con modulo di segnalazione', false !== strpos( $html, 'st_segnalazione' ) );
 controlla( 'storico pubblico', false !== strpos( $html, 'Fonti verificate.' ) );
 
+// Modulo di proposta con gli aiuti a fumetto e interruttore del tema.
+wp_set_current_user( $nuovo );
+$modulo = Vista::shortcode_nuova_scheda();
+controlla( 'modulo di proposta con 9 aiuti', 9 === substr_count( $modulo, 'class="st-aiuto-pulsante"' ) );
+controlla( 'interruttore del tema', false !== strpos( do_shortcode( '[st_tema]' ), 'data-st-tema' ) );
+wp_set_current_user( 0 );
+
 // Cancellazione di un utente: le sue recensioni spariscono (GDPR).
 require_once ABSPATH . 'wp-admin/includes/user.php';
 wp_delete_user( $u );

@@ -61,6 +61,8 @@ e 8.3, installa WordPress con SQLite, attiva il plugin, lancia
 | API | `GET /wp-json/statistiche-top/v1/eccellenze`: schede pubblicate su eccellenze.org, con link di ritorno. eccellenze.org le **copia**, l'originale resta qui. |
 | Segnalazioni | Modulo su ogni scheda, anche senza account (con limite orario); tipi: errore, fonte, conflitto, rettifica/rimozione, altro; risposta motivata inviata per email. |
 | Pagine | `[st_metodologia]` spiega regole e soglie con i valori attuali; `[st_classifica settore="slug" numero="20" minimo="10"]`. |
+| Aspetto | Font Newsreader ospitato sul sito, palette avorio/ardesia, colonna stretta; interruttore del tema `[st_tema]` (automatico, chiaro, scuro; chiave `tema` in `localStorage`). Si spegne in Impostazioni. |
+| Aiuti | Balloon "?" su ogni parte del modulo di proposta; senza JavaScript il testo resta visibile. |
 | GDPR | Cancellando un utente si cancellano le sue recensioni; schede su persone solo se hanno un ruolo pubblico. |
 
 Tutte le soglie si cambiano in **Schede → Impostazioni**.
@@ -98,9 +100,14 @@ regole anti-frode in un solo posto.
 
 ### Tema
 
-Un tema a blocchi leggero e accessibile (per esempio Twenty Twenty-Five). Il
-plugin usa token di colore propri (`--st-*`) per tema chiaro e scuro e rispetta
-`data-theme="dark"` / `"light"` su `<html>`, se il tema offre il selettore a tre stati.
+Il plugin è pensato per **Twenty Twenty-Five**: `assets/aspetto.css` ne
+ridefinisce le variabili di colore, font, dimensioni e larghezza, così l'aspetto
+vale per tutte le pagine senza modificare i template. Per l'interruttore del
+tema basta un blocco Shortcode con `[st_tema]` nell'header.
+
+Il font Newsreader (Production Type, licenza SIL Open Font License 1.1, testo in
+`assets/fonts/OFL-Newsreader.txt`) è ridotto ai caratteri latini e ospitato
+nel plugin.
 
 ## Prima del lancio
 

@@ -1,0 +1,148 @@
+/*
+ * statistiche.top — aspetto del sito sopra Twenty Twenty-Five.
+ * Colonna di lettura stretta, serif Newsreader (licenza OFL, ospitato sul sito),
+ * fondo avorio e testo ardesia, tema scuro invertito.
+ * I colori vengono dai token --st-* di statistiche-top.css: qui si collegano
+ * alle variabili del tema, così cambiano su tutte le pagine.
+ */
+@font-face {
+  font-family: "Newsreader";
+  src: url(fonts/newsreader.woff2) format("woff2");
+  font-weight: 200 800;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Newsreader";
+  src: url(fonts/newsreader-italic.woff2) format("woff2");
+  font-weight: 200 800;
+  font-style: italic;
+  font-display: swap;
+}
+
+:root {
+  --st-font: "Newsreader", Georgia, "Times New Roman", serif;
+
+  /* Colori del tema Twenty Twenty-Five → token del sito */
+  --wp--preset--color--base: var(--st-sfondo);
+  --wp--preset--color--contrast: var(--st-testo);
+  --wp--preset--color--accent-1: var(--st-accento-tenue);
+  --wp--preset--color--accent-2: var(--st-primario-tenue);
+  --wp--preset--color--accent-3: var(--st-primario);
+  --wp--preset--color--accent-4: var(--st-tenue);
+  --wp--preset--color--accent-5: var(--st-superficie);
+  --wp--preset--color--accent-6: var(--st-bordo);
+
+  /* Font del tema → Newsreader */
+  --wp--preset--font-family--manrope: var(--st-font);
+  --wp--preset--font-family--fira-code: ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+
+  /* Scala dei caratteri: testo a 1,25rem, titoli in proporzione */
+  --wp--preset--font-size--small: 1rem;
+  --wp--preset--font-size--medium: 1.25rem;
+  --wp--preset--font-size--large: 1.5rem;
+  --wp--preset--font-size--x-large: 2rem;
+  --wp--preset--font-size--xx-large: clamp(3rem, 2.4rem + 2.5vw, 3.875rem);
+
+  /* Colonna di lettura stretta, come un saggio */
+  --wp--style--global--content-size: 38.75rem;
+  --wp--style--global--wide-size: 60rem;
+}
+
+:root body {
+  background-color: var(--st-sfondo);
+  color: var(--st-testo);
+  font-family: var(--st-font);
+  font-size: 1.25rem;
+  line-height: 1.6;
+  text-rendering: optimizeLegibility;
+}
+
+:root h1, :root h2, :root h3, :root h4, :root h5, :root h6 {
+  font-family: var(--st-font);
+  text-wrap: balance;
+  letter-spacing: normal;
+}
+:root h1 { font-weight: 700; line-height: 1.1; }
+:root h2 { font-size: 2rem; font-weight: 600; line-height: 1.2; }
+:root h3 { font-size: 1.5rem; font-weight: 600; line-height: 1.2; }
+:root p, :root li { text-wrap: pretty; }
+:root strong, :root b { font-weight: 600; }
+
+/* Link nel testo: stesso colore del testo, sempre sottolineati */
+:root a {
+  color: var(--st-testo);
+  text-decoration: underline;
+  text-decoration-thickness: .08em;
+  text-underline-offset: .12em;
+}
+:root a:hover { color: var(--st-tenue); }
+:root :focus-visible { outline: 3px solid var(--st-testo); outline-offset: 2px; }
+
+/* Testata: nome del sito senza sottolineatura, menu senza sottolineatura
+   tranne la pagina corrente, che è anche in grassetto */
+:root .wp-block-site-title a { text-decoration: none; font-weight: 600; }
+:root .wp-block-navigation a { text-decoration: none; }
+:root .wp-block-navigation a:hover { text-decoration: underline; }
+:root .wp-block-navigation [aria-current="page"] { font-weight: 700; text-decoration: underline; }
+:root .wp-block-navigation .wp-block-navigation-item__content { padding-block: .4em; }
+
+/* Pulsanti: pieni nel colore del testo, angoli appena arrotondati */
+:root .wp-element-button, :root .wp-block-button__link {
+  background-color: var(--st-testo);
+  color: var(--st-sfondo);
+  border: 1px solid var(--st-testo);
+  border-radius: .5rem;
+  font-family: var(--st-font);
+  font-size: 1.15rem;
+  line-height: 1;
+  min-height: 44px;
+  padding: .75em 1em .65em;
+  text-decoration: none;
+}
+:root .wp-element-button:hover, :root .wp-block-button__link:hover { color: var(--st-sfondo); background-color: var(--st-tenue); border-color: var(--st-tenue); }
+:root .is-style-outline .wp-block-button__link { background-color: transparent; color: var(--st-testo); border-color: var(--st-testo); }
+:root .is-style-outline .wp-block-button__link:hover { background-color: var(--st-testo); color: var(--st-sfondo); }
+
+:root hr, :root .wp-block-separator { border-color: var(--st-bordo); }
+:root blockquote { border-left: 1px solid var(--st-bordo); font-style: italic; padding-left: 1.25em; }
+:root ::selection { background-color: var(--st-primario-tenue); color: var(--st-testo); }
+
+/* Su schermi stretti il testo resta grande, i titoli si riducono */
+@media (max-width: 767px) {
+  :root h2 { font-size: 1.75rem; }
+  :root h3 { font-size: 1.35rem; }
+}
+
+/* ---------- Interruttore del tema ---------- */
+.st-tema {
+  display: inline-flex; align-items: center; gap: .5rem;
+  min-height: 44px; min-width: 44px; padding: 0 .5rem;
+  font: inherit; font-size: 1rem; color: var(--st-testo);
+  background: transparent; border: 0; border-radius: .5rem; cursor: pointer;
+}
+.st-tema[hidden] { display: none; }
+.st-tema-pista {
+  position: relative; display: inline-block; flex: none;
+  width: 44px; height: 24px; border-radius: 2rem;
+  border: 1px solid var(--st-testo); background-color: var(--st-superficie);
+}
+.st-tema-pomello {
+  position: absolute; top: 2px; left: 2px;
+  display: grid; place-items: center;
+  width: 18px; height: 18px; border-radius: 50%;
+  background-color: var(--st-testo); color: var(--st-sfondo);
+}
+/* La posizione del pomello indica lo stato, insieme all'icona e alla parola */
+.st-tema[data-stato="auto"] .st-tema-pomello { left: 12px; }
+.st-tema[data-stato="dark"] .st-tema-pomello { left: 22px; }
+.st-tema-icona { display: block; }
+.st-tema:focus-visible { outline: 3px solid var(--st-testo); outline-offset: 2px; }
+@media (max-width: 599px) {
+  .st-tema-etichetta { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  :root body { transition: background-color .2s linear, color .2s linear; }
+  .st-tema-pomello { transition: left .2s ease; }
+}

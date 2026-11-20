@@ -394,6 +394,33 @@ final class Vista {
 		return ob_get_clean();
 	}
 
+	/** Testi degli aiuti a fumetto del modulo di proposta (HTML fisso, scritto qui). */
+	const AIUTI = array(
+		'tipo'      => '<p>Scegli <strong>persona</strong> solo se ha un ruolo pubblico: amministratore d\'azienda, professionista noto, figura istituzionale, artista, sportivo. Non si creano schede su privati cittadini.</p><p>Scegli <strong>azienda o organizzazione</strong> per imprese, associazioni, enti e fondazioni.</p>',
+		'nome'      => '<p>Il nome completo, come compare nelle fonti ufficiali: per le persone nome e cognome, per le aziende la ragione sociale o il marchio più noto (per esempio «Rossi Costruzioni S.r.l.»).</p><p>Se esiste già una scheda con lo stesso nome, aggiungi un dettaglio per distinguerla, come la città.</p>',
+		'settore'   => '<p>Il settore principale in cui il soggetto si distingue. Se ne vedi più d\'uno, scegli quello per cui merita la scheda: la redazione può aggiungerne altri.</p><p>Se non trovi il settore giusto, scegli il più vicino e spiegalo nella sintesi.</p>',
+		'luogo'     => '<p>Facoltativo. Dove opera il soggetto: la città della sede o dell\'attività principale, oppure la regione o il paese se lavora su un territorio ampio.</p><p>Per le persone non indicare mai l\'indirizzo di casa.</p>',
+		'sintesi'   => '<p>In poche righe: chi è, che cosa fa e <strong>perché si distingue</strong>.</p><p>Scrivi solo fatti che si trovano nelle fonti, senza giudizi personali: i giudizi vanno nelle recensioni. Per esempio: «Fondata nel 1987 a Bologna, produce macchine per l\'imballaggio; nel 2025 ha ricevuto un premio nazionale per l\'innovazione.»</p>',
+		'fonti'     => '<p>Almeno una fonte, fino a tre. Valgono il sito ufficiale, articoli di giornali e riviste, bilanci, il registro delle imprese, atti pubblici.</p><p>Non valgono profili social personali, forum o pagine pubblicitarie. Accanto a ogni indirizzo scrivi che cosa conferma, per esempio «Bilancio 2025: fatturato e dipendenti».</p>',
+		'figura'    => '<p>Serve solo per le schede su una persona. La legge sulla privacy consente di parlare pubblicamente di una persona per il ruolo pubblico che ricopre, non della sua vita privata: per questo la scheda deve riguardare solo quel ruolo.</p><p>Per le aziende puoi lasciare la casella vuota.</p>',
+		'conflitto' => '<p>Non puoi proporre la scheda di te stesso, della tua azienda, del tuo datore di lavoro, di un cliente, di un socio, di un parente o di un concorrente diretto.</p><p>Serve a mantenere le schede imparziali. Se hai un legame con il soggetto puoi comunque segnalare errori dalla sua scheda, una volta pubblicata.</p>',
+		'invio'     => '<p>La scheda non compare subito: la redazione controlla dati e fonti, poi la pubblica, la corregge o ti scrive. Puoi avere al massimo 3 schede in attesa di revisione.</p><p>Se qualcosa va corretto, il modulo ti indica quali campi e conserva per 10 minuti quello che hai scritto.</p>',
+	);
+
+	/** Pulsante "?" che apre il balloon di aiuto. Nascosto finché lo script non lo attiva. */
+	private static function pulsante_aiuto( $chiave, $nome ) {
+		printf(
+			'<button type="button" class="st-aiuto-pulsante" aria-expanded="false" aria-controls="st-aiuto-%1$s" hidden><span aria-hidden="true">?</span><span class="screen-reader-text">Aiuto: %2$s</span></button>',
+			esc_attr( $chiave ),
+			esc_html( $nome )
+		);
+	}
+
+	/** Testo dell'aiuto: visibile senza JavaScript, diventa un balloon con lo script. */
+	private static function balloon( $chiave ) {
+		printf( '<div class="st-aiuto" id="st-aiuto-%1$s">%2$s</div>', esc_attr( $chiave ), wp_kses_post( self::AIUTI[ $chiave ] ) );
+	}
+
 	/** Campo trappola contro i programmi automatici, nascosto a persone e lettori di schermo. */
 	private static function trappola() {
 		echo '<div class="st-trappola" aria-hidden="true"><label for="st-sito-web">Non compilare questo campo</label><input type="text" id="st-sito-web" name="st_sito_web" tabindex="-1" autocomplete="off"></div>';
@@ -439,14 +466,16 @@ final class Vista {
 		$fonti_u = isset( $v['st_fonte_url'] ) ? (array) $v['st_fonte_url'] : array();
 		$fonti_d = isset( $v['st_fonte_descrizione'] ) ? (array) $v['st_fonte_descrizione'] : array();
 		?>
-		<form class="st-modulo" method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>" novalidate>
+		<form class="st-modulo st-modulo-proposta" method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>" novalidate>
 			<input type="hidden" name="action" value="st_nuova_scheda">
 			<?php wp_nonce_field( 'st_nuova_scheda', 'st_nonce', false ); ?>
 			<?php self::trappola(); ?>
-			<p class="st-nota">I campi obbligatori sono indicati. La scheda sarà pubblicata dopo la revisione della redazione.</p>
+			<p class="st-nota">I campi obbligatori sono indicati. Accanto a ogni parte del modulo, il pulsante <strong>?</strong> apre una spiegazione. La scheda sarà pubblicata dopo la revisione della redazione.</p>
 
-			<fieldset<?php $descritto( 'st_tipo', '', true ); ?>>
-				<legend>La scheda riguarda <span class="st-obbligatorio">(obbligatorio)</span></legend>
+			<fieldset<?php $descritto( 'st_tipo', 'st-aiuto-tipo', true ); ?>>
+				<legend class="st-legenda-con-aiuto">La scheda riguarda <span class="st-obbligatorio">(obbligatorio)</span></legend>
+				<div class="st-campo-testa st-campo-testa--gruppo"><?php self::pulsante_aiuto( 'tipo', 'tipo di soggetto' ); ?></div>
+				<?php self::balloon( 'tipo' ); ?>
 				<?php $errore( 'st_tipo' ); ?>
 				<?php foreach ( Schede::TIPI_SOGGETTO as $k => $nome ) : ?>
 					<p class="st-spunta">
@@ -456,39 +485,56 @@ final class Vista {
 				<?php endforeach; ?>
 			</fieldset>
 
-			<p>
-				<label for="st-nome">Nome <span class="st-obbligatorio">(obbligatorio)</span></label>
-				<input type="text" id="st-nome" name="st_nome" required maxlength="150" value="<?php echo esc_attr( $val( 'st_nome' ) ); ?>"<?php $descritto( 'st_nome' ); ?>>
+			<div class="st-campo">
+				<div class="st-campo-testa">
+					<label for="st-nome">Nome <span class="st-obbligatorio">(obbligatorio)</span></label>
+					<?php self::pulsante_aiuto( 'nome', 'nome' ); ?>
+				</div>
+				<?php self::balloon( 'nome' ); ?>
+				<input type="text" id="st-nome" name="st_nome" required maxlength="150" value="<?php echo esc_attr( $val( 'st_nome' ) ); ?>"<?php $descritto( 'st_nome', 'st-aiuto-nome' ); ?>>
 				<?php $errore( 'st_nome' ); ?>
-			</p>
+			</div>
 
-			<p>
-				<label for="st-settore">Settore <span class="st-obbligatorio">(obbligatorio)</span></label>
-				<select id="st-settore" name="st_settore" required<?php $descritto( 'st_settore' ); ?>>
+			<div class="st-campo">
+				<div class="st-campo-testa">
+					<label for="st-settore">Settore <span class="st-obbligatorio">(obbligatorio)</span></label>
+					<?php self::pulsante_aiuto( 'settore', 'settore' ); ?>
+				</div>
+				<?php self::balloon( 'settore' ); ?>
+				<select id="st-settore" name="st_settore" required<?php $descritto( 'st_settore', 'st-aiuto-settore' ); ?>>
 					<option value="">Scegli…</option>
 					<?php foreach ( is_array( $settori ) ? $settori : array() as $t ) : ?>
 						<option value="<?php echo esc_attr( $t->term_id ); ?>" <?php selected( $val( 'st_settore' ), (string) $t->term_id ); ?>><?php echo esc_html( $t->name ); ?></option>
 					<?php endforeach; ?>
 				</select>
 				<?php $errore( 'st_settore' ); ?>
-			</p>
+			</div>
 
-			<p>
-				<label for="st-luogo">Luogo (città, regione o paese)</label>
-				<input type="text" id="st-luogo" name="st_luogo" maxlength="100" autocomplete="off" value="<?php echo esc_attr( $val( 'st_luogo' ) ); ?>"<?php $descritto( 'st_luogo' ); ?>>
+			<div class="st-campo">
+				<div class="st-campo-testa">
+					<label for="st-luogo">Luogo (città, regione o paese)</label>
+					<?php self::pulsante_aiuto( 'luogo', 'luogo' ); ?>
+				</div>
+				<?php self::balloon( 'luogo' ); ?>
+				<input type="text" id="st-luogo" name="st_luogo" maxlength="100" autocomplete="off" value="<?php echo esc_attr( $val( 'st_luogo' ) ); ?>"<?php $descritto( 'st_luogo', 'st-aiuto-luogo' ); ?>>
 				<?php $errore( 'st_luogo' ); ?>
-			</p>
+			</div>
 
-			<p>
-				<label for="st-sintesi">Sintesi <span class="st-obbligatorio">(obbligatoria, da 30 a <?php echo esc_html( Schede::MAX_SINTESI ); ?> caratteri)</span></label>
-				<textarea id="st-sintesi" name="st_sintesi" rows="5" required maxlength="<?php echo esc_attr( Schede::MAX_SINTESI ); ?>" data-st-contatore="st-sintesi-contatore"<?php $descritto( 'st_sintesi', 'st-sintesi-contatore' ); ?>><?php echo esc_textarea( $val( 'st_sintesi' ) ); ?></textarea>
+			<div class="st-campo">
+				<div class="st-campo-testa">
+					<label for="st-sintesi">Sintesi <span class="st-obbligatorio">(obbligatoria, da 30 a <?php echo esc_html( Schede::MAX_SINTESI ); ?> caratteri)</span></label>
+					<?php self::pulsante_aiuto( 'sintesi', 'sintesi' ); ?>
+				</div>
+				<?php self::balloon( 'sintesi' ); ?>
+				<textarea id="st-sintesi" name="st_sintesi" rows="5" required maxlength="<?php echo esc_attr( Schede::MAX_SINTESI ); ?>" data-st-contatore="st-sintesi-contatore"<?php $descritto( 'st_sintesi', 'st-aiuto-sintesi st-sintesi-contatore' ); ?>><?php echo esc_textarea( $val( 'st_sintesi' ) ); ?></textarea>
 				<span id="st-sintesi-contatore" class="st-nota" aria-live="polite"></span>
 				<?php $errore( 'st_sintesi' ); ?>
-			</p>
+			</div>
 
-			<fieldset<?php $descritto( 'st_fonte_url', 'st-fonti-aiuto', true ); ?>>
-				<legend>Fonti verificabili <span class="st-obbligatorio">(almeno una)</span></legend>
-				<p id="st-fonti-aiuto" class="st-nota">Sito ufficiale, articolo di giornale, bilancio, registro delle imprese. Ogni dato della sintesi deve trovare riscontro qui.</p>
+			<fieldset<?php $descritto( 'st_fonte_url', 'st-aiuto-fonti', true ); ?>>
+				<legend class="st-legenda-con-aiuto">Fonti verificabili <span class="st-obbligatorio">(almeno una)</span></legend>
+				<div class="st-campo-testa st-campo-testa--gruppo"><?php self::pulsante_aiuto( 'fonti', 'fonti' ); ?></div>
+				<?php self::balloon( 'fonti' ); ?>
 				<?php $errore( 'st_fonte_url' ); ?>
 				<?php for ( $i = 0; $i < 3; $i++ ) : ?>
 					<div class="st-fonte">
@@ -497,26 +543,40 @@ final class Vista {
 							<input type="url" id="st-fonte-url-<?php echo esc_attr( $i ); ?>" name="st_fonte_url[]" inputmode="url" placeholder="https://" value="<?php echo esc_attr( isset( $fonti_u[ $i ] ) ? $fonti_u[ $i ] : '' ); ?>" <?php echo 0 === $i ? 'required' : ''; ?>>
 						</p>
 						<p>
-							<label for="st-fonte-desc-<?php echo esc_attr( $i ); ?>">Descrizione della fonte <?php echo esc_html( $i + 1 ); ?></label>
+							<label for="st-fonte-desc-<?php echo esc_attr( $i ); ?>">Che cosa conferma la fonte <?php echo esc_html( $i + 1 ); ?></label>
 							<input type="text" id="st-fonte-desc-<?php echo esc_attr( $i ); ?>" name="st_fonte_descrizione[]" maxlength="150" value="<?php echo esc_attr( isset( $fonti_d[ $i ] ) ? $fonti_d[ $i ] : '' ); ?>">
 						</p>
 					</div>
 				<?php endfor; ?>
 			</fieldset>
 
-			<p class="st-spunta">
-				<input type="checkbox" id="st-figura-pubblica" name="st_figura_pubblica" value="1" <?php checked( $val( 'st_figura_pubblica' ), '1' ); ?><?php $descritto( 'st_figura_pubblica' ); ?>>
-				<label for="st-figura-pubblica">Se è una persona: confermo che ha un ruolo pubblico (per esempio amministratore di un'azienda, professionista noto, figura istituzionale) e che la scheda riguarda solo quel ruolo.</label>
+			<div class="st-campo">
+				<p class="st-spunta">
+					<input type="checkbox" id="st-figura-pubblica" name="st_figura_pubblica" value="1" <?php checked( $val( 'st_figura_pubblica' ), '1' ); ?><?php $descritto( 'st_figura_pubblica', 'st-aiuto-figura' ); ?>>
+					<label for="st-figura-pubblica">Se è una persona: confermo che ha un ruolo pubblico (per esempio amministratore di un'azienda, professionista noto, figura istituzionale) e che la scheda riguarda solo quel ruolo.</label>
+					<?php self::pulsante_aiuto( 'figura', 'ruolo pubblico' ); ?>
+				</p>
+				<?php self::balloon( 'figura' ); ?>
 				<?php $errore( 'st_figura_pubblica' ); ?>
-			</p>
+			</div>
 
-			<p class="st-spunta">
-				<input type="checkbox" id="st-nessun-conflitto" name="st_nessun_conflitto" value="1" required <?php checked( $val( 'st_nessun_conflitto' ), '1' ); ?><?php $descritto( 'st_nessun_conflitto' ); ?>>
-				<label for="st-nessun-conflitto">Dichiaro di non essere il soggetto della scheda né un suo collaboratore. <span class="st-obbligatorio">(obbligatorio)</span></label>
+			<div class="st-campo">
+				<p class="st-spunta">
+					<input type="checkbox" id="st-nessun-conflitto" name="st_nessun_conflitto" value="1" required <?php checked( $val( 'st_nessun_conflitto' ), '1' ); ?><?php $descritto( 'st_nessun_conflitto', 'st-aiuto-conflitto' ); ?>>
+					<label for="st-nessun-conflitto">Dichiaro di non essere il soggetto della scheda né un suo collaboratore. <span class="st-obbligatorio">(obbligatorio)</span></label>
+					<?php self::pulsante_aiuto( 'conflitto', 'conflitto di interesse' ); ?>
+				</p>
+				<?php self::balloon( 'conflitto' ); ?>
 				<?php $errore( 'st_nessun_conflitto' ); ?>
-			</p>
+			</div>
 
-			<p><button type="submit" class="st-pulsante">Invia la scheda alla redazione</button></p>
+			<div class="st-campo">
+				<div class="st-campo-testa">
+					<button type="submit" class="st-pulsante" aria-describedby="st-aiuto-invio">Invia la scheda alla redazione</button>
+					<?php self::pulsante_aiuto( 'invio', 'che cosa succede dopo l\'invio' ); ?>
+				</div>
+				<?php self::balloon( 'invio' ); ?>
+			</div>
 		</form>
 		</div>
 		<?php
