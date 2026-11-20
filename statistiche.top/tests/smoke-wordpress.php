@@ -98,6 +98,7 @@ while ( have_posts() ) {
 }
 controlla( 'pagina della scheda con punteggio', false !== strpos( $html, 'st-punteggio' ) && false !== strpos( $html, 'eccellenze.org' ) );
 controlla( 'pagina della scheda con modulo di segnalazione', false !== strpos( $html, 'st_segnalazione' ) );
+controlla( 'nessun blocco autore sulle schede', '' === Vista::pulisci_blocchi_tema( '<p>autore</p>', array( 'blockName' => 'core/post-author-name' ), null ) );
 controlla( 'storico pubblico', false !== strpos( $html, 'Fonti verificate.' ) );
 
 // Modulo di proposta con gli aiuti a fumetto e interruttore del tema.

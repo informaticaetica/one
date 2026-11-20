@@ -18,6 +18,7 @@ final class Vista {
 	public static function avvia() {
 		add_action( 'wp_enqueue_scripts', array( __CLASS__, 'registra_risorse' ) );
 		add_filter( 'the_content', array( __CLASS__, 'contenuto_scheda' ), 20 );
+		add_filter( 'render_block', array( __CLASS__, 'pulisci_blocchi_tema' ), 10, 3 );
 		add_shortcode( 'st_nuova_scheda', array( __CLASS__, 'shortcode_nuova_scheda' ) );
 		add_shortcode( 'st_metodologia', array( __CLASS__, 'shortcode_metodologia' ) );
 		add_shortcode( 'st_classifica', array( __CLASS__, 'shortcode_classifica' ) );
@@ -95,6 +96,81 @@ final class Vista {
 			$ok ? 'Fatto.' : 'Attenzione:',
 			esc_html( self::testo_esito( $codice ) )
 		);
+	}
+
+	/* ---------- Blocchi del tema sulle schede ---------- */
+
+	/**
+	 * Sulle schede toglie le parti del tema pensate per gli articoli del blog:
+	 * - la riga "Scritto da … in …", che mostrerebbe il nome di chi ha proposto la scheda
+	 *   (l'informativa privacy dice che non compare);
+	 * - il blocco "Altri articoli" con gli articoli del blog;
+	 * - i commenti, che sulle schede non si usano (ci sono recensioni e segnalazioni).
+	 *
+	 * @param string         $html     HTML del blocco.
+	 * @param array          $blocco   blocco analizzato.
+	 * @param \WP_Block|null $istanza  istanza del blocco, con il contesto.
+	 */
+	public static function pulisci_blocchi_tema( $html, $blocco, $istanza = null ) {
+		$nome = isset( $blocco['blockName'] ) ? $blocco['blockName'] : '';
+		if ( ! $nome ) {
+			return $html;
+		}
+		$tipo = ( $istanza instanceof \WP_Block && isset( $istanza->context['postType'] ) ) ? $istanza->context['postType'] : '';
+		$su_scheda = Schede::TIPO === $tipo || ( ! $tipo && is_singular( Schede::TIPO ) );
+
+		// Autore: nessun blocco che mostri chi ha creato una scheda.
+		if ( $su_scheda && in_array( $nome, array( 'core/post-author', 'core/post-author-name', 'core/post-author-biography' ), true ) ) {
+			return '';
+		}
+		if ( ! is_singular( Schede::TIPO ) ) {
+			return $html;
+		}
+		if ( in_array( $nome, array( 'core/comments', 'core/post-comments-form', 'core/comments-query-loop' ), true ) ) {
+			return '';
+		}
+		if ( in_array( $nome, array( 'core/group', 'core/columns', 'core/column' ), true ) && ! empty( $blocco['innerBlocks'] ) ) {
+			// Il gruppo della riga "Scritto da … in …".
+			if ( self::contiene( $blocco['innerBlocks'], static function ( $b ) {
+				return in_array( $b['blockName'], array( 'core/post-author', 'core/post-author-name' ), true );
+			}, 1 ) ) {
+				return '';
+			}
+			// Il gruppo "Altri articoli": un elenco di articoli del blog, non di schede.
+			if ( self::contiene( $blocco['innerBlocks'], static function ( $b ) {
+				$q = isset( $b['attrs']['query'] ) ? $b['attrs']['query'] : array();
+				return 'core/query' === $b['blockName'] && empty( $q['inherit'] ) && ( empty( $q['postType'] ) || 'post' === $q['postType'] );
+			}, 1 ) ) {
+				return '';
+			}
+			// Il gruppo delle etichette del blog, vuoto sulle schede.
+			$solo_etichette = true;
+			foreach ( $blocco['innerBlocks'] as $b ) {
+				if ( ! empty( $b['blockName'] ) && 'core/post-terms' !== $b['blockName'] ) {
+					$solo_etichette = false;
+				}
+			}
+			if ( $solo_etichette ) {
+				return '';
+			}
+		}
+		return $html;
+	}
+
+	/** Cerca fra i blocchi figli uno che soddisfi la condizione (profondità 1 = solo i figli diretti: più a fondo si rischia di togliere gruppi che contengono tutta la scheda). */
+	private static function contiene( array $blocchi, callable $condizione, $profondita ) {
+		foreach ( $blocchi as $b ) {
+			if ( empty( $b['blockName'] ) ) {
+				continue;
+			}
+			if ( $condizione( $b ) ) {
+				return true;
+			}
+			if ( $profondita > 1 && ! empty( $b['innerBlocks'] ) && self::contiene( $b['innerBlocks'], $condizione, $profondita - 1 ) ) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	/* ---------- Pagina della scheda ---------- */

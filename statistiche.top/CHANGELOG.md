@@ -3,6 +3,11 @@
 Versionamento semantico. La versione è quella del plugin `statistiche-top`
 (intestazione di `plugin/statistiche-top/statistiche-top.php` e costante `VERSIONE`).
 
+## [0.2.2] - 2026-11-20
+
+### Corretto
+- Sulle schede non compare più il nome di chi le ha proposte: il modello del tema mostrava la riga "Scritto da … in …". Tolti anche, sulle schede, il blocco "Altri articoli" del blog e i commenti, che lasciavano grandi spazi vuoti.
+
 ## [0.2.1] - 2026-11-20
 
 ### Corretto

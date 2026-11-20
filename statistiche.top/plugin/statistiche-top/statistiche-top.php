@@ -2,7 +2,7 @@
 /**
  * Plugin Name:       statistiche.top
  * Description:       Schede su persone e aziende degne di nota, recensioni per criteri, media bayesiana, difesa dalle manipolazioni e passaggio a eccellenze.org con verifica manuale.
- * Version:           0.2.1
+ * Version:           0.2.2
  * Requires at least: 6.4
  * Requires PHP:      7.4
  * Author:            statistiche.top
@@ -16,7 +16,7 @@ namespace StatisticheTop;
 
 defined( 'ABSPATH' ) || exit;
 
-const VERSIONE    = '0.2.1';
+const VERSIONE    = '0.2.2';
 const VERSIONE_DB = '1';
 const FILE        = __FILE__;
 
