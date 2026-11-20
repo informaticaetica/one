@@ -4,11 +4,13 @@
 
 - [`guide/`](guide/) — sito del progetto **Guide APPO**, online su <https://informaticaetica.github.io/one/> (vedi [guide/README.md](guide/README.md))
 - [`miglioramento.com/`](miglioramento.com/) — sorgenti del sito **miglioramento.com**, pubblicato su un server esterno (vedi [miglioramento.com/README.md](miglioramento.com/README.md))
+- [`statistiche.top/`](statistiche.top/) — plugin WordPress del sito **statistiche.top**: schede, recensioni, media bayesiana, passaggio a eccellenze.org (vedi [statistiche.top/README.md](statistiche.top/README.md))
 
 ## Versioni
 
 - Guide APPO: [CHANGELOG](CHANGELOG.md), tag `vX.Y.Z`.
 - miglioramento.com: [CHANGELOG](miglioramento.com/CHANGELOG.md), tag `miglioramento-vX.Y.Z`; ogni sezione ha anche una propria versione.
+- statistiche.top: [CHANGELOG](statistiche.top/CHANGELOG.md), tag `statistiche-vX.Y.Z`.
 
 ## Licenza
 

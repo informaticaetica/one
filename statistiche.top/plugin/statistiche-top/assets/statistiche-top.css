@@ -1,0 +1,123 @@
+/*
+ * statistiche.top — stile delle parti generate dal plugin.
+ * Colori solo tramite i token qui sotto, definiti per i due temi e verificati
+ * con scripts/verifica_colori.py (contrasto WCAG AA anche con daltonismo).
+ * Il tema scuro segue la preferenza del sistema, oppure data-theme="dark" su <html>.
+ */
+:root {
+  --st-sfondo: #faf8f4;
+  --st-superficie: #ffffff;
+  --st-testo: #1f2430;
+  --st-tenue: #5d6473;
+  --st-bordo: #8a8f99;
+  --st-primario: #23395d;
+  --st-primario-testo: #ffffff;
+  --st-primario-tenue: #e6ebf3;
+  --st-accento: #8f5719;
+  --st-accento-tenue: #f8ecd9;
+  --st-errore: #9e2a1e;
+  --st-errore-tenue: #fbe9e6;
+  --st-raggio: 10px;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --st-sfondo: #14171d; --st-superficie: #1c2028; --st-testo: #e7e9ee; --st-tenue: #a3aab8;
+    --st-bordo: #7d8696; --st-primario: #9db4dd; --st-primario-testo: #10151f; --st-primario-tenue: #232c3d;
+    --st-accento: #f0b35f; --st-accento-tenue: #3a2d1b; --st-errore: #ffa294; --st-errore-tenue: #3b1f1b;
+  }
+}
+:root[data-theme="dark"] {
+  --st-sfondo: #14171d; --st-superficie: #1c2028; --st-testo: #e7e9ee; --st-tenue: #a3aab8;
+  --st-bordo: #7d8696; --st-primario: #9db4dd; --st-primario-testo: #10151f; --st-primario-tenue: #232c3d;
+  --st-accento: #f0b35f; --st-accento-tenue: #3a2d1b; --st-errore: #ffa294; --st-errore-tenue: #3b1f1b;
+}
+
+.st-blocco { color: var(--st-testo); margin: 1.5rem 0; }
+.st-blocco a { color: var(--st-primario); text-decoration: underline; text-underline-offset: 2px; }
+.st-blocco :focus-visible { outline: 3px solid var(--st-primario); outline-offset: 2px; }
+.st-blocco h2 { margin-top: 2rem; }
+.st-nota { color: var(--st-tenue); font-size: .95rem; }
+.st-obbligatorio { color: var(--st-tenue); font-weight: 400; font-size: .9em; }
+
+/* Dati della scheda */
+.st-dati { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: .75rem; margin: 0; }
+.st-dati div { background: var(--st-superficie); border: 1px solid var(--st-bordo); border-radius: var(--st-raggio); padding: .6rem .9rem; }
+.st-dati dt { color: var(--st-tenue); font-size: .85rem; font-weight: 600; }
+.st-dati dd { margin: 0; font-weight: 600; }
+.st-etichetta-eccellenza, .st-etichetta { display: inline-block; color: var(--st-accento); background: var(--st-accento-tenue); border: 2px solid var(--st-accento); border-radius: 999px; padding: .2rem .8rem; }
+.st-etichetta-eccellenza a { color: var(--st-accento); }
+.st-etichetta { font-size: .85rem; font-weight: 700; padding: 0 .6rem; border-width: 1px; }
+.st-fonti { padding-left: 1.2rem; }
+
+/* Punteggio */
+.st-punteggio-principale { display: flex; align-items: baseline; gap: .6rem; flex-wrap: wrap; margin-bottom: .3rem; }
+.st-cifra { font-size: 2.6rem; font-weight: 800; line-height: 1; color: var(--st-primario); }
+.st-tabella { border-collapse: collapse; width: 100%; max-width: 40rem; }
+.st-tabella caption { text-align: left; font-weight: 600; padding-bottom: .4rem; }
+.st-tabella th, .st-tabella td { text-align: left; padding: .5rem .6rem; border-bottom: 1px solid var(--st-bordo); }
+.st-tabella thead th { color: var(--st-tenue); font-size: .9rem; }
+.st-barra { display: block; width: 100%; min-width: 80px; height: 10px; background: var(--st-primario-tenue); border: 1px solid var(--st-bordo); border-radius: 999px; overflow: hidden; }
+.st-barra span { display: block; height: 100%; background: var(--st-primario); }
+.st-scorrevole { overflow-x: auto; }
+
+/* Recensioni e storico */
+.st-recensioni, .st-storico { list-style: none; padding: 0; }
+.st-recensione { border-left: 4px solid var(--st-primario); padding: .2rem 0 .2rem 1rem; margin-bottom: 1.2rem; }
+.st-recensione h3 { margin: 0; font-size: 1.05rem; }
+.st-storico li { padding: .3rem 0; border-bottom: 1px solid var(--st-bordo); }
+
+/* Moduli */
+.st-modulo label { display: block; font-weight: 600; margin-bottom: .25rem; }
+.st-modulo input[type="text"], .st-modulo input[type="url"], .st-modulo input[type="email"], .st-modulo select, .st-modulo textarea {
+  box-sizing: border-box; width: 100%; max-width: 40rem; min-height: 44px; padding: .5rem .7rem; font: inherit;
+  color: var(--st-testo); background: var(--st-superficie); border: 1px solid var(--st-bordo); border-radius: 6px;
+}
+.st-modulo [aria-invalid="true"] { border: 2px solid var(--st-errore); }
+.st-modulo fieldset { border: 1px solid var(--st-bordo); border-radius: var(--st-raggio); padding: .6rem 1rem 1rem; margin: 0 0 1rem; max-width: 40rem; }
+.st-modulo fieldset.st-gruppo-errato { border: 2px dashed var(--st-errore); }
+.st-modulo legend { font-weight: 700; padding: 0 .3rem; }
+.st-spunta { display: flex; gap: .6rem; align-items: flex-start; }
+.st-spunta input { width: 24px; height: 24px; margin: .15rem 0 0; flex: none; accent-color: var(--st-primario); }
+.st-spunta label { font-weight: 400; margin: 0; }
+.st-errore { display: block; color: var(--st-errore); margin-top: .25rem; }
+.st-fonte { border-top: 1px dashed var(--st-bordo); padding-top: .4rem; }
+.st-fonte:first-of-type { border-top: 0; }
+
+/* Voti da 1 a 5: bersagli di 44×44 px, la scelta si vede da bordo, sfondo e grassetto */
+.st-voto { position: relative; }
+.st-voto-scelte { display: flex; gap: .5rem; flex-wrap: wrap; }
+.st-voto-scelte input { position: absolute; opacity: 0; width: 1px; height: 1px; }
+.st-voto-scelte label {
+  display: inline-grid; place-items: center; min-width: 44px; min-height: 44px; margin: 0; cursor: pointer;
+  border: 1px solid var(--st-bordo); border-radius: 8px; background: var(--st-superficie); color: var(--st-testo); font-weight: 400;
+}
+.st-voto-scelte input:checked + label { background: var(--st-primario); color: var(--st-primario-testo); border: 3px solid var(--st-testo); font-weight: 800; }
+.st-voto-scelte input:checked + label::before { content: "✓\00a0"; }
+.st-voto-scelte input:focus-visible + label { outline: 3px solid var(--st-primario); outline-offset: 2px; }
+
+.st-pulsante {
+  min-height: 44px; min-width: 44px; padding: .6rem 1.3rem; font: inherit; font-weight: 700; cursor: pointer;
+  color: var(--st-primario-testo); background: var(--st-primario); border: 2px solid var(--st-primario); border-radius: 999px;
+}
+.st-pulsante--secondario { color: var(--st-primario); background: transparent; }
+.st-pulsante:focus-visible { outline: 3px solid var(--st-testo); outline-offset: 2px; }
+
+.st-dettagli summary { cursor: pointer; min-height: 44px; display: flex; align-items: center; color: var(--st-primario); text-decoration: underline; }
+
+/* Avvisi: tipo indicato anche dal testo ("Fatto." / "Attenzione:") e dalla forma del bordo */
+.st-avviso { padding: .7rem 1rem; border-radius: var(--st-raggio); margin: 1rem 0; color: var(--st-testo); }
+.st-avviso p { margin: 0; }
+.st-avviso--ok { background: var(--st-primario-tenue); border: 2px solid var(--st-primario); }
+.st-avviso--errore { background: var(--st-errore-tenue); border: 2px dashed var(--st-errore); }
+
+.st-formula { background: var(--st-accento-tenue); padding: .7rem 1rem; border-radius: var(--st-raggio); }
+.st-formula code { color: var(--st-testo); background: transparent; }
+
+/* Campo trappola e testo per i soli lettori di schermo */
+.st-trappola { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+.st-blocco .screen-reader-text { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }
+
+@media (prefers-reduced-motion: no-preference) {
+  .st-voto-scelte label { transition: background-color .15s, color .15s; }
+  .st-blocco [data-st-focus] { scroll-margin-top: 5rem; }
+}

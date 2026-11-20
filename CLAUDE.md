@@ -1,7 +1,8 @@
 # Regole del repository
 
-Il repository contiene due siti: `guide/` (Guide APPO, GitHub Pages) e
-`miglioramento.com/` (sito statico pubblicato su un server esterno).
+Il repository contiene tre progetti: `guide/` (Guide APPO, GitHub Pages),
+`miglioramento.com/` (sito statico pubblicato su un server esterno) e
+`statistiche.top/` (plugin WordPress del sito statistiche.top).
 Lingua dei contenuti, dei commit e dei commenti: italiano.
 
 ## Accessibilità e daltonismo: sempre, su ogni modifica
@@ -17,7 +18,8 @@ Non sono facoltative.
 - **Mai informazioni affidate al solo colore**: usa anche testo, forma, icona,
   sottolineatura o grassetto (i link nel testo sono sottolineati, la pagina
   corrente del menu è in grassetto, i livelli dei capitoli hanno una lettera).
-- **Colori solo tramite i token** di `:root` in `statici/stile.css`, definiti per
+- **Colori solo tramite i token** di `:root` in `statici/stile.css` (per
+  statistiche.top: i token `--st-*` in `assets/statistiche-top.css`), definiti per
   entrambi i temi; niente colori letterali nei componenti.
 - **Tema**: tre stati (automatico, chiaro, scuro). La scelta si salva in
   `localStorage` con la chiave `tema`, vale per tutto il sito e per le visite
@@ -42,9 +44,28 @@ node scripts/verifica_accessibilita.mjs http://localhost:8000   # axe-core, WCAG
 
 Le stesse verifiche girano in CI (`.github/workflows/miglioramento.yml`).
 
+### Verifiche da eseguire prima di ogni commit su statistiche.top
+
+```sh
+cd statistiche.top
+php tests/test-logica.php                   # punteggi, regole, soglie eccellenze.org
+python3 scripts/verifica_colori.py          # contrasto + daltonismo della palette
+find plugin -name '*.php' -exec php -l {} \;
+```
+
+In CI (`.github/workflows/statistiche.yml`) gira anche il collaudo su un
+WordPress vero (`tests/smoke-wordpress.php`).
+
 ## Versioning di miglioramento.com
 
 Ogni modifica a una sezione alza la sua versione in `sezioni/<nome>/sezione.json`
 con una voce nel suo `CHANGELOG.md`; ogni modifica al sito alza la versione in
 `sito.json` con una voce nel `CHANGELOG.md` principale (versionamento semantico).
 Dettagli in `miglioramento.com/README.md`.
+
+## Versioning di statistiche.top
+
+Ogni modifica al plugin alza la versione nell'intestazione di
+`statistiche-top.php` e nella costante `VERSIONE`, con una voce in
+`statistiche.top/CHANGELOG.md` (versionamento semantico). Se cambia lo schema
+delle tabelle, alza anche `VERSIONE_DB`.
