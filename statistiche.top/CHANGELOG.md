@@ -3,6 +3,11 @@
 Versionamento semantico. La versione è quella del plugin `statistiche-top`
 (intestazione di `plugin/statistiche-top/statistiche-top.php` e costante `VERSIONE`).
 
+## [0.2.1] - 2026-11-20
+
+### Corretto
+- I colori dei link e dei pulsanti valgono solo dentro il sito (`.wp-site-blocks`): il banner dei cookie, che resta chiaro anche nel tema scuro, aveva il link "Powered by" chiaro su bianco (contrasto insufficiente segnalato da axe-core).
+
 ## [0.2.0] - 2026-11-20
 
 ### Aggiunto

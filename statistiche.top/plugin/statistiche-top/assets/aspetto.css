@@ -69,26 +69,28 @@
 :root p, :root li { text-wrap: pretty; }
 :root strong, :root b { font-weight: 600; }
 
-/* Link nel testo: stesso colore del testo, sempre sottolineati */
-:root a {
+/* Link nel testo: stesso colore del testo, sempre sottolineati.
+   Solo dentro il sito (.wp-site-blocks): banner e finestre di altri plugin,
+   come quello dei cookie, tengono i loro colori. */
+:root .wp-site-blocks a {
   color: var(--st-testo);
   text-decoration: underline;
   text-decoration-thickness: .08em;
   text-underline-offset: .12em;
 }
-:root a:hover { color: var(--st-tenue); }
+:root .wp-site-blocks a:hover { color: var(--st-tenue); }
 :root :focus-visible { outline: 3px solid var(--st-testo); outline-offset: 2px; }
 
 /* Testata: nome del sito senza sottolineatura, menu senza sottolineatura
    tranne la pagina corrente, che è anche in grassetto */
-:root .wp-block-site-title a { text-decoration: none; font-weight: 600; }
-:root .wp-block-navigation a { text-decoration: none; }
-:root .wp-block-navigation a:hover { text-decoration: underline; }
+:root .wp-site-blocks .wp-block-site-title a { text-decoration: none; font-weight: 600; }
+:root .wp-site-blocks .wp-block-navigation a { text-decoration: none; }
+:root .wp-site-blocks .wp-block-navigation a:hover { text-decoration: underline; }
 :root .wp-block-navigation [aria-current="page"] { font-weight: 700; text-decoration: underline; }
 :root .wp-block-navigation .wp-block-navigation-item__content { padding-block: .4em; }
 
 /* Pulsanti: pieni nel colore del testo, angoli appena arrotondati */
-:root .wp-element-button, :root .wp-block-button__link {
+:root .wp-element-button, :root .wp-site-blocks .wp-block-button__link {
   background-color: var(--st-testo);
   color: var(--st-sfondo);
   border: 1px solid var(--st-testo);
@@ -100,9 +102,9 @@
   padding: .75em 1em .65em;
   text-decoration: none;
 }
-:root .wp-element-button:hover, :root .wp-block-button__link:hover { color: var(--st-sfondo); background-color: var(--st-tenue); border-color: var(--st-tenue); }
-:root .is-style-outline .wp-block-button__link { background-color: transparent; color: var(--st-testo); border-color: var(--st-testo); }
-:root .is-style-outline .wp-block-button__link:hover { background-color: var(--st-testo); color: var(--st-sfondo); }
+:root .wp-element-button:hover, :root .wp-site-blocks .wp-block-button__link:hover { color: var(--st-sfondo); background-color: var(--st-tenue); border-color: var(--st-tenue); }
+:root .wp-site-blocks .is-style-outline .wp-block-button__link { background-color: transparent; color: var(--st-testo); border-color: var(--st-testo); }
+:root .wp-site-blocks .is-style-outline .wp-block-button__link:hover { background-color: var(--st-testo); color: var(--st-sfondo); }
 
 :root hr, :root .wp-block-separator { border-color: var(--st-bordo); }
 :root blockquote { border-left: 1px solid var(--st-bordo); font-style: italic; padding-left: 1.25em; }
