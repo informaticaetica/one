@@ -23,8 +23,8 @@
 			]
 		},
 		"layout": {
-			"contentSize": "38.75rem",
-			"wideSize": "60rem"
+			"contentSize": "50rem",
+			"wideSize": "72rem"
 		},
 		"spacing": {
 			"units": [ "px", "rem", "em", "%", "vw" ]
@@ -54,7 +54,7 @@
 				{ "slug": "medium", "name": "Testo", "size": "1.25rem" },
 				{ "slug": "large", "name": "Grande", "size": "1.5rem" },
 				{ "slug": "x-large", "name": "Molto grande", "size": "2rem" },
-				{ "slug": "xx-large", "name": "Titolo", "size": "clamp(2.4rem, 2rem + 2.5vw, 3.875rem)" }
+				{ "slug": "xx-large", "name": "Titolo", "size": "clamp(1.9rem, 1.5rem + 1.6vw, 2.6rem)" }
 			]
 		}
 	},

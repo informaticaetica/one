@@ -2,7 +2,7 @@
 Theme Name: statistiche.top
 Theme URI: https://statistiche.top
 Description: Tema grafico di statistiche.top: colonna di lettura stretta, serif Newsreader ospitato sul sito, fondo avorio e testo ardesia, tema chiaro, scuro e automatico. Le schede e le recensioni sono nel plugin statistiche-top.
-Version: 1.0.0
+Version: 1.0.1
 Requires at least: 6.6
 Requires PHP: 7.4
 Author: statistiche.top
@@ -46,6 +46,12 @@ Text Domain: statistiche-top-tema
 }
 
 body { text-rendering: optimizeLegibility; }
+
+/* Titoli: un solo corpo per il titolo di pagina, più misurato di quello del blocco. */
+h1.wp-block-post-title, .wp-block-post-title, h1.wp-block-heading { font-size: clamp(1.9rem, 1.5rem + 1.6vw, 2.6rem); line-height: 1.15; }
+
+/* Su schermi larghi la colonna usa lo spazio, senza diventare una striscia. */
+@media (min-width: 900px) { .wp-site-blocks > main, .tema-testata { padding-left: 2rem; padding-right: 2rem; } }
 p, li { text-wrap: pretty; }
 h1, h2, h3, h4 { text-wrap: balance; }
 a { text-decoration-thickness: .08em; text-underline-offset: .12em; }

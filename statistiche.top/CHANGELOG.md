@@ -4,6 +4,14 @@ Versionamento semantico. Il plugin `statistiche-top` ha la versione nell'intesta
 `plugin/statistiche-top/statistiche-top.php` e nella costante `VERSIONE`; il tema
 `statistiche-top-tema` nell'intestazione di `tema/statistiche-top-tema/style.css`.
 
+## [0.5.2] - 2026-11-21 (plugin) · tema 1.0.1
+
+### Aggiunto
+- Modulo "Proponi una persona, un prodotto o un'azienda" pensato per la home: campo "Sito ufficiale (se lo conosci)" e il gruppo "Parliamo di…" con le stelle da 1 a 5 e il campo "Quello che voglio dire è…" (da 30 a 2000 caratteri).
+
+### Corretto
+- Tema: colonna più larga su PC (50rem invece di 38,75rem) e titolo di pagina più piccolo.
+
 ## [0.5.1] - 2026-11-21
 
 ### Tolto

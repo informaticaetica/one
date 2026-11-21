@@ -33,6 +33,7 @@ final class Modulo {
 
 	/** Testi degli aiuti a fumetto (HTML fisso, scritto qui). */
 	const AIUTI = array(
+		'sito'       => '<p>Facoltativo. Se conosci il sito ufficiale, scrivilo: aiuta la redazione a verificare la scheda e chi legge a trovare il soggetto.</p>',
 		'tipo'       => '<p>Che cosa stai recensendo: una <strong>persona</strong> con un ruolo pubblico (un professionista, un artigiano, una figura istituzionale), un\'<strong>azienda</strong> (un negozio, uno studio, un\'impresa, un ente) o un <strong>prodotto</strong>.</p><p>Non si recensiscono privati cittadini.</p>',
 		'nome'       => '<p>Il nome come lo trovi sull\'insegna, sul sito ufficiale o sulla confezione: per esempio «Officina Rossi», «Mario Bianchi, idraulico» o «Caffè Moka Express».</p><p>Se la scheda esiste già, la tua recensione verrà aggiunta lì.</p>',
 		'categoria'  => '<p>Facoltativo. Scrivi con parole tue in che categoria la metteresti (per esempio «Pasticceria» o «Elettrodomestici»), oppure scegli una delle categorie suggerite mentre scrivi.</p><p>Come in un wiki, la redazione decide poi la categoria definitiva.</p>',
@@ -107,6 +108,7 @@ final class Modulo {
 					printf( '<option value="%s"></option>', esc_attr( get_the_title( $id ) ) );
 				}
 				echo '</datalist>';
+				$f->testo( 'st_sito', 'Sito ufficiale (se lo conosci)', 'sito', false, array( 'type' => 'url', 'inputmode' => 'url', 'placeholder' => 'https://', 'maxlength' => 200 ) );
 				$f->testo( 'st_categoria', 'Categoria', 'categoria', false, array( 'maxlength' => self::MAX_CATEGORIA, 'list' => 'st-categorie' ) );
 				echo '<datalist id="st-categorie">';
 				$settori = get_terms( array( 'taxonomy' => Schede::SETTORE, 'hide_empty' => false ) );
@@ -115,8 +117,10 @@ final class Modulo {
 				}
 				echo '</datalist>';
 			}
+			echo '<fieldset class="st-parliamo"><legend>Parliamo di…</legend>';
 			$f->stelle();
-			$f->area( 'st_recensione', sprintf( 'La tua recensione (da %d a %d caratteri)', self::MIN_TESTO, self::MAX_TESTO ), 'recensione', true, self::MAX_TESTO, 7, true );
+			$f->area( 'st_recensione', sprintf( 'Quello che voglio dire è… (da %d a %d caratteri)', self::MIN_TESTO, self::MAX_TESTO ), 'recensione', true, self::MAX_TESTO, 7, true );
+			echo '</fieldset>';
 			if ( $utente->exists() ) {
 				printf( '<p class="st-nota">Invii la recensione come <strong>%s</strong>: non serve confermare l\'email.</p>', esc_html( $utente->display_name ) );
 			} else {
@@ -169,6 +173,9 @@ final class Modulo {
 		$l = static function ( $s ) {
 			return mb_strlen( $s );
 		};
+		if ( '' !== $g( 'st_sito' ) && ! wp_http_validate_url( esc_url_raw( $g( 'st_sito' ), array( 'http', 'https' ) ) ) ) {
+			$e['st_sito'] = 'L\'indirizzo del sito deve iniziare con https:// o http://.';
+		}
 		if ( ! $con_scheda ) {
 			if ( ! isset( Schede::TIPI_SOGGETTO[ $g( 'st_tipo' ) ] ) ) {
 				$e['st_tipo'] = 'Scegli se recensisci una persona, un\'azienda o un prodotto.';
@@ -242,7 +249,7 @@ final class Modulo {
 		}
 
 		$d = array();
-		foreach ( array( 'st_tipo', 'st_nome', 'st_categoria', 'st_stelle', 'st_email', 'st_telefono', 'st_relazione', 'st_veridicita', 'st_privacy' ) as $k ) {
+		foreach ( array( 'st_tipo', 'st_nome', 'st_sito', 'st_categoria', 'st_stelle', 'st_email', 'st_telefono', 'st_relazione', 'st_veridicita', 'st_privacy' ) as $k ) {
 			$d[ $k ] = isset( $in[ $k ] ) && is_scalar( $in[ $k ] ) ? sanitize_text_field( $in[ $k ] ) : '';
 		}
 		$d['st_tipo']       = sanitize_key( $d['st_tipo'] );
@@ -383,6 +390,7 @@ final class Modulo {
 			return 0;
 		}
 		update_post_meta( $id, '_st_tipo', $d['st_tipo'] );
+		update_post_meta( $id, '_st_sito', '' !== $d['st_sito'] ? esc_url_raw( $d['st_sito'], array( 'http', 'https' ) ) : '' );
 		Schede::salva_aggregato( $id, Punteggi::aggrega( array(), Voti::media_generale(), (float) Impostazioni::valore( 'peso_bayes' ) ) );
 		$categoria = trim( $d['st_categoria'] );
 		if ( '' !== $categoria ) {

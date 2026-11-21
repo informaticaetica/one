@@ -2,7 +2,7 @@
 /**
  * Plugin Name:       statistiche.top
  * Description:       Schede su persone, aziende e prodotti, recensioni umane moderate, statistiche di gradimento, pagine in stile wiki e passaggio a eccellenze.org. L'aspetto grafico è nel tema statistiche-top-tema.
- * Version:           0.5.1
+ * Version:           0.5.2
  * Requires at least: 6.4
  * Requires PHP:      7.4
  * Author:            statistiche.top
@@ -16,7 +16,7 @@ namespace StatisticheTop;
 
 defined( 'ABSPATH' ) || exit;
 
-const VERSIONE    = '0.5.1';
+const VERSIONE    = '0.5.2';
 const VERSIONE_DB = '4';
 const FILE        = __FILE__;
 
