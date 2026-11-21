@@ -52,11 +52,13 @@ e 8.3, installa WordPress con SQLite, attiva il plugin, lancia
 | Funzione | Come |
 |---|---|
 | Schede | Tipo di contenuto `st_scheda` (indirizzo `/schede/nome/`), settori in `/settore/…`. Tipo, luogo, sintesi (max 500 caratteri), fonti obbligatorie, licenza dell'immagine, revisioni. |
-| Proposta dal sito | Shortcode `[st_nuova_scheda]`: solo utenti registrati, scheda in stato "in revisione", massimo 3 in attesa per utente, controllo dei doppioni, campo trappola contro i programmi automatici. |
-| Recensioni | Voto da 1 a 5 su competenza, affidabilità, impatto, trasparenza; commento facoltativo; una sola per utente e scheda (vincolo nel database); modificabile per 30 giorni. |
+| Proposta dal sito | Shortcode `[st_nuova_scheda]`: guida in 4 passi con recensione obbligatoria di chi propone (conta dopo la pubblicazione e i 7 giorni dell'account); massimo 3 schede in attesa per utente, controllo dei doppioni, campo trappola. I membri (`st_membro`) aggiungono schede pubblicate subito, anche senza recensione. |
+| Categorie | Categoria libera scritta da chi propone; la redazione decide nella coda "Categorie da decidere" (stile wiki). |
+| Recensioni | Guida in 3 passi: stelle da 1 a 5, titolo, rapporto con il soggetto, quando, frequenza, canale, voti sugli aspetti (o "Non so"), consiglio 0-10, ritorno, problemi, pro, contro, racconto. Una per utente e scheda, modificabile per 30 giorni. Voto "Utile", filtri e ordinamento. |
+| Radiografia | Distribuzione delle stelle, media per aspetto, punti di forza e deboli, indice di raccomandazione, ritorno, problemi risolti, chi ha valutato. |
 | Anti-manipolazione | Account di almeno 7 giorni e accesso in almeno 2 giorni diversi; massimo 10 recensioni in 24 ore; recensioni dallo stesso indirizzo di rete sulla stessa scheda sospese finché un moderatore non le guarda (si salva solo un'impronta cifrata dell'IP). |
 | Conflitto di interesse | Chi crea la scheda, i referenti verificati e chi dichiara un legame non possono votare; la dichiarazione annulla un'eventuale recensione già data. |
-| Punteggio | Media bayesiana `(C × m + n × media) ÷ (C + n)`, con C = 20 e m = media del sito (3,5 finché ci sono meno di 50 recensioni). |
+| Punteggio | Media bayesiana delle stelle `(C × m + n × media) ÷ (C + n)`, con C = 20 e m = media del sito (3,5 finché ci sono meno di 50 recensioni). |
 | eccellenze.org | Ogni notte: candidatura con ≥ 100 recensori unici e punteggio ≥ 4,5; revisione di uscita sotto 4,3. Il passaggio e l'uscita li decide sempre una persona dalla bacheca, con motivazione nello storico pubblico. |
 | API | `GET /wp-json/statistiche-top/v1/eccellenze`: schede pubblicate su eccellenze.org, con link di ritorno. eccellenze.org le **copia**, l'originale resta qui. |
 | Segnalazioni | Modulo su ogni scheda, anche senza account (con limite orario); tipi: errore, fonte, conflitto, rettifica/rimozione, altro; risposta motivata inviata per email. |

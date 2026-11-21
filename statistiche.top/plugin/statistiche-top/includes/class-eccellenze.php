@@ -43,6 +43,7 @@ final class Eccellenze {
 
 	/** Ricalcola tutte le schede pubblicate e propone candidature e revisioni. */
 	public static function calcolo_notturno() {
+		Voti::promuovi_in_attesa();
 		Voti::calcola_media_generale();
 		$soglie  = Impostazioni::soglie();
 		$nuove   = array();
@@ -152,7 +153,9 @@ final class Eccellenze {
 				'fonti'        => $d['fonti'],
 				'media_bayes'  => $agg['media_bayes'],
 				'n_recensori'  => $agg['n_recensori'],
-				'criteri'      => $agg['criteri'],
+				'distribuzione' => $agg['distribuzione'],
+				'aspetti'      => $agg['aspetti'],
+				'consiglia'    => $agg['consiglia'],
 				'url'          => get_permalink( $p ),
 				'dal'          => (string) get_post_meta( $p->ID, '_st_ecc_dal', true ),
 				'aggiornata'   => get_post_modified_time( 'c', true, $p ),

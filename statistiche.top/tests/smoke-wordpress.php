@@ -60,7 +60,9 @@ for ( $i = 1; $i <= 100; $i++ ) {
 	$wpdb->insert(
 		Installazione::tabella_voti(),
 		array(
-			'scheda_id' => $scheda, 'utente_id' => $u, 'competenza' => 5, 'affidabilita' => 5, 'impatto' => 5, 'trasparenza' => 5,
+			'scheda_id' => $scheda, 'utente_id' => $u, 'stelle' => 5, 'titolo' => "Recensione $i",
+			'aspetti' => wp_json_encode( array( 'qualita' => 5, 'prezzo' => 4, 'assistenza' => 5 ) ),
+			'relazione' => 'cliente', 'esperienza' => '2026-10', 'consiglia' => 10, 'tornerebbe' => 1, 'problema' => 'nessuno',
 			'commento' => 1 === $i ? 'Commento di prova.' : '', 'stato' => 'valido', 'ip_hash' => hash( 'sha256', "ip$i" ), 'creato' => $adesso, 'modificato' => $adesso,
 		)
 	);
@@ -68,7 +70,7 @@ for ( $i = 1; $i <= 100; $i++ ) {
 
 // Doppio voto impedito dal vincolo UNIQUE.
 $wpdb->suppress_errors( true );
-$doppio = $wpdb->insert( Installazione::tabella_voti(), array( 'scheda_id' => $scheda, 'utente_id' => $u, 'competenza' => 1, 'affidabilita' => 1, 'impatto' => 1, 'trasparenza' => 1, 'stato' => 'valido', 'creato' => $adesso, 'modificato' => $adesso ) );
+$doppio = $wpdb->insert( Installazione::tabella_voti(), array( 'scheda_id' => $scheda, 'utente_id' => $u, 'stelle' => 1, 'stato' => 'valido', 'creato' => $adesso, 'modificato' => $adesso ) );
 $wpdb->suppress_errors( false );
 controlla( 'doppio voto impedito', false === $doppio );
 
@@ -76,6 +78,7 @@ Eccellenze::calcolo_notturno();
 $agg = Schede::aggregato( $scheda );
 controlla( '100 recensori contati', 100 === $agg['n_recensori'] );
 controlla( 'punteggio ponderato sopra 4,5', $agg['media_bayes'] >= 4.5 );
+controlla( 'radiografia: distribuzione e aspetti', 100 === $agg['distribuzione'][5] && 3 === count( $agg['aspetti'] ) && 100 === (int) $agg['consiglia']['nps'] );
 controlla( 'scheda candidata', 'candidata' === Eccellenze::stato( $scheda ) );
 controlla( 'decisione su stato sbagliato rifiutata', ! Eccellenze::decidi( $scheda, 'esci' ) );
 controlla( 'approvazione manuale', Eccellenze::decidi( $scheda, 'approva', 'Fonti verificate.' ) && 'pubblicata' === Eccellenze::stato( $scheda ) );
@@ -103,8 +106,17 @@ controlla( 'storico pubblico', false !== strpos( $html, 'Fonti verificate.' ) );
 
 // Modulo di proposta con gli aiuti a fumetto e interruttore del tema.
 wp_set_current_user( $nuovo );
-$modulo = Vista::shortcode_nuova_scheda();
-controlla( 'modulo di proposta con 9 aiuti', 9 === substr_count( $modulo, 'class="st-aiuto-pulsante"' ) );
+$modulo = StatisticheTop\Guida::shortcode_proposta();
+controlla( 'guida di proposta: primo passo con 8 aiuti', 8 === substr_count( $modulo, 'class="st-aiuto-pulsante"' ) && false !== strpos( $modulo, 'Passo 1 di 4' ) );
+
+// Recensione di chi propone: in attesa finché l'account non ha 7 giorni.
+$proposta = wp_insert_post( array( 'post_type' => Schede::TIPO, 'post_status' => 'publish', 'post_title' => 'Scheda proposta', 'post_author' => $nuovo ) );
+update_post_meta( $proposta, '_st_tipo', 'azienda' );
+$dati = array( 'stelle' => 4, 'titolo' => 'Prova', 'aspetti' => array( 'qualita' => 4, 'prezzo' => 3, 'tempi' => 5 ), 'relazione' => 'cliente', 'esperienza' => '2026-10', 'frequenza' => 'una', 'canale' => 'online', 'consiglia' => 8, 'tornerebbe' => 1, 'problema' => 'nessuno', 'pro' => '', 'contro' => '', 'commento' => 'Esperienza di prova.' );
+controlla( 'recensione di chi propone: in attesa', 'attesa' === Voti::salva( $proposta, $nuovo, $dati, 'attesa', true ) && 0 === Schede::aggregato( $proposta )['n_recensioni'] );
+$wpdb->update( $wpdb->users, array( 'user_registered' => gmdate( 'Y-m-d H:i:s', time() - 8 * DAY_IN_SECONDS ) ), array( 'ID' => $nuovo ) );
+clean_user_cache( $nuovo );
+controlla( 'recensione di chi propone: valida dopo 7 giorni', 1 === Voti::promuovi_in_attesa( $proposta ) && 1 === Schede::aggregato( $proposta )['n_recensioni'] );
 controlla( 'interruttore del tema', false !== strpos( do_shortcode( '[st_tema]' ), 'data-st-tema' ) );
 wp_set_current_user( 0 );
 

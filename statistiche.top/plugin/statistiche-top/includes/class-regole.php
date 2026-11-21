@@ -34,7 +34,10 @@ final class Regole {
 		if ( empty( $fatti['scheda_pubblicata'] ) ) {
 			return array( false, 'scheda_non_pubblicata' );
 		}
-		if ( ! empty( $fatti['e_autore_scheda'] ) ) {
+		$modifica = isset( $fatti['giorni_dalla_recensione'] ) && null !== $fatti['giorni_dalla_recensione'];
+		// Chi ha proposto la scheda l'ha già recensita nella proposta: può modificare
+		// quella recensione, non aggiungerne un'altra.
+		if ( ! empty( $fatti['e_autore_scheda'] ) && ! $modifica ) {
 			return array( false, 'autore_scheda' );
 		}
 		if ( ! empty( $fatti['e_referente'] ) ) {
@@ -50,7 +53,6 @@ final class Regole {
 			return array( false, 'attivita_insufficiente' );
 		}
 
-		$modifica = isset( $fatti['giorni_dalla_recensione'] ) && null !== $fatti['giorni_dalla_recensione'];
 		if ( $modifica ) {
 			if ( (int) $fatti['giorni_dalla_recensione'] >= (int) $impostazioni['giorni_modifica'] ) {
 				return array( false, 'modifica_scaduta' );
@@ -83,14 +85,14 @@ final class Regole {
 		$mod   = isset( $impostazioni['giorni_modifica'] ) ? (int) $impostazioni['giorni_modifica'] : 30;
 		$testi = array(
 			'scheda_non_pubblicata'  => 'Questa scheda non è ancora pubblicata.',
-			'autore_scheda'          => 'Non puoi recensire una scheda che hai creato tu.',
+			'autore_scheda'          => 'Hai aggiunto tu questa scheda: se l\'hai proposta con la tua recensione, puoi modificarla; altrimenti non puoi recensirla.',
 			'referente'              => 'Il referente del soggetto può rispondere, ma non votare.',
 			'conflitto'              => 'Hai dichiarato un legame con questo soggetto: non puoi recensirlo.',
 			'account_recente'        => sprintf( 'Puoi recensire quando il tuo account avrà almeno %d giorni.', $eta ),
 			'attivita_insufficiente' => sprintf( 'Puoi recensire dopo aver fatto accesso al sito in almeno %d giorni diversi.', $att ),
 			'modifica_scaduta'       => sprintf( 'La recensione si può modificare solo entro %d giorni.', $mod ),
 			'limite_giornaliero'     => sprintf( 'Hai raggiunto il limite di %d recensioni in 24 ore. Riprova domani.', $lim ),
-			'voti_non_validi'        => 'Dai un voto da 1 a 5 a ogni criterio.',
+			'voti_non_validi'        => 'Controlla i voti: le stelle vanno da 1 a 5.',
 			'dichiarazione'          => 'Conferma di non avere legami con il soggetto.',
 			'non_autenticato'        => 'Accedi per lasciare una recensione.',
 			'richiesta_non_valida'   => 'La richiesta non è valida. Ricarica la pagina e riprova.',

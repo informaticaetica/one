@@ -110,7 +110,13 @@
 
   // --- Messaggio di esito e contatore della sintesi ---------------------------
   var avviso = document.querySelector('[data-st-focus]');
-  if (avviso) { avviso.focus(); }
+  var titoloPasso = document.getElementById('st-passo-titolo');
+  if (avviso) {
+    avviso.focus();
+  } else if (titoloPasso && /[?&]st_passo=/.test(window.location.search)) {
+    // Nella guida a passi il focus va sul titolo del passo appena aperto.
+    titoloPasso.focus();
+  }
 
   document.querySelectorAll('textarea[data-st-contatore]').forEach(function (campo) {
     var uscita = document.getElementById(campo.getAttribute('data-st-contatore'));

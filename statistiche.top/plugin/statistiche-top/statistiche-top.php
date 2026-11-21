@@ -2,7 +2,7 @@
 /**
  * Plugin Name:       statistiche.top
  * Description:       Schede su persone e aziende degne di nota, recensioni per criteri, media bayesiana, difesa dalle manipolazioni e passaggio a eccellenze.org con verifica manuale.
- * Version:           0.2.2
+ * Version:           0.3.0
  * Requires at least: 6.4
  * Requires PHP:      7.4
  * Author:            statistiche.top
@@ -16,8 +16,8 @@ namespace StatisticheTop;
 
 defined( 'ABSPATH' ) || exit;
 
-const VERSIONE    = '0.2.2';
-const VERSIONE_DB = '1';
+const VERSIONE    = '0.3.0';
+const VERSIONE_DB = '2';
 const FILE        = __FILE__;
 
 require_once __DIR__ . '/includes/class-punteggi.php';
@@ -29,6 +29,8 @@ require_once __DIR__ . '/includes/class-voti.php';
 require_once __DIR__ . '/includes/class-segnalazioni.php';
 require_once __DIR__ . '/includes/class-eccellenze.php';
 require_once __DIR__ . '/includes/class-vista.php';
+require_once __DIR__ . '/includes/class-radiografia.php';
+require_once __DIR__ . '/includes/class-guida.php';
 require_once __DIR__ . '/includes/class-aspetto.php';
 require_once __DIR__ . '/includes/class-amministrazione.php';
 
@@ -45,6 +47,7 @@ add_action(
 		Segnalazioni::avvia();
 		Eccellenze::avvia();
 		Vista::avvia();
+		Guida::avvia();
 		Aspetto::avvia();
 		if ( is_admin() ) {
 			Amministrazione::avvia();

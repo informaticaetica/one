@@ -3,6 +3,29 @@
 Versionamento semantico. La versione è quella del plugin `statistiche-top`
 (intestazione di `plugin/statistiche-top/statistiche-top.php` e costante `VERSIONE`).
 
+## [0.3.0] - 2026-11-21
+
+Nuovo sistema di recensioni sul modello dei grandi negozi online, pensato per fare la "radiografia" della qualità di un'azienda o di una persona con un ruolo pubblico.
+
+### Aggiunto
+- Guida a passi (al massimo 4): chi è, la tua esperienza, la radiografia, racconto e conferma. Funziona senza JavaScript, conserva i dati fra un passo e l'altro per un giorno, si può tornare indietro; indicatore "Passo N di M"; aiuti a fumetto su ogni parte.
+- Chi propone una scheda deve recensirla: la sua recensione resta "in attesa" e conta quando la scheda è pubblicata e l'account ha almeno 7 giorni (promozione automatica alla pubblicazione e ogni notte).
+- Ruolo "Membro di statistiche.top" (capacità `st_aggiungi`, anche per amministratori e redattori): aggiunge schede pubblicate subito, con o senza recensione.
+- Categoria libera in stile wiki: chi propone scrive la categoria con parole sue (con i settori suggeriti); se coincide con un settore esistente viene assegnata, altrimenti va nella coda "Categorie da decidere", dove la redazione la collega, crea un settore nuovo o la scarta, con nota nello storico.
+- Recensione: stelle complessive da 1 a 5, titolo, rapporto con il soggetto (dipendente, socio, familiare e concorrente bloccano la recensione), mese e anno, frequenza, canale, voti da 1 a 5 su 10 aspetti per le aziende e 6 per le persone (con "Non so", almeno 3 valutati), consiglio da 0 a 10, "ci torneresti", problemi risolti, cosa è piaciuto, cosa no, racconto.
+- Pagina della scheda come "Statistiche di gradimento": punteggio ponderato, distribuzione delle stelle con filtro, indicatori (consiglio con convinzione e indice di raccomandazione, ritorno, problemi risolti), punti di forza e punti deboli, media per aspetto, chi ha valutato.
+- Recensioni ordinabili per utilità o data, filtrabili per stelle e rapporto, con il voto "Utile" e il segno "Utente verificato (email)".
+- Sito ufficiale della scheda.
+
+### Modificato
+- Il punteggio e la regola di eccellenze.org (100 recensori, valutazione globale di almeno 4,5) usano le stelle complessive.
+- L'API per eccellenze.org restituisce distribuzione, aspetti e indice di raccomandazione al posto dei quattro criteri.
+- Schema del database alla versione 2: le recensioni con i quattro criteri vengono convertite in stelle e aspetti.
+- Metodologia riscritta per il nuovo sistema.
+
+### Tolto
+- Il modulo di recensione a pagina unica con i quattro criteri.
+
 ## [0.2.2] - 2026-11-20
 
 ### Corretto

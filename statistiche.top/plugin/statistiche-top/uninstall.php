@@ -12,6 +12,7 @@ defined( 'WP_UNINSTALL_PLUGIN' ) || exit;
 global $wpdb;
 $wpdb->query( "DROP TABLE IF EXISTS {$wpdb->prefix}st_voti" ); // phpcs:ignore WordPress.DB.DirectDatabaseQuery
 $wpdb->query( "DROP TABLE IF EXISTS {$wpdb->prefix}st_segnalazioni" ); // phpcs:ignore WordPress.DB.DirectDatabaseQuery
+$wpdb->query( "DROP TABLE IF EXISTS {$wpdb->prefix}st_utili" ); // phpcs:ignore WordPress.DB.DirectDatabaseQuery
 foreach ( array( 'st_impostazioni', 'st_versione_db', 'st_media_generale', 'st_ultimo_calcolo' ) as $opzione ) {
 	delete_option( $opzione );
 }
@@ -21,6 +22,8 @@ foreach ( array( 'administrator', 'editor' ) as $nome ) {
 	$ruolo = get_role( $nome );
 	if ( $ruolo ) {
 		$ruolo->remove_cap( 'st_modera' );
+		$ruolo->remove_cap( 'st_aggiungi' );
 	}
 }
+remove_role( 'st_membro' );
 wp_clear_scheduled_hook( 'st_calcolo_notturno' );

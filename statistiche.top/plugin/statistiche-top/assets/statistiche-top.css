@@ -92,7 +92,8 @@
   border: 1px solid var(--st-bordo); border-radius: 8px; background: var(--st-superficie); color: var(--st-testo); font-weight: 400;
 }
 .st-voto-scelte input:checked + label { background: var(--st-primario); color: var(--st-primario-testo); border: 3px solid var(--st-testo); font-weight: 800; }
-.st-voto-scelte input:checked + label::before { content: "✓\00a0"; }
+.st-voto-scelte label { position: relative; }
+.st-voto-scelte input:checked + label::before { content: "✓"; position: absolute; top: 1px; left: 4px; font-size: .7rem; line-height: 1; }
 .st-voto-scelte input:focus-visible + label { outline: 3px solid var(--st-primario); outline-offset: 2px; }
 
 .st-pulsante {
@@ -112,6 +113,60 @@
 
 .st-formula { background: var(--st-accento-tenue); padding: .7rem 1rem; border-radius: var(--st-raggio); }
 .st-formula code { color: var(--st-testo); background: transparent; }
+
+
+/* ---------- Guida a passi ---------- */
+.st-passi ol { list-style: none; display: flex; flex-wrap: wrap; gap: .4rem 1rem; padding: 0; margin: 0 0 1rem; font-size: 1rem; }
+.st-passi li { display: inline-flex; align-items: center; gap: .4rem; color: var(--st-tenue); }
+.st-passo-numero { display: inline-grid; place-items: center; width: 28px; height: 28px; border-radius: 50%; border: 2px solid var(--st-tenue); font-weight: 700; }
+.st-passi .st-passo-corrente { color: var(--st-testo); font-weight: 700; text-decoration: underline; text-underline-offset: .2em; }
+.st-passi .st-passo-corrente .st-passo-numero { background: var(--st-testo); color: var(--st-sfondo); border-color: var(--st-testo); }
+.st-passo-fatto { font-size: .9em; }
+.st-passo-titolo { margin-top: .5rem; }
+.st-guida-pulsanti { display: flex; flex-wrap: wrap; gap: .75rem; margin: 1.5rem 0 .5rem; }
+.st-scelte-in-linea { display: flex; flex-wrap: wrap; gap: .2rem 1.2rem; }
+.st-scelte-in-linea p { margin: .2rem 0; }
+.st-scelte-in-linea select { min-height: 44px; }
+.st-etichetta-gruppo { margin: 0; }
+.st-aspetti .st-voto { margin-bottom: .6rem; }
+.st-voto-scelte label.st-non-so { padding: 0 .7rem; font-style: italic; }
+.st-scala label { min-width: 44px; }
+.st-stelle-scelta label { padding: 0 .8rem; gap: .3rem; display: inline-flex; }
+.st-stelle-nome { font-size: .9em; }
+.st-riepilogo { margin: 1.5rem 0; padding: .8rem 1rem; border: 1px solid var(--st-bordo); border-radius: var(--st-raggio); background: var(--st-superficie); }
+.st-riepilogo dl { display: grid; grid-template-columns: max-content 1fr; gap: .3rem 1rem; margin: .5rem 0; }
+.st-riepilogo dl div { display: contents; }
+.st-riepilogo dt { font-weight: 700; }
+.st-riepilogo dd { margin: 0; }
+@media (max-width: 479px) { .st-riepilogo dl { grid-template-columns: 1fr; } .st-riepilogo dd { margin-bottom: .4rem; } }
+.st-avviso ul { margin: .4rem 0 0; }
+
+/* ---------- Radiografia ---------- */
+.st-stelle { letter-spacing: .1em; color: var(--st-accento); }
+.st-stelle-vuote { color: var(--st-bordo); }
+.st-punteggio-principale { display: flex; gap: 1rem; align-items: center; flex-wrap: wrap; }
+.st-punteggio-principale p { margin: 0; }
+.st-distribuzione th a { white-space: nowrap; }
+.st-indicatori { list-style: none; padding: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr)); gap: .75rem; }
+.st-indicatori li { padding: .7rem .9rem; border: 1px solid var(--st-bordo); border-radius: var(--st-raggio); background: var(--st-superficie); }
+.st-indicatore-cifra { display: block; font-size: 1.8rem; font-weight: 700; line-height: 1.1; }
+.st-indicatore-testo { display: block; margin-bottom: .3rem; }
+.st-forza-debolezza { display: grid; grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr)); gap: .5rem 1.5rem; }
+.st-forza-debolezza h4 { margin: .5rem 0 .2rem; }
+.st-forza-debolezza ul { margin-top: 0; }
+.st-relazioni { padding-left: 1.2rem; }
+
+/* ---------- Elenco delle recensioni ---------- */
+.st-filtri p { display: flex; flex-wrap: wrap; align-items: center; gap: .2rem .4rem; margin: .3rem 0; }
+.st-filtri-nome { font-weight: 700; margin-right: .2rem; }
+.st-blocco .st-filtro { display: inline-grid; place-items: center; min-height: 44px; min-width: 44px; padding: 0 .6rem; border-radius: 8px; }
+.st-blocco .st-filtro--attivo { font-weight: 800; text-decoration-thickness: .15em; background: var(--st-primario-tenue); }
+.st-recensione-voto { margin: 0; font-size: 1.15rem; }
+.st-recensione h3 { margin: .1rem 0 .3rem; }
+.st-recensione-data { margin-bottom: .3rem; }
+.st-utile { display: flex; flex-wrap: wrap; align-items: center; gap: .5rem 1rem; }
+.st-utile p { margin: 0; }
+.st-utile form { margin: 0; }
 
 /* Campo trappola e testo per i soli lettori di schermo */
 .st-trappola { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
@@ -166,4 +221,18 @@
   @keyframes st-compari { from { opacity: 0; transform: translateY(-4px); } to { opacity: 1; transform: none; } }
   .st-voto-scelte label { transition: background-color .15s, color .15s; }
   .st-blocco [data-st-focus] { scroll-margin-top: 5rem; }
+}
+
+/* Schermi stretti: il "?" dei gruppi va sotto il titolo, e la tabella della
+   distribuzione perde la colonna delle barre (solo grafica: i numeri restano). */
+@media (max-width: 599px) {
+  .st-modulo fieldset > .st-legenda-con-aiuto { float: none; padding-top: 0; }
+  .st-modulo fieldset > .st-legenda-con-aiuto ~ .st-campo-testa--gruppo { display: block; }
+  .st-distribuzione th:last-child, .st-distribuzione td:last-child { display: none; }
+}
+
+@media (max-width: 479px) {
+  .st-modulo fieldset { padding: .5rem .6rem .8rem; }
+  .st-voto-scelte { gap: .25rem; }
+  .st-voto-scelte label.st-non-so { padding: 0 .35rem; font-size: .85rem; }
 }

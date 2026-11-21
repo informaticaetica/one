@@ -22,6 +22,7 @@ final class Amministrazione {
 		add_action( 'admin_post_st_rispondi', array( __CLASS__, 'azione_risposta' ) );
 		add_action( 'admin_post_st_eccellenze', array( __CLASS__, 'azione_eccellenze' ) );
 		add_action( 'admin_post_st_ricalcola', array( __CLASS__, 'azione_ricalcola' ) );
+		add_action( 'admin_post_st_categoria', array( __CLASS__, 'azione_categoria' ) );
 		add_filter( 'manage_' . Schede::TIPO . '_posts_columns', array( __CLASS__, 'colonne' ) );
 		add_action( 'manage_' . Schede::TIPO . '_posts_custom_column', array( __CLASS__, 'colonna' ), 10, 2 );
 	}
@@ -58,6 +59,16 @@ final class Amministrazione {
 				<th scope="row"><label for="st-luogo">Luogo</label></th>
 				<td><input type="text" class="regular-text" id="st-luogo" name="st_luogo" value="<?php echo esc_attr( $d['luogo'] ); ?>"></td>
 			</tr>
+			<tr>
+				<th scope="row"><label for="st-sito">Sito ufficiale</label></th>
+				<td><input type="url" class="regular-text" id="st-sito" name="st_sito" value="<?php echo esc_attr( $d['sito'] ); ?>" placeholder="https://"></td>
+			</tr>
+			<?php if ( $d['categoria'] ) : ?>
+			<tr>
+				<th scope="row">Categoria suggerita</th>
+				<td><strong><?php echo esc_html( $d['categoria'] ); ?></strong> — scegli il settore nel riquadro «Settori» o dalla <a href="<?php echo esc_url( admin_url( 'admin.php?page=st-categorie' ) ); ?>">coda delle categorie</a>.</td>
+			</tr>
+			<?php endif; ?>
 			<tr>
 				<th scope="row">Persona con ruolo pubblico</th>
 				<td><label><input type="checkbox" name="st_figura_pubblica" value="1" <?php checked( $d['figura_pubblica'] ); ?>> Sì, verificato</label></td>
@@ -110,6 +121,11 @@ final class Amministrazione {
 			(int) $agg['n_recensori'],
 			esc_html( Eccellenze::STATI[ $stato ] ?? $stato )
 		);
+		global $wpdb;
+		$attesa = (int) $wpdb->get_var( $wpdb->prepare( 'SELECT COUNT(*) FROM ' . Installazione::tabella_voti() . " WHERE scheda_id = %d AND stato = 'attesa'", $post->ID ) ); // phpcs:ignore WordPress.DB
+		if ( $attesa ) {
+			printf( '<p>Recensioni in attesa (di chi ha proposto la scheda): %d. Contano dopo la pubblicazione e i %d giorni dell\'account.</p>', $attesa, (int) Impostazioni::valore( 'eta_minima_giorni' ) );
+		}
 		echo '<p><a href="' . esc_url( admin_url( 'admin.php?page=st-eccellenze' ) ) . '">Coda di eccellenze.org</a></p>';
 	}
 
@@ -125,6 +141,7 @@ final class Amministrazione {
 			update_post_meta( $post_id, '_st_tipo', $tipo );
 		}
 		update_post_meta( $post_id, '_st_luogo', isset( $in['st_luogo'] ) ? sanitize_text_field( $in['st_luogo'] ) : '' );
+		update_post_meta( $post_id, '_st_sito', isset( $in['st_sito'] ) ? esc_url_raw( trim( $in['st_sito'] ), array( 'http', 'https' ) ) : '' );
 		update_post_meta( $post_id, '_st_figura_pubblica', empty( $in['st_figura_pubblica'] ) ? 0 : 1 );
 		update_post_meta( $post_id, '_st_licenza_immagine', isset( $in['st_licenza_immagine'] ) ? sanitize_text_field( $in['st_licenza_immagine'] ) : '' );
 
@@ -190,6 +207,7 @@ final class Amministrazione {
 		$bolla  = $segn ? ' <span class="awaiting-mod">' . (int) $segn . '</span>' : '';
 		add_submenu_page( self::MENU, 'Recensioni da controllare', 'Recensioni da controllare', 'st_modera', 'st-recensioni', array( __CLASS__, 'pagina_recensioni' ) );
 		add_submenu_page( self::MENU, 'Segnalazioni', 'Segnalazioni' . $bolla, 'st_modera', 'st-segnalazioni', array( __CLASS__, 'pagina_segnalazioni' ) );
+		add_submenu_page( self::MENU, 'Categorie da decidere', 'Categorie da decidere' . ( self::categorie_conteggio() ? ' <span class="awaiting-mod">' . (int) self::categorie_conteggio() . '</span>' : '' ), 'st_modera', 'st-categorie', array( __CLASS__, 'pagina_categorie' ) );
 		add_submenu_page( self::MENU, 'eccellenze.org', 'eccellenze.org', 'st_modera', 'st-eccellenze', array( __CLASS__, 'pagina_eccellenze' ) );
 		add_submenu_page( self::MENU, 'Impostazioni di statistiche.top', 'Impostazioni', 'manage_options', 'st-impostazioni', array( __CLASS__, 'pagina_impostazioni' ) );
 	}
@@ -225,18 +243,14 @@ final class Amministrazione {
 			echo '<p><strong>Nessuna recensione in attesa.</strong></p></div>';
 			return;
 		}
-		echo '<table class="widefat striped"><caption class="screen-reader-text">Recensioni in attesa</caption><thead><tr><th scope="col">Scheda</th><th scope="col">Utente</th><th scope="col">Voti</th><th scope="col">Commento</th><th scope="col">Data</th><th scope="col">Decisione</th></tr></thead><tbody>';
+		echo '<table class="widefat striped"><caption class="screen-reader-text">Recensioni in attesa</caption><thead><tr><th scope="col">Scheda</th><th scope="col">Utente</th><th scope="col">Voto</th><th scope="col">Recensione</th><th scope="col">Data</th><th scope="col">Decisione</th></tr></thead><tbody>';
 		foreach ( $righe as $r ) {
 			$u = get_userdata( (int) $r['utente_id'] );
 			echo '<tr>';
 			printf( '<td><a href="%1$s">%2$s</a></td>', esc_url( get_edit_post_link( (int) $r['scheda_id'] ) ), esc_html( get_the_title( (int) $r['scheda_id'] ) ) );
 			printf( '<td>%s</td>', esc_html( $u ? $u->user_login . ' (dal ' . mysql2date( 'd/m/Y', $u->user_registered ) . ')' : '—' ) );
-			$voti = array();
-			foreach ( Punteggi::CRITERI as $k => $nome ) {
-				$voti[] = $nome . ' ' . (int) $r[ $k ];
-			}
-			printf( '<td>%s</td>', esc_html( implode( ', ', $voti ) ) );
-			printf( '<td>%s</td>', esc_html( wp_trim_words( $r['commento'], 40 ) ) );
+			printf( '<td>%s</td>', esc_html( (int) $r['stelle'] . ' stelle su 5 — ' . count( $r['aspetti'] ) . ' aspetti valutati' ) );
+			printf( '<td><strong>%1$s</strong><br>%2$s</td>', esc_html( $r['titolo'] ), esc_html( wp_trim_words( trim( $r['pro'] . ' ' . $r['contro'] . ' ' . $r['commento'] ), 40 ) ) );
 			printf( '<td>%s</td>', esc_html( $r['creato'] ) );
 			echo '<td>';
 			foreach ( array( 'valido' => 'Convalida', 'annullato' => 'Annulla' ) as $stato => $etichetta ) {
@@ -371,6 +385,99 @@ final class Amministrazione {
 		self::controlla( 'st_ricalcola' );
 		Eccellenze::calcolo_notturno();
 		self::torna( 'st-eccellenze', true );
+	}
+
+	/* ---------- Categorie suggerite (stile wiki) ---------- */
+
+	private static function schede_con_categoria( $limite = 100 ) {
+		return get_posts(
+			array(
+				'post_type'      => Schede::TIPO,
+				'post_status'    => array( 'publish', 'pending' ),
+				'posts_per_page' => $limite,
+				'meta_query'     => array(
+					array(
+						'key'     => '_st_categoria_suggerita',
+						'value'   => '',
+						'compare' => '!=',
+					),
+				),
+				'orderby'        => 'date',
+				'order'          => 'ASC',
+			)
+		);
+	}
+
+	private static function categorie_conteggio() {
+		static $n = null;
+		if ( null === $n ) {
+			$n = count( self::schede_con_categoria( 200 ) );
+		}
+		return $n;
+	}
+
+	public static function pagina_categorie() {
+		echo '<div class="wrap"><h1>Categorie da decidere</h1>';
+		self::esito();
+		echo '<p>Chi propone una scheda può scrivere la categoria con parole sue. Come in un wiki, qui decidi: collegarla a un settore esistente, creare un settore nuovo con quel nome, oppure scartarla. Ogni decisione resta nello storico pubblico della scheda.</p>';
+		$schede = self::schede_con_categoria();
+		if ( ! $schede ) {
+			echo '<p><strong>Nessuna categoria da decidere.</strong></p></div>';
+			return;
+		}
+		$settori = get_terms( array( 'taxonomy' => Schede::SETTORE, 'hide_empty' => false ) );
+		echo '<table class="widefat striped"><thead><tr><th scope="col">Scheda</th><th scope="col">Categoria suggerita</th><th scope="col">Settore attuale</th><th scope="col">Decisione</th></tr></thead><tbody>';
+		foreach ( $schede as $p ) {
+			$sugg  = (string) get_post_meta( $p->ID, '_st_categoria_suggerita', true );
+			$ora   = wp_get_post_terms( $p->ID, Schede::SETTORE, array( 'fields' => 'names' ) );
+			$campo = 'st-settore-' . $p->ID;
+			echo '<tr>';
+			printf( '<td><a href="%1$s">%2$s</a> (%3$s)</td>', esc_url( get_edit_post_link( $p->ID ) ), esc_html( get_the_title( $p ) ), 'publish' === $p->post_status ? 'pubblicata' : 'in revisione' );
+			printf( '<td><strong>%s</strong></td>', esc_html( $sugg ) );
+			printf( '<td>%s</td>', esc_html( $ora ? implode( ', ', $ora ) : '—' ) );
+			printf( '<td><form method="post" action="%1$s"><input type="hidden" name="action" value="st_categoria"><input type="hidden" name="scheda" value="%2$d">%3$s', esc_url( admin_url( 'admin-post.php' ) ), (int) $p->ID, wp_nonce_field( 'st_categoria', '_wpnonce', true, false ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+			printf( '<label for="%1$s">Settore esistente</label> <select id="%1$s" name="settore"><option value="">Scegli…</option>', esc_attr( $campo ) );
+			foreach ( is_array( $settori ) ? $settori : array() as $t ) {
+				printf( '<option value="%1$d">%2$s</option>', (int) $t->term_id, esc_html( $t->name ) );
+			}
+			echo '</select> <button class="button" type="submit" name="decisione" value="collega">Collega</button> ';
+			printf( '<button class="button" type="submit" name="decisione" value="crea">Crea il settore «%s»</button> ', esc_html( $sugg ) );
+			echo '<button class="button" type="submit" name="decisione" value="scarta">Scarta</button></form></td></tr>';
+		}
+		echo '</tbody></table></div>';
+	}
+
+	public static function azione_categoria() {
+		self::controlla( 'st_categoria' );
+		$id   = isset( $_POST['scheda'] ) ? absint( $_POST['scheda'] ) : 0;
+		$dec  = isset( $_POST['decisione'] ) ? sanitize_key( $_POST['decisione'] ) : '';
+		$sugg = (string) get_post_meta( $id, '_st_categoria_suggerita', true );
+		$ok   = false;
+		if ( $id && get_post_type( $id ) === Schede::TIPO && '' !== $sugg ) {
+			if ( 'collega' === $dec && ! empty( $_POST['settore'] ) ) {
+				$t = get_term( absint( $_POST['settore'] ), Schede::SETTORE );
+				if ( $t && ! is_wp_error( $t ) ) {
+					wp_set_object_terms( $id, array( (int) $t->term_id ), Schede::SETTORE, true );
+					Schede::aggiungi_storico( $id, 'Categoria suggerita «' . $sugg . '»: collegata al settore «' . $t->name . '».' );
+					$ok = true;
+				}
+			} elseif ( 'crea' === $dec ) {
+				$t = term_exists( $sugg, Schede::SETTORE );
+				$t = $t ? $t : wp_insert_term( $sugg, Schede::SETTORE );
+				if ( ! is_wp_error( $t ) ) {
+					wp_set_object_terms( $id, array( (int) $t['term_id'] ), Schede::SETTORE, true );
+					Schede::aggiungi_storico( $id, 'Categoria suggerita «' . $sugg . '»: creato il nuovo settore.' );
+					$ok = true;
+				}
+			} elseif ( 'scarta' === $dec ) {
+				Schede::aggiungi_storico( $id, 'Categoria suggerita «' . $sugg . '»: non usata dalla redazione.' );
+				$ok = true;
+			}
+			if ( $ok ) {
+				delete_post_meta( $id, '_st_categoria_suggerita' );
+			}
+		}
+		self::torna( 'st-categorie', $ok );
 	}
 
 	/* ---------- Impostazioni ---------- */
