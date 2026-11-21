@@ -3,6 +3,17 @@
 Versionamento semantico. La versione è quella del plugin `statistiche-top`
 (intestazione di `plugin/statistiche-top/statistiche-top.php` e costante `VERSIONE`).
 
+## [0.4.0] - 2026-11-21
+
+### Aggiunto
+- Indirizzi in stile wiki: ogni scheda pubblicata si apre su `statistiche.top/nome-scheda/`; i vecchi indirizzi `/schede/nome-scheda/` reindirizzano in modo permanente; il nome breve di una scheda non può coincidere con una pagina del sito o con un indirizzo riservato (riceve un suffisso).
+- Pagina della scheda come voce wiki: riquadro "In breve" (tipo, settore, luogo, sito, punteggio, recensioni, quanti lo consiglierebbero, ultima modifica), indice delle sezioni, "Note e fonti" numerate, "Cronologia delle modifiche", "Proponi una correzione" e nota finale sull'origine dei contenuti.
+- Email di conferma all'indirizzo dell'account: quando la redazione pubblica una scheda proposta e quando una recensione diventa valida (subito, dopo il controllo della redazione o dopo i 7 giorni dell'account).
+- Registro delle richieste (solo amministratori): chi ha proposto schede, scritto o modificato recensioni, inviato segnalazioni, con data, indirizzo IP, browser e numero di utenti per IP; filtri per utente, scheda e IP; cancellazione automatica dopo 90 giorni (impostazione "giorni_registro").
+
+### Modificato
+- Database alla versione 3 (tabella del registro).
+
 ## [0.3.0] - 2026-11-21
 
 Nuovo sistema di recensioni sul modello dei grandi negozi online, pensato per fare la "radiografia" della qualità di un'azienda o di una persona con un ruolo pubblico.

@@ -270,6 +270,11 @@ final class Voti {
 		if ( ! $ok ) {
 			return false;
 		}
+		$voto_id = $esistente ? (int) $esistente['id'] : (int) $wpdb->insert_id;
+		Registro::scrivi( $esistente ? 'recensione_modificata' : 'recensione', $scheda_id, $voto_id );
+		if ( ! $esistente && 'valido' === $stato ) {
+			do_action( 'st_recensione_valida', $voto_id );
+		}
 		if ( 'attesa' === $stato ) {
 			$stato = self::promuovi_in_attesa( $scheda_id ) ? 'valido' : 'attesa';
 		}
@@ -307,6 +312,7 @@ final class Voti {
 			if ( 'publish' === get_post_status( (int) $r['scheda_id'] ) && self::eta_account( (int) $r['utente_id'] ) >= $eta ) {
 				$wpdb->update( $t, array( 'stato' => 'valido' ), array( 'id' => (int) $r['id'] ), array( '%s' ), array( '%d' ) );
 				$da_ricalcolare[ (int) $r['scheda_id'] ] = true;
+				do_action( 'st_recensione_valida', (int) $r['id'] );
 				$fatte++;
 			}
 		}
@@ -385,12 +391,16 @@ final class Voti {
 			return false;
 		}
 		$t      = Installazione::tabella_voti();
-		$scheda = (int) $wpdb->get_var( $wpdb->prepare( "SELECT scheda_id FROM $t WHERE id = %d", $voto_id ) );
-		if ( ! $scheda ) {
+		$riga = $wpdb->get_row( $wpdb->prepare( "SELECT scheda_id, stato FROM $t WHERE id = %d", $voto_id ), ARRAY_A );
+		if ( ! $riga ) {
 			return false;
 		}
+		$scheda = (int) $riga['scheda_id'];
 		$wpdb->update( $t, array( 'stato' => $stato ), array( 'id' => $voto_id ), array( '%s' ), array( '%d' ) );
 		self::ricalcola_scheda( $scheda );
+		if ( 'valido' === $stato && 'valido' !== $riga['stato'] ) {
+			do_action( 'st_recensione_valida', (int) $voto_id );
+		}
 		return true;
 	}
 

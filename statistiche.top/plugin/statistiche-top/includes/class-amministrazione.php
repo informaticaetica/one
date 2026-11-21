@@ -209,6 +209,7 @@ final class Amministrazione {
 		add_submenu_page( self::MENU, 'Segnalazioni', 'Segnalazioni' . $bolla, 'st_modera', 'st-segnalazioni', array( __CLASS__, 'pagina_segnalazioni' ) );
 		add_submenu_page( self::MENU, 'Categorie da decidere', 'Categorie da decidere' . ( self::categorie_conteggio() ? ' <span class="awaiting-mod">' . (int) self::categorie_conteggio() . '</span>' : '' ), 'st_modera', 'st-categorie', array( __CLASS__, 'pagina_categorie' ) );
 		add_submenu_page( self::MENU, 'eccellenze.org', 'eccellenze.org', 'st_modera', 'st-eccellenze', array( __CLASS__, 'pagina_eccellenze' ) );
+		add_submenu_page( self::MENU, 'Registro delle richieste', 'Registro delle richieste', 'manage_options', 'st-registro', array( Registro::class, 'pagina' ) );
 		add_submenu_page( self::MENU, 'Impostazioni di statistiche.top', 'Impostazioni', 'manage_options', 'st-impostazioni', array( __CLASS__, 'pagina_impostazioni' ) );
 	}
 

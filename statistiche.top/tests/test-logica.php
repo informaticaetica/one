@@ -9,9 +9,11 @@ define( 'ST_TEST', true );
 $base = dirname( __DIR__ ) . '/plugin/statistiche-top/includes/';
 require $base . 'class-punteggi.php';
 require $base . 'class-regole.php';
+require $base . 'class-indirizzi.php';
 
 use StatisticheTop\Punteggi;
 use StatisticheTop\Regole;
+use StatisticheTop\Indirizzi;
 
 $falliti = 0;
 $totali  = 0;
@@ -125,6 +127,13 @@ verifica( 'modifica al giorno 29', array( true, '' ), Regole::puo_recensire( arr
 verifica( 'modifica al giorno 30', array( false, 'modifica_scaduta' ), Regole::puo_recensire( array_merge( $base_fatti, array( 'giorni_dalla_recensione' => 30 ) ), $imp ) );
 verifica( 'IP nuovo: valido', 'valido', Regole::stato_iniziale( 0 ) );
 verifica( 'IP già usato: sospeso', 'sospeso', Regole::stato_iniziale( 1 ) );
+
+// --- Indirizzi wiki ---
+verifica( 'slug normale libero', false, Indirizzi::riservato( 'officina-rossi' ) );
+verifica( 'slug di una pagina esistente', true, Indirizzi::riservato( 'chi-siamo', true ) );
+verifica( 'slug riservato: schede', true, Indirizzi::riservato( 'schede' ) );
+verifica( 'slug riservato: wp-admin', true, Indirizzi::riservato( 'wp-admin' ) );
+verifica( 'slug solo numerico', true, Indirizzi::riservato( '2026' ) );
 
 echo "\n$totali verifiche, $falliti fallite.\n";
 exit( $falliti ? 1 : 0 );

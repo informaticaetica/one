@@ -30,6 +30,7 @@ final class Installazione {
 
 	public static function attiva() {
 		self::crea_tabelle();
+		self::aggiungi_capacita();
 		Schede::registra_tipi();
 		flush_rewrite_rules();
 		if ( ! wp_next_scheduled( self::EVENTO_NOTTURNO ) ) {
@@ -140,6 +141,25 @@ final class Installazione {
   KEY utente_creato (utente_id,creato),
   KEY scheda_stato (scheda_id,stato),
   KEY scheda_ip (scheda_id,ip_hash)
+) $charset;"
+		);
+
+		$registro = Registro::tabella();
+		dbDelta(
+			"CREATE TABLE $registro (
+  id bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  evento varchar(30) NOT NULL,
+  utente_id bigint(20) unsigned NOT NULL DEFAULT 0,
+  scheda_id bigint(20) unsigned NOT NULL DEFAULT 0,
+  voto_id bigint(20) unsigned NOT NULL DEFAULT 0,
+  ip varchar(45) NOT NULL DEFAULT '',
+  browser varchar(255) NOT NULL DEFAULT '',
+  creato datetime NOT NULL,
+  PRIMARY KEY  (id),
+  KEY creato (creato),
+  KEY utente (utente_id),
+  KEY scheda (scheda_id),
+  KEY ip (ip)
 ) $charset;"
 		);
 

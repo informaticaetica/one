@@ -236,3 +236,22 @@
   .st-voto-scelte { gap: .25rem; }
   .st-voto-scelte label.st-non-so { padding: 0 .35rem; font-size: .85rem; }
 }
+
+/* ---------- Voce in stile wiki ---------- */
+.st-infobox { border: 1px solid var(--st-bordo); background: var(--st-superficie); border-radius: var(--st-raggio); padding: .8rem 1rem; margin: 0 0 1.5rem; font-size: 1rem; }
+.st-blocco .st-infobox-titolo, .st-blocco .st-indice-titolo { font-size: 1.15rem; margin: 0 0 .5rem; }
+.st-infobox dl { margin: 0; display: grid; grid-template-columns: max-content 1fr; gap: .35rem .8rem; }
+.st-infobox dl div { display: contents; }
+.st-infobox dt { font-weight: 700; color: var(--st-tenue); }
+.st-infobox dd { margin: 0; overflow-wrap: anywhere; }
+.st-infobox .st-etichetta-eccellenza { margin: 0 0 .6rem; }
+/* Da 1280 px il riquadro si affianca alla colonna di lettura, nello spazio libero a destra. */
+@media (min-width: 1280px) {
+  .st-infobox { float: right; clear: right; width: 16rem; margin: 0 -18rem 1rem 0; }
+}
+.st-indice { display: inline-block; min-width: 14rem; border: 1px solid var(--st-bordo); border-radius: var(--st-raggio); padding: .6rem 1.2rem .6rem 1rem; margin: 0 0 1rem; font-size: 1rem; }
+.st-indice ol { margin: 0; padding-left: 1.4rem; }
+.st-indice li { margin: .15rem 0; }
+.st-blocco .st-indice a { display: inline-block; padding: .3rem 0; }
+.st-wiki-piede { border-top: 1px solid var(--st-bordo); padding-top: .8rem; margin-top: 2rem; }
+.st-wiki h2[id] { scroll-margin-top: 1rem; }

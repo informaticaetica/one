@@ -464,6 +464,7 @@ final class Guida {
 			}
 		}
 
+		Registro::scrivi( $pubblica ? 'scheda_membro' : 'proposta_scheda', $id );
 		Schede::aggiungi_storico( $id, $pubblica ? 'Scheda aggiunta da un membro di statistiche.top.' : 'Scheda proposta dal sito con la recensione di chi la propone, in attesa di revisione.' );
 		wp_mail(
 			get_option( 'admin_email' ),

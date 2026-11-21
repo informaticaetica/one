@@ -13,6 +13,7 @@ global $wpdb;
 $wpdb->query( "DROP TABLE IF EXISTS {$wpdb->prefix}st_voti" ); // phpcs:ignore WordPress.DB.DirectDatabaseQuery
 $wpdb->query( "DROP TABLE IF EXISTS {$wpdb->prefix}st_segnalazioni" ); // phpcs:ignore WordPress.DB.DirectDatabaseQuery
 $wpdb->query( "DROP TABLE IF EXISTS {$wpdb->prefix}st_utili" ); // phpcs:ignore WordPress.DB.DirectDatabaseQuery
+$wpdb->query( "DROP TABLE IF EXISTS {$wpdb->prefix}st_registro" ); // phpcs:ignore WordPress.DB.DirectDatabaseQuery
 foreach ( array( 'st_impostazioni', 'st_versione_db', 'st_media_generale', 'st_ultimo_calcolo' ) as $opzione ) {
 	delete_option( $opzione );
 }

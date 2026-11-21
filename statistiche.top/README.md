@@ -65,6 +65,9 @@ e 8.3, installa WordPress con SQLite, attiva il plugin, lancia
 | Pagine | `[st_metodologia]` spiega regole e soglie con i valori attuali; `[st_classifica settore="slug" numero="20" minimo="10"]`. |
 | Aspetto | Font Newsreader ospitato sul sito, palette avorio/ardesia, colonna stretta; interruttore del tema `[st_tema]` (automatico, chiaro, scuro; chiave `tema` in `localStorage`). Si spegne in Impostazioni. |
 | Aiuti | Balloon "?" su ogni parte del modulo di proposta; senza JavaScript il testo resta visibile. |
+| Indirizzi wiki | Ogni scheda pubblicata su `/nome-scheda/` con riquadro "In breve", indice, note e fonti, cronologia, "Proponi una correzione". I vecchi `/schede/…` reindirizzano. |
+| Email | Conferma a chi propone quando la scheda è pubblicata, e a chi recensisce quando la recensione conta. |
+| Registro | Chi ha fatto ogni proposta, recensione e segnalazione, con IP e browser; solo amministratori; cancellato dopo 90 giorni. |
 | GDPR | Cancellando un utente si cancellano le sue recensioni; schede su persone solo se hanno un ruolo pubblico. |
 
 Tutte le soglie si cambiano in **Schede → Impostazioni**.

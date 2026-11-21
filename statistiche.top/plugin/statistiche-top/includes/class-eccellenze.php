@@ -44,6 +44,7 @@ final class Eccellenze {
 	/** Ricalcola tutte le schede pubblicate e propone candidature e revisioni. */
 	public static function calcolo_notturno() {
 		Voti::promuovi_in_attesa();
+		Registro::pulisci();
 		Voti::calcola_media_generale();
 		$soglie  = Impostazioni::soglie();
 		$nuove   = array();

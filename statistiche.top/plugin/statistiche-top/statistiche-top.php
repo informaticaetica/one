@@ -2,7 +2,7 @@
 /**
  * Plugin Name:       statistiche.top
  * Description:       Schede su persone e aziende degne di nota, recensioni per criteri, media bayesiana, difesa dalle manipolazioni e passaggio a eccellenze.org con verifica manuale.
- * Version:           0.3.0
+ * Version:           0.4.0
  * Requires at least: 6.4
  * Requires PHP:      7.4
  * Author:            statistiche.top
@@ -16,8 +16,8 @@ namespace StatisticheTop;
 
 defined( 'ABSPATH' ) || exit;
 
-const VERSIONE    = '0.3.0';
-const VERSIONE_DB = '2';
+const VERSIONE    = '0.4.0';
+const VERSIONE_DB = '3';
 const FILE        = __FILE__;
 
 require_once __DIR__ . '/includes/class-punteggi.php';
@@ -31,6 +31,9 @@ require_once __DIR__ . '/includes/class-eccellenze.php';
 require_once __DIR__ . '/includes/class-vista.php';
 require_once __DIR__ . '/includes/class-radiografia.php';
 require_once __DIR__ . '/includes/class-guida.php';
+require_once __DIR__ . '/includes/class-registro.php';
+require_once __DIR__ . '/includes/class-notifiche.php';
+require_once __DIR__ . '/includes/class-indirizzi.php';
 require_once __DIR__ . '/includes/class-aspetto.php';
 require_once __DIR__ . '/includes/class-amministrazione.php';
 
@@ -48,6 +51,9 @@ add_action(
 		Eccellenze::avvia();
 		Vista::avvia();
 		Guida::avvia();
+		Notifiche::avvia();
+		Indirizzi::avvia();
+		add_action( 'deleted_user', array( Registro::class, 'utente_cancellato' ) );
 		Aspetto::avvia();
 		if ( is_admin() ) {
 			Amministrazione::avvia();

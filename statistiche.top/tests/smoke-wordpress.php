@@ -120,6 +120,17 @@ controlla( 'recensione di chi propone: valida dopo 7 giorni', 1 === Voti::promuo
 controlla( 'interruttore del tema', false !== strpos( do_shortcode( '[st_tema]' ), 'data-st-tema' ) );
 wp_set_current_user( 0 );
 
+// Indirizzi wiki, registro delle richieste.
+$slug = get_post_field( 'post_name', $scheda );
+controlla( 'indirizzo wiki /nome-scheda/', home_url( user_trailingslashit( $slug ) ) === get_permalink( $scheda ) );
+$vars = StatisticheTop\Indirizzi::richiesta( array( 'pagename' => $slug, 'page' => '' ) );
+controlla( 'richiesta /nome-scheda/ risolta come scheda', isset( $vars['post_type'] ) && Schede::TIPO === $vars['post_type'] );
+$pagina = wp_insert_post( array( 'post_type' => 'page', 'post_status' => 'publish', 'post_title' => 'Pagina omonima', 'post_name' => 'nome-occupato' ) );
+$omonima = wp_insert_post( array( 'post_type' => Schede::TIPO, 'post_status' => 'publish', 'post_title' => 'Nome occupato' ) );
+controlla( 'una scheda non prende il nome di una pagina', 'nome-occupato' !== get_post_field( 'post_name', $omonima ) );
+global $wpdb;
+controlla( 'registro: la recensione di chi propone è registrata', (bool) $wpdb->get_var( $wpdb->prepare( 'SELECT COUNT(*) FROM ' . StatisticheTop\Registro::tabella() . " WHERE evento = 'recensione' AND scheda_id = %d", $proposta ) ) );
+
 // Cancellazione di un utente: le sue recensioni spariscono (GDPR).
 require_once ABSPATH . 'wp-admin/includes/user.php';
 wp_delete_user( $u );

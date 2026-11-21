@@ -74,6 +74,7 @@ final class Segnalazioni {
 			array( '%d', '%d', '%s', '%s', '%s', '%s', '%s' ) // wpdb scrive NULL quando il valore è null.
 		);
 		set_transient( $chiave, $conta + 1, HOUR_IN_SECONDS );
+		Registro::scrivi( 'segnalazione', $scheda_id );
 
 		Schede::aggiungi_storico( $scheda_id, 'Ricevuta una segnalazione: ' . self::TIPI[ $tipo ] . '.' );
 		wp_mail(

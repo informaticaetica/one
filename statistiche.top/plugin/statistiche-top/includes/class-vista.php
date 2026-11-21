@@ -178,70 +178,118 @@ final class Vista {
 
 	/* ---------- Pagina della scheda ---------- */
 
+	/** Sezioni della voce wiki: ancora => titolo, nell'ordine della pagina. */
+	private static function sezioni( $id ) {
+		$sezioni = array(
+			'st-sintesi-titolo'     => 'Sintesi',
+			'st-radiografia-titolo' => 'Statistiche di gradimento',
+			'st-recensisci-titolo'  => 'La tua recensione',
+		);
+		if ( Schede::aggregato( $id )['n_recensioni'] ) {
+			$sezioni = array_slice( $sezioni, 0, 2, true ) + array( 'st-recensioni-titolo' => 'Le recensioni' ) + array_slice( $sezioni, 2, null, true );
+		}
+		$sezioni['st-fonti-titolo']   = 'Note e fonti';
+		$sezioni['st-storico-titolo'] = 'Cronologia delle modifiche';
+		$sezioni['st-segnala-titolo'] = 'Proponi una correzione';
+		return $sezioni;
+	}
+
+	/**
+	 * La pagina della scheda come voce wiki: riquadro "In breve", indice,
+	 * sintesi, statistiche, recensioni, fonti come note, cronologia e correzioni.
+	 */
 	public static function contenuto_scheda( $contenuto ) {
 		if ( ! is_singular( Schede::TIPO ) || ! in_the_loop() || ! is_main_query() ) {
 			return $contenuto;
 		}
 		$id  = get_the_ID();
 		$d   = Schede::dati( $id );
+		$a   = Schede::aggregato( $id );
 		$ecc = Eccellenze::stato( $id );
+		$termini = wp_get_post_terms( $id, Schede::SETTORE );
 
 		ob_start();
 		?>
-		<div class="st-blocco st-scheda" id="st-scheda">
+		<div class="st-blocco st-scheda st-wiki" id="st-scheda">
 			<?php echo self::avviso( 'st-scheda' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
-			<?php if ( in_array( $ecc, array( 'pubblicata', 'revisione_uscita' ), true ) ) : ?>
-				<p class="st-etichetta-eccellenza">
-					<span aria-hidden="true">★</span>
-					<strong>Presente su <a href="<?php echo esc_url( Impostazioni::valore( 'url_eccellenze' ) ); ?>">eccellenze.org</a></strong>
-				</p>
-			<?php endif; ?>
-
-			<dl class="st-dati">
-				<div><dt>Tipo</dt><dd><?php echo esc_html( isset( Schede::TIPI_SOGGETTO[ $d['tipo'] ] ) ? Schede::TIPI_SOGGETTO[ $d['tipo'] ] : '—' ); ?></dd></div>
-				<div><dt>Settore</dt><dd><?php echo esc_html( $d['settori'] ? implode( ', ', $d['settori'] ) : '—' ); ?></dd></div>
-				<?php if ( $d['luogo'] ) : ?>
-					<div><dt>Luogo</dt><dd><?php echo esc_html( $d['luogo'] ); ?></dd></div>
+			<aside class="st-infobox" aria-labelledby="st-infobox-titolo">
+				<h2 id="st-infobox-titolo" class="st-infobox-titolo">In breve</h2>
+				<?php if ( in_array( $ecc, array( 'pubblicata', 'revisione_uscita' ), true ) ) : ?>
+					<p class="st-etichetta-eccellenza"><span aria-hidden="true">★</span> <strong>Presente su <a href="<?php echo esc_url( Impostazioni::valore( 'url_eccellenze' ) ); ?>">eccellenze.org</a></strong></p>
 				<?php endif; ?>
-				<?php if ( $d['sito'] ) : ?>
-					<div><dt>Sito ufficiale</dt><dd><a href="<?php echo esc_url( $d['sito'] ); ?>" rel="nofollow noopener"><?php echo esc_html( preg_replace( '#^https?://(www\.)?#', '', untrailingslashit( $d['sito'] ) ) ); ?></a></dd></div>
-				<?php endif; ?>
-			</dl>
+				<dl>
+					<div><dt>Tipo</dt><dd><?php echo esc_html( isset( Schede::TIPI_SOGGETTO[ $d['tipo'] ] ) ? Schede::TIPI_SOGGETTO[ $d['tipo'] ] : '—' ); ?></dd></div>
+					<div><dt>Settore</dt><dd>
+						<?php if ( $termini && ! is_wp_error( $termini ) ) : ?>
+							<?php echo implode( ', ', array_map( static function ( $t ) { return '<a href="' . esc_url( get_term_link( $t ) ) . '">' . esc_html( $t->name ) . '</a>'; }, $termini ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+						<?php else : ?>
+							in attesa della redazione
+						<?php endif; ?>
+					</dd></div>
+					<?php if ( $d['luogo'] ) : ?>
+						<div><dt>Luogo</dt><dd><?php echo esc_html( $d['luogo'] ); ?></dd></div>
+					<?php endif; ?>
+					<?php if ( $d['sito'] ) : ?>
+						<div><dt>Sito ufficiale</dt><dd><a href="<?php echo esc_url( $d['sito'] ); ?>" rel="nofollow noopener"><?php echo esc_html( preg_replace( '#^https?://(www\.)?#', '', untrailingslashit( $d['sito'] ) ) ); ?></a></dd></div>
+					<?php endif; ?>
+					<div><dt>Punteggio</dt><dd>
+						<?php if ( $a['n_recensioni'] ) : ?>
+							<?php echo esc_html( self::numero( $a['media_bayes'] ) ); ?> su 5 <?php echo Radiografia::stelle( $a['media_bayes'] ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+						<?php else : ?>
+							nessuna recensione
+						<?php endif; ?>
+					</dd></div>
+					<div><dt>Recensioni</dt><dd><?php echo esc_html( number_format_i18n( $a['n_recensioni'] ) ); ?></dd></div>
+					<?php if ( $a['consiglia']['n'] ) : ?>
+						<div><dt>Lo consiglierebbe</dt><dd><?php echo esc_html( self::numero( $a['consiglia']['promotori'], 0 ) ); ?>%</dd></div>
+					<?php endif; ?>
+					<div><dt>Ultima modifica</dt><dd><time datetime="<?php echo esc_attr( get_the_modified_date( 'c', $id ) ); ?>"><?php echo esc_html( get_the_modified_date( '', $id ) ); ?></time></dd></div>
+				</dl>
+			</aside>
+			<nav class="st-indice" aria-labelledby="st-indice-titolo">
+				<h2 id="st-indice-titolo" class="st-indice-titolo">Indice</h2>
+				<ol>
+					<?php foreach ( self::sezioni( $id ) as $ancora => $titolo ) : ?>
+						<li><a href="#<?php echo esc_attr( $ancora ); ?>"><?php echo esc_html( $titolo ); ?></a></li>
+					<?php endforeach; ?>
+				</ol>
+			</nav>
 		</div>
 		<?php
 		$prima = ob_get_clean();
 
 		ob_start();
 		?>
-		<div class="st-blocco st-scheda">
-			<?php if ( has_post_thumbnail( $id ) && $d['licenza_immagine'] ) : ?>
-				<p class="st-nota">Immagine: <?php echo esc_html( $d['licenza_immagine'] ); ?></p>
-			<?php endif; ?>
+		<div class="st-blocco st-scheda st-wiki">
+			<?php echo Radiografia::mostra( $id, $d['tipo'] ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- costruito con escape. ?>
+			<?php echo Radiografia::elenco( $id ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+			<?php echo self::sezione_recensisci( $id ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
 
-			<section aria-labelledby="st-fonti-titolo">
-				<h2 id="st-fonti-titolo">Fonti</h2>
+			<section aria-labelledby="st-fonti-titolo" id="st-fonti">
+				<h2 id="st-fonti-titolo">Note e fonti</h2>
 				<?php if ( $d['fonti'] ) : ?>
-					<ul class="st-fonti">
+					<ol class="st-fonti">
 						<?php foreach ( $d['fonti'] as $f ) : ?>
-							<li><a href="<?php echo esc_url( $f['url'] ); ?>" rel="nofollow noopener"><?php echo esc_html( $f['descrizione'] ? $f['descrizione'] : wp_parse_url( $f['url'], PHP_URL_HOST ) ); ?></a></li>
+							<li><a href="<?php echo esc_url( $f['url'] ); ?>" rel="nofollow noopener"><?php echo esc_html( $f['descrizione'] ? $f['descrizione'] : wp_parse_url( $f['url'], PHP_URL_HOST ) ); ?></a> <span class="st-nota">(<?php echo esc_html( wp_parse_url( $f['url'], PHP_URL_HOST ) ); ?>)</span></li>
 						<?php endforeach; ?>
-					</ul>
+					</ol>
 				<?php else : ?>
-					<p>Nessuna fonte indicata. <a href="#st-segnala">Segnalalo</a>.</p>
+					<p>Nessuna fonte indicata. <a href="#st-segnala">Proponi una fonte</a>.</p>
+				<?php endif; ?>
+				<?php if ( has_post_thumbnail( $id ) && $d['licenza_immagine'] ) : ?>
+					<p class="st-nota">Immagine: <?php echo esc_html( $d['licenza_immagine'] ); ?></p>
 				<?php endif; ?>
 			</section>
 
-			<?php echo Radiografia::mostra( $id, $d['tipo'] ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- costruito con escape. ?>
-			<?php echo self::sezione_recensisci( $id ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
-			<?php echo Radiografia::elenco( $id ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
-			<?php echo self::modulo_segnalazione( $id ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
 			<?php echo self::storico( $id ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+			<?php echo self::modulo_segnalazione( $id ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+			<p class="st-nota st-wiki-piede">Questa voce è stata modificata l'ultima volta il <?php echo esc_html( get_the_modified_date( '', $id ) ); ?>. I contenuti vengono dalle fonti citate e dalle recensioni degli utenti verificati; la redazione controlla ogni modifica. <a href="<?php echo esc_url( self::url_metodologia() ); ?>">Come funziona</a>.</p>
 		</div>
 		<?php
 		$dopo = ob_get_clean();
 
 		// La sintesi è testo semplice: la mostriamo con i soli a capo.
-		return $prima . '<section aria-labelledby="st-sintesi-titolo" class="st-blocco"><h2 id="st-sintesi-titolo">Sintesi</h2>' . $contenuto . '</section>' . $dopo;
+		return $prima . '<section aria-labelledby="st-sintesi-titolo" class="st-blocco st-wiki"><h2 id="st-sintesi-titolo">Sintesi</h2>' . $contenuto . '</section>' . $dopo;
 	}
 
 	private static function numero( $n, $decimali = 2 ) {
@@ -321,7 +369,8 @@ final class Vista {
 		ob_start();
 		?>
 		<section aria-labelledby="st-segnala-titolo" id="st-segnala">
-			<h2 id="st-segnala-titolo">Segnala un problema</h2>
+			<h2 id="st-segnala-titolo">Proponi una correzione</h2>
+			<p>Hai notato un errore, una fonte mancante o un conflitto di interesse? Come in un wiki, chiunque può proporre una correzione: la redazione la valuta e risponde con una motivazione.</p>
 			<?php echo self::avviso( 'st-segnala' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
 			<details class="st-dettagli" <?php echo self::avviso( 'st-segnala' ) ? 'open' : ''; ?>>
 				<summary>Apri il modulo di segnalazione</summary>
@@ -361,14 +410,15 @@ final class Vista {
 	private static function storico( $id ) {
 		$storico = array_reverse( Schede::storico( $id ) );
 		if ( ! $storico ) {
-			return '';
+			// L'indice punta sempre a questa sezione: c'è anche quando è vuota.
+			return '<section aria-labelledby="st-storico-titolo"><h2 id="st-storico-titolo">Cronologia delle modifiche</h2><p>Nessuna modifica registrata dopo la pubblicazione.</p></section>';
 		}
 		ob_start();
 		?>
 		<section aria-labelledby="st-storico-titolo">
-			<h2 id="st-storico-titolo">Storico delle modifiche</h2>
+			<h2 id="st-storico-titolo">Cronologia delle modifiche</h2>
 			<details class="st-dettagli">
-				<summary>Mostra lo storico (<?php echo esc_html( count( $storico ) ); ?> voci)</summary>
+				<summary>Mostra la cronologia (<?php echo esc_html( count( $storico ) ); ?> voci)</summary>
 				<ol class="st-storico">
 					<?php foreach ( $storico as $voce ) : ?>
 						<li><time datetime="<?php echo esc_attr( mysql2date( 'c', $voce['data'] ) ); ?>"><?php echo esc_html( mysql2date( get_option( 'date_format' ), $voce['data'] ) ); ?></time> — <?php echo esc_html( $voce['testo'] ); ?></li>
