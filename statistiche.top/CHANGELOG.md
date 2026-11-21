@@ -4,6 +4,11 @@ Versionamento semantico. Il plugin `statistiche-top` ha la versione nell'intesta
 `plugin/statistiche-top/statistiche-top.php` e nella costante `VERSIONE`; il tema
 `statistiche-top-tema` nell'intestazione di `tema/statistiche-top-tema/style.css`.
 
+## [0.5.3] - 2026-11-21
+
+### Corretto
+- La categoria nel modulo (home, scheda e «Crea la tua scheda») è davvero libera: niente menu a tendina dei settori, etichetta e segnaposto che lo dicono, aiuto riscritto.
+
 ## [0.5.2] - 2026-11-21 (plugin) · tema 1.0.1
 
 ### Aggiunto

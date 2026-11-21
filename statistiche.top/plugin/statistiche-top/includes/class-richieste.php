@@ -42,7 +42,7 @@ final class Richieste {
 	const AIUTI = array(
 		'r_tipo'        => '<p>Scegli <strong>azienda</strong> per imprese, negozi, studi ed enti; <strong>persona</strong> se sei un professionista che opera con il proprio nome; <strong>prodotto</strong> se proponi la scheda di un tuo prodotto.</p>',
 		'r_nome'        => '<p>Il nome ufficiale, come compare sull\'insegna, sul sito o nel registro delle imprese. Se la scheda esiste già, la tua richiesta servirà ad aggiornarla.</p>',
-		'r_categoria'   => '<p>Facoltativo. La categoria con parole tue (per esempio «Officina meccanica»); la redazione decide quella definitiva.</p>',
+		'r_categoria'   => '<p>Facoltativo. Scrivila con parole tue, senza lista da scegliere (per esempio «Officina meccanica»). La redazione decide poi la categoria definitiva.</p>',
 		'r_descrizione' => '<p>Chi siete e che cosa fate, in modo semplice e verificabile: niente slogan pubblicitari. La redazione può accorciare o correggere il testo. Al massimo 1000 caratteri.</p>',
 		'r_sito'        => '<p>Facoltativo. L\'indirizzo del sito ufficiale: aiuta la redazione a verificare che la richiesta venga davvero da voi.</p>',
 		'r_luogo'       => '<p>Facoltativo. La città o la zona in cui operate.</p>',
@@ -114,13 +114,7 @@ final class Richieste {
 			<?php
 			$f->radio( 'st_r_tipo', 'La scheda riguarda', array( 'azienda' => 'Un\'azienda o un\'organizzazione', 'persona' => 'Un professionista (persona)', 'prodotto' => 'Un prodotto' ), 'r_tipo', true, true );
 			$f->testo( 'st_r_nome', 'Nome ufficiale', 'r_nome', true, array( 'maxlength' => 150 ) );
-			$f->testo( 'st_r_categoria', 'Categoria', 'r_categoria', false, array( 'maxlength' => Modulo::MAX_CATEGORIA, 'list' => 'st-categorie-r' ) );
-			echo '<datalist id="st-categorie-r">';
-			$settori = get_terms( array( 'taxonomy' => Schede::SETTORE, 'hide_empty' => false ) );
-			foreach ( is_array( $settori ) ? $settori : array() as $t ) {
-				printf( '<option value="%s"></option>', esc_attr( $t->name ) );
-			}
-			echo '</datalist>';
+			$f->testo( 'st_r_categoria', 'Categoria (scrivila come vuoi, facoltativa)', 'r_categoria', false, array( 'maxlength' => Modulo::MAX_CATEGORIA, 'placeholder' => 'es. Officina meccanica' ) );
 			$f->area( 'st_r_descrizione', sprintf( 'Descrizione (fino a %d caratteri)', self::MAX_DESC ), 'r_descrizione', true, self::MAX_DESC, 6, true );
 			$f->testo( 'st_r_sito', 'Sito ufficiale', 'r_sito', false, array( 'type' => 'url', 'inputmode' => 'url', 'placeholder' => 'https://' ) );
 			$f->testo( 'st_r_luogo', 'Sede (città o zona)', 'r_luogo', false, array( 'maxlength' => 100 ) );

@@ -36,7 +36,7 @@ final class Modulo {
 		'sito'       => '<p>Facoltativo. Se conosci il sito ufficiale, scrivilo: aiuta la redazione a verificare la scheda e chi legge a trovare il soggetto.</p>',
 		'tipo'       => '<p>Che cosa stai recensendo: una <strong>persona</strong> con un ruolo pubblico (un professionista, un artigiano, una figura istituzionale), un\'<strong>azienda</strong> (un negozio, uno studio, un\'impresa, un ente) o un <strong>prodotto</strong>.</p><p>Non si recensiscono privati cittadini.</p>',
 		'nome'       => '<p>Il nome come lo trovi sull\'insegna, sul sito ufficiale o sulla confezione: per esempio «Officina Rossi», «Mario Bianchi, idraulico» o «Caffè Moka Express».</p><p>Se la scheda esiste già, la tua recensione verrà aggiunta lì.</p>',
-		'categoria'  => '<p>Facoltativo. Scrivi con parole tue in che categoria la metteresti (per esempio «Pasticceria» o «Elettrodomestici»), oppure scegli una delle categorie suggerite mentre scrivi.</p><p>Come in un wiki, la redazione decide poi la categoria definitiva.</p>',
+		'categoria'  => '<p>Facoltativo. Scrivi tu la categoria, con parole tue: non c\'è una lista da cui scegliere (per esempio «Ristorante di pesce» o «Elettrodomestici»).</p><p>Come in un wiki, la redazione poi decide la categoria definitiva.</p>',
 		'stelle'     => '<p>La tua valutazione complessiva, da 1 stella (pessima) a 5 stelle (ottima). È il voto che entra nelle statistiche.</p>',
 		'recensione' => '<p>Racconta la tua esperienza <strong>con parole tue</strong>, come la racconteresti a un amico: che cosa hai chiesto o comprato, che cosa è successo, com\'è finita.</p><p>Niente testi copiati o scritti da programmi di intelligenza artificiale, niente insulti e niente dati personali di altre persone. Al massimo 2000 caratteri.</p>',
 		'email'      => '<p>Obbligatoria. Ti mandiamo un link per confermare che l\'indirizzo è tuo: senza conferma la recensione non viene pubblicata. Poi ti scriviamo quando la scheda o la recensione è pubblicata.</p><p>L\'email non compare mai sul sito.</p>',
@@ -109,13 +109,7 @@ final class Modulo {
 				}
 				echo '</datalist>';
 				$f->testo( 'st_sito', 'Sito ufficiale (se lo conosci)', 'sito', false, array( 'type' => 'url', 'inputmode' => 'url', 'placeholder' => 'https://', 'maxlength' => 200 ) );
-				$f->testo( 'st_categoria', 'Categoria', 'categoria', false, array( 'maxlength' => self::MAX_CATEGORIA, 'list' => 'st-categorie' ) );
-				echo '<datalist id="st-categorie">';
-				$settori = get_terms( array( 'taxonomy' => Schede::SETTORE, 'hide_empty' => false ) );
-				foreach ( is_array( $settori ) ? $settori : array() as $t ) {
-					printf( '<option value="%s"></option>', esc_attr( $t->name ) );
-				}
-				echo '</datalist>';
+				$f->testo( 'st_categoria', 'Categoria (scrivila come vuoi, facoltativa)', 'categoria', false, array( 'maxlength' => self::MAX_CATEGORIA, 'placeholder' => 'es. Ristorante di pesce' ) );
 			}
 			echo '<fieldset class="st-parliamo"><legend>Parliamo di…</legend>';
 			$f->stelle();
