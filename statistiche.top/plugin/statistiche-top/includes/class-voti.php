@@ -66,8 +66,6 @@ final class Voti {
 	);
 
 	public static function avvia() {
-		add_action( 'wp_login', array( __CLASS__, 'registra_giorno_accesso' ), 10, 2 );
-		add_action( 'init', array( __CLASS__, 'registra_giorno_sessione' ) );
 		add_action( 'admin_post_st_conflitto', array( __CLASS__, 'gestisci_conflitto' ) );
 		add_action( 'admin_post_nopriv_st_conflitto', array( Schede::class, 'rimanda_al_login' ) );
 		add_action( 'admin_post_st_utile', array( __CLASS__, 'gestisci_utile' ) );
@@ -75,30 +73,6 @@ final class Voti {
 		add_action( 'transition_post_status', array( __CLASS__, 'scheda_pubblicata' ), 20, 3 );
 		add_action( 'deleted_user', array( __CLASS__, 'utente_cancellato' ) );
 		add_action( 'before_delete_post', array( __CLASS__, 'scheda_cancellata' ) );
-	}
-
-	/* ---------- Attività dell'utente ---------- */
-
-	public static function registra_giorno_accesso( $login, $utente ) {
-		self::segna_giorno( $utente->ID );
-	}
-
-	/** Chi resta connesso per giorni conta comunque come attivo nei giorni in cui visita il sito. */
-	public static function registra_giorno_sessione() {
-		if ( is_user_logged_in() ) {
-			self::segna_giorno( get_current_user_id() );
-		}
-	}
-
-	private static function segna_giorno( $utente_id ) {
-		$oggi   = current_time( 'Y-m-d' );
-		$giorni = (array) get_user_meta( $utente_id, 'st_giorni_accesso', true );
-		if ( in_array( $oggi, $giorni, true ) ) {
-			return;
-		}
-		$giorni[] = $oggi;
-		$giorni   = array_values( array_filter( $giorni ) );
-		update_user_meta( $utente_id, 'st_giorni_accesso', array_slice( $giorni, -60 ) );
 	}
 
 	/* ---------- Lettura ---------- */

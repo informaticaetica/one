@@ -4,6 +4,11 @@ Versionamento semantico. Il plugin `statistiche-top` ha la versione nell'intesta
 `plugin/statistiche-top/statistiche-top.php` e nella costante `VERSIONE`; il tema
 `statistiche-top-tema` nell'intestazione di `tema/statistiche-top-tema/style.css`.
 
+## [0.5.1] - 2026-11-21
+
+### Tolto
+- La registrazione dei giorni di accesso degli utenti, che serviva solo alla vecchia regola sull'attività: i dati già raccolti vengono cancellati all'aggiornamento (principio di minimizzazione del GDPR).
+
 ## [0.5.0] - 2026-11-21 (plugin) · tema 1.0.0
 
 ### Aggiunto

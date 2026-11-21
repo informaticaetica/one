@@ -108,6 +108,8 @@ final class Installazione {
 	 * Il vecchio nome resta come _wp_old_slug; gli indirizzi vecchi reindirizzano.
 	 */
 	private static function migra_a_4() {
+		// I giorni di accesso servivano alla vecchia regola sull'attività: non si raccolgono più.
+		delete_metadata( 'user', 0, 'st_giorni_accesso', '', true );
 		foreach ( get_posts( array( 'post_type' => Schede::TIPO, 'post_status' => 'any', 'posts_per_page' => -1, 'fields' => 'ids' ) ) as $id ) {
 			$vecchio = get_post_field( 'post_name', $id );
 			if ( '' === $vecchio || false === strpos( $vecchio, '-' ) ) {
