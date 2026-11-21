@@ -19,8 +19,9 @@ final class Schede {
 	const MAX_IN_ATTESA = 3;
 
 	const TIPI_SOGGETTO = array(
-		'persona' => 'Persona',
-		'azienda' => 'Azienda',
+		'persona'  => 'Persona',
+		'azienda'  => 'Azienda',
+		'prodotto' => 'Prodotto',
 	);
 
 	public static function avvia() {
@@ -104,6 +105,9 @@ final class Schede {
 			'luogo'            => (string) get_post_meta( $id, '_st_luogo', true ),
 			'sito'             => (string) get_post_meta( $id, '_st_sito', true ),
 			'categoria'        => (string) get_post_meta( $id, '_st_categoria_suggerita', true ),
+			'piva'             => (string) get_post_meta( $id, '_st_piva', true ),
+			'anno'             => (string) get_post_meta( $id, '_st_anno', true ),
+			'dal_soggetto'     => (string) get_post_meta( $id, '_st_dal_soggetto', true ),
 			'fonti'            => is_array( $fonti ) ? $fonti : array(),
 			'figura_pubblica'  => (bool) get_post_meta( $id, '_st_figura_pubblica', true ),
 			'licenza_immagine' => (string) get_post_meta( $id, '_st_licenza_immagine', true ),
@@ -178,9 +182,10 @@ final class Schede {
 		global $wpdb;
 		return (int) $wpdb->get_var(
 			$wpdb->prepare(
-				"SELECT ID FROM {$wpdb->posts} WHERE post_type = %s AND post_status IN ('publish','pending') AND LOWER(post_title) = LOWER(%s) LIMIT 1",
+				"SELECT ID FROM {$wpdb->posts} WHERE post_type = %s AND post_status IN ('publish','pending') AND ( LOWER(post_title) = LOWER(%s) OR post_name = %s ) ORDER BY post_status = 'publish' DESC, ID ASC LIMIT 1",
 				self::TIPO,
-				$nome
+				$nome,
+				Indirizzi::compatta( sanitize_title( $nome ) )
 			)
 		);
 	}

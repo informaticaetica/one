@@ -1,13 +1,14 @@
 <?php
 /**
- * Indirizzi in stile wiki: ogni scheda pubblicata si apre su statistiche.top/nome-scheda.
+ * Indirizzi in stile wiki: ogni scheda pubblicata si apre su statistiche.top/nomescheda.
  *
  * - I link alle schede pubblicate puntano a /nome-scheda/.
  * - Una richiesta di un solo segmento che non corrisponde a una pagina o a un
  *   articolo viene risolta come scheda.
- * - I vecchi indirizzi /schede/nome-scheda/ reindirizzano (301) a quelli nuovi.
+ * - I nomi brevi non hanno trattini: "Officina Rossi" → /officinarossi/.
+ * - Gli indirizzi vecchi (/schede/nome/, /nome-con-trattini/) reindirizzano (301).
  * - Il nome breve di una scheda non può coincidere con una pagina del sito o con
- *   un indirizzo riservato: in quel caso riceve un suffisso (-2, -3…).
+ *   un indirizzo riservato: in quel caso riceve un numero (officinarossi2…).
  *
  * L'elenco di tutte le schede resta su /schede/ e i settori su /settore/nome/.
  *
@@ -32,6 +33,14 @@ final class Indirizzi {
 		add_filter( 'request', array( __CLASS__, 'richiesta' ) );
 		add_action( 'template_redirect', array( __CLASS__, 'reindirizza_vecchi' ) );
 		add_filter( 'wp_unique_post_slug', array( __CLASS__, 'slug_unico' ), 10, 6 );
+	}
+
+	/**
+	 * Nome breve senza trattini: "Officina Rossi" → "officinarossi".
+	 * Riceve un nome breve già pulito da sanitize_title() (logica pura, collaudabile).
+	 */
+	public static function compatta( $slug ) {
+		return preg_replace( '/[^a-z0-9]/', '', strtolower( (string) $slug ) );
 	}
 
 	/** È un nome breve che una scheda non può usare? (logica pura, collaudabile) */
@@ -83,27 +92,30 @@ final class Indirizzi {
 		if ( get_page_by_path( $slug ) || get_posts( array( 'name' => $slug, 'post_type' => 'post', 'post_status' => 'publish', 'posts_per_page' => 1, 'fields' => 'ids' ) ) ) {
 			return $vars;
 		}
-		if ( self::scheda( $slug ) ) {
-			return array(
-				Schede::TIPO => $slug,
-				'post_type'  => Schede::TIPO,
-				'name'       => $slug,
-			);
+		// Anche "officina-rossi" porta a "officinarossi": poi template_redirect corregge l'indirizzo.
+		foreach ( array_unique( array( $slug, self::compatta( $slug ) ) ) as $prova ) {
+			if ( '' !== $prova && self::scheda( $prova ) ) {
+				return array(
+					Schede::TIPO => $prova,
+					'post_type'  => Schede::TIPO,
+					'name'       => $prova,
+				);
+			}
 		}
 		return $vars;
 	}
 
-	/** /schede/nome-scheda/ → /nome-scheda/ (permanente). */
+	/**
+	 * Indirizzo canonico: /schede/nome/, /nome-con-trattini/ e simili portano
+	 * con un reindirizzamento permanente a /nomecompatto/.
+	 */
 	public static function reindirizza_vecchi() {
-		if ( ! is_singular( Schede::TIPO ) ) {
+		if ( ! is_singular( Schede::TIPO ) || is_preview() ) {
 			return;
 		}
-		$percorso = trim( (string) wp_parse_url( isset( $_SERVER['REQUEST_URI'] ) ? esc_url_raw( wp_unslash( $_SERVER['REQUEST_URI'] ) ) : '', PHP_URL_PATH ), '/' );
-		$base     = trim( (string) wp_parse_url( home_url(), PHP_URL_PATH ), '/' );
-		if ( $base && 0 === strpos( $percorso, $base . '/' ) ) {
-			$percorso = substr( $percorso, strlen( $base ) + 1 );
-		}
-		if ( 0 === strpos( $percorso, 'schede/' ) ) {
+		$giusto    = (string) wp_parse_url( get_permalink( get_queried_object_id() ), PHP_URL_PATH );
+		$richiesto = (string) wp_parse_url( isset( $_SERVER['REQUEST_URI'] ) ? esc_url_raw( wp_unslash( $_SERVER['REQUEST_URI'] ) ) : '', PHP_URL_PATH );
+		if ( '' !== $giusto && untrailingslashit( $giusto ) !== untrailingslashit( $richiesto ) ) {
 			$query = isset( $_SERVER['QUERY_STRING'] ) && '' !== $_SERVER['QUERY_STRING'] ? '?' . sanitize_text_field( wp_unslash( $_SERVER['QUERY_STRING'] ) ) : '';
 			wp_safe_redirect( get_permalink( get_queried_object_id() ) . $query, 301 );
 			exit;
@@ -115,10 +127,12 @@ final class Indirizzi {
 		if ( Schede::TIPO !== $tipo ) {
 			return $slug;
 		}
-		$base = $slug;
+		$base = self::compatta( $slug );
+		$base = '' !== $base ? $base : 'scheda';
+		$slug = $base;
 		$n    = 2;
 		while ( self::riservato( $slug, (bool) get_page_by_path( $slug ) ) || self::occupato( $slug, $post_id ) ) {
-			$slug = $base . '-' . $n++;
+			$slug = $base . $n++;
 		}
 		return $slug;
 	}

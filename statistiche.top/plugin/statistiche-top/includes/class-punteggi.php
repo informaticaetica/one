@@ -42,11 +42,24 @@ final class Punteggi {
 		'comunicazione' => 'Comunicazione',
 	);
 
+	/** Aspetti valutati per i prodotti. */
+	const ASPETTI_PRODOTTO = array(
+		'qualita'      => 'Qualità',
+		'prezzo'       => 'Rapporto qualità/prezzo',
+		'durata'       => 'Durata e affidabilità',
+		'uso'          => 'Facilità d\'uso',
+		'assistenza'   => 'Assistenza',
+		'etica'        => 'Etica e sostenibilità',
+	);
+
 	/** Quanti aspetti vanno valutati come minimo in una recensione (gli altri possono essere "Non so"). */
 	const MIN_ASPETTI = 3;
 
 	public static function aspetti( $tipo ) {
-		return 'persona' === $tipo ? self::ASPETTI_PERSONA : self::ASPETTI_AZIENDA;
+		if ( 'persona' === $tipo ) {
+			return self::ASPETTI_PERSONA;
+		}
+		return 'prodotto' === $tipo ? self::ASPETTI_PRODOTTO : self::ASPETTI_AZIENDA;
 	}
 
 	/** Etichetta di un aspetto, qualunque sia il tipo di scheda. */
@@ -54,7 +67,10 @@ final class Punteggi {
 		if ( isset( self::ASPETTI_AZIENDA[ $chiave ] ) ) {
 			return self::ASPETTI_AZIENDA[ $chiave ];
 		}
-		return isset( self::ASPETTI_PERSONA[ $chiave ] ) ? self::ASPETTI_PERSONA[ $chiave ] : $chiave;
+		if ( isset( self::ASPETTI_PERSONA[ $chiave ] ) ) {
+			return self::ASPETTI_PERSONA[ $chiave ];
+		}
+		return isset( self::ASPETTI_PRODOTTO[ $chiave ] ) ? self::ASPETTI_PRODOTTO[ $chiave ] : $chiave;
 	}
 
 	/** Un numero intero entro un intervallo, oppure null. Accetta solo interi scritti per intero. */

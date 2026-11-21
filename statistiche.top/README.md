@@ -5,13 +5,16 @@ recensioni per criteri, media bayesiana e passaggio a **eccellenze.org** delle
 schede che superano una soglia pubblica di consenso. Il progetto completo è nel
 documento `statistiche-top-progetto.md` (cartella Dropbox `appostatistiche`).
 
-Il sito gira su **WordPress**. Tutta la logica sta nel plugin `statistiche-top`,
-sviluppato qui; il resto sono WordPress, un tema accessibile e pochi plugin standard.
+Il sito gira su **WordPress** con due pezzi sviluppati qui, separati:
+
+- il **plugin** `statistiche-top`: schede, recensioni, moderazione, statistiche, pagine wiki, eccellenze.org;
+- il **tema** `statistiche-top-tema`: l'aspetto grafico (font, colori, testata, tema chiaro/scuro).
 
 ## Cartella
 
 ```
 statistiche.top/
+├── tema/statistiche-top-tema/    il tema a blocchi (si copia in wp-content/themes/)
 ├── plugin/statistiche-top/       il plugin (si copia in wp-content/plugins/)
 │   ├── statistiche-top.php       intestazione e avvio
 │   ├── includes/
@@ -40,7 +43,8 @@ statistiche.top/
 cd statistiche.top
 php tests/test-logica.php             # punteggi, regole, soglie eccellenze.org
 python3 scripts/verifica_colori.py    # contrasto anche con protanopia, deuteranopia, tritanopia
-find plugin -name '*.php' -exec php -l {} \;
+python3 scripts/verifica_tema.py      # colori del tema = token del plugin, modelli ben formati
+find plugin tema -name '*.php' -exec php -l {} \;
 ```
 
 La CI (`.github/workflows/statistiche.yml`) esegue le stesse verifiche con PHP 7.4

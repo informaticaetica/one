@@ -1,5 +1,5 @@
 # Verifica il plugin di statistiche.top a ogni modifica della sua cartella.
-# Il pacchetto installabile si scarica dalla pagina dell'esecuzione (artifact "statistiche-top-plugin").
+# Plugin e tema installabili si scaricano dalla pagina dell'esecuzione (artifact "statistiche-top-pacchetti").
 name: statistiche.top
 
 on:
@@ -26,12 +26,14 @@ jobs:
           php-version: ${{ matrix.php }}
           extensions: sqlite3, pdo_sqlite
           tools: wp-cli
-      - name: Sintassi PHP
-        run: find plugin -name '*.php' -print0 | xargs -0 -n1 php -l
+      - name: Sintassi PHP (plugin e tema)
+        run: find plugin tema -name '*.php' -print0 | xargs -0 -n1 php -l
       - name: Logica (punteggi, regole, eccellenze.org)
         run: php tests/test-logica.php
       - name: Contrasto e daltonismo della palette
         run: python3 scripts/verifica_colori.py
+      - name: Tema coerente con il plugin, modelli ben formati
+        run: python3 scripts/verifica_tema.py
       - name: Collaudo su WordPress (SQLite)
         run: |
           mkdir -p /tmp/wp && cd /tmp/wp
@@ -43,6 +45,8 @@ jobs:
           wp core install --url=http://localhost --title=statistiche.top --admin_user=admin --admin_email=admin@example.org --admin_password=prova --skip-email --quiet
           wp rewrite structure '/%postname%/' --quiet
           cp -r "$GITHUB_WORKSPACE/statistiche.top/plugin/statistiche-top" wp-content/plugins/
+          cp -r "$GITHUB_WORKSPACE/statistiche.top/tema/statistiche-top-tema" wp-content/themes/
+          wp theme activate statistiche-top-tema
           wp plugin activate statistiche-top
           wp eval-file "$GITHUB_WORKSPACE/statistiche.top/tests/smoke-wordpress.php"
 
@@ -51,9 +55,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Crea lo zip installabile
-        run: cd statistiche.top/plugin && zip -r ../../statistiche-top.zip statistiche-top
+      - name: Crea gli zip installabili
+        run: |
+          (cd statistiche.top/plugin && zip -r ../../statistiche-top.zip statistiche-top)
+          (cd statistiche.top/tema && zip -r ../../statistiche-top-tema.zip statistiche-top-tema)
       - uses: actions/upload-artifact@v4
         with:
-          name: statistiche-top-plugin
-          path: statistiche-top.zip
+          name: statistiche-top-pacchetti
+          path: |
+            statistiche-top.zip
+            statistiche-top-tema.zip

@@ -45,6 +45,7 @@ final class Eccellenze {
 	public static function calcolo_notturno() {
 		Voti::promuovi_in_attesa();
 		Registro::pulisci();
+		Modulo::pulisci_non_confermate();
 		Voti::calcola_media_generale();
 		$soglie  = Impostazioni::soglie();
 		$nuove   = array();

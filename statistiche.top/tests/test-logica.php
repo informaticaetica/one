@@ -8,11 +8,11 @@
 define( 'ST_TEST', true );
 $base = dirname( __DIR__ ) . '/plugin/statistiche-top/includes/';
 require $base . 'class-punteggi.php';
-require $base . 'class-regole.php';
+require $base . 'class-modulo.php';
 require $base . 'class-indirizzi.php';
 
 use StatisticheTop\Punteggi;
-use StatisticheTop\Regole;
+use StatisticheTop\Modulo;
 use StatisticheTop\Indirizzi;
 
 $falliti = 0;
@@ -107,29 +107,20 @@ verifica( 'pubblicata sotto 4,3 va in revisione', 'revisione_uscita', Punteggi::
 verifica( 'revisione che risale torna pubblicata', 'pubblicata', Punteggi::stato_eccellenze( 'revisione_uscita', $fascia, $soglie ) );
 verifica( 'rifiutata resta rifiutata', 'rifiutata', Punteggi::stato_eccellenze( 'rifiutata', $molti_5, $soglie ) );
 
-// --- Regole di ammissione ---
-$imp   = array( 'eta_minima_giorni' => 7, 'giorni_attivita_minimi' => 2, 'limite_giornaliero' => 10, 'giorni_modifica' => 30 );
-$base_fatti = array(
-	'eta_account_giorni' => 10, 'giorni_attivita' => 3, 'recensioni_24h' => 0,
-	'e_autore_scheda' => false, 'e_referente' => false, 'conflitto_dichiarato' => false,
-	'scheda_pubblicata' => true, 'giorni_dalla_recensione' => null,
-);
-verifica( 'utente regolare', array( true, '' ), Regole::puo_recensire( $base_fatti, $imp ) );
-verifica( 'account di 6 giorni', array( false, 'account_recente' ), Regole::puo_recensire( array_merge( $base_fatti, array( 'eta_account_giorni' => 6 ) ), $imp ) );
-verifica( 'un solo giorno di attività', array( false, 'attivita_insufficiente' ), Regole::puo_recensire( array_merge( $base_fatti, array( 'giorni_attivita' => 1 ) ), $imp ) );
-verifica( 'limite giornaliero', array( false, 'limite_giornaliero' ), Regole::puo_recensire( array_merge( $base_fatti, array( 'recensioni_24h' => 10 ) ), $imp ) );
-verifica( 'autore della scheda: nuova recensione no', array( false, 'autore_scheda' ), Regole::puo_recensire( array_merge( $base_fatti, array( 'e_autore_scheda' => true ) ), $imp ) );
-verifica( 'autore della scheda: modifica della sua recensione sì', array( true, '' ), Regole::puo_recensire( array_merge( $base_fatti, array( 'e_autore_scheda' => true, 'giorni_dalla_recensione' => 3 ) ), $imp ) );
-verifica( 'referente', array( false, 'referente' ), Regole::puo_recensire( array_merge( $base_fatti, array( 'e_referente' => true ) ), $imp ) );
-verifica( 'conflitto dichiarato', array( false, 'conflitto' ), Regole::puo_recensire( array_merge( $base_fatti, array( 'conflitto_dichiarato' => true ) ), $imp ) );
-verifica( 'scheda in revisione', array( false, 'scheda_non_pubblicata' ), Regole::puo_recensire( array_merge( $base_fatti, array( 'scheda_pubblicata' => false ) ), $imp ) );
-verifica( 'modifica al giorno 29', array( true, '' ), Regole::puo_recensire( array_merge( $base_fatti, array( 'giorni_dalla_recensione' => 29, 'recensioni_24h' => 50 ) ), $imp ) );
-verifica( 'modifica al giorno 30', array( false, 'modifica_scaduta' ), Regole::puo_recensire( array_merge( $base_fatti, array( 'giorni_dalla_recensione' => 30 ) ), $imp ) );
-verifica( 'IP nuovo: valido', 'valido', Regole::stato_iniziale( 0 ) );
-verifica( 'IP già usato: sospeso', 'sospeso', Regole::stato_iniziale( 1 ) );
+// --- Titolo automatico della recensione ---
+verifica( 'titolo: prima frase', 'Lavoro preciso', Modulo::titolo( 'Lavoro preciso. Tempi un po\' lunghi ma ne è valsa la pena.' ) );
+verifica( 'titolo: frase lunga accorciata', 80, mb_strlen( Modulo::titolo( str_repeat( 'parola ', 30 ) ) ) <= 80 ? 80 : 0 );
+verifica( 'titolo: senza punteggiatura finale', 'Ottimo servizio', Modulo::titolo( 'Ottimo servizio!' ) );
+
+// --- Prodotti ---
+verifica( 'aspetti dei prodotti', count( Punteggi::ASPETTI_PRODOTTO ), count( Punteggi::aspetti( 'prodotto' ) ) );
+verifica( 'etichetta aspetto prodotto', 'Facilità d\'uso', Punteggi::etichetta_aspetto( 'uso' ) );
 
 // --- Indirizzi wiki ---
-verifica( 'slug normale libero', false, Indirizzi::riservato( 'officina-rossi' ) );
+verifica( 'slug senza trattini', 'officinarossi', Indirizzi::compatta( 'officina-rossi' ) );
+verifica( 'slug persona', 'mariobianchi', Indirizzi::compatta( 'mario-bianchi' ) );
+verifica( 'slug con numeri', 'caffe3000', Indirizzi::compatta( 'caffe-3000' ) );
+verifica( 'slug normale libero', false, Indirizzi::riservato( 'officinarossi' ) );
 verifica( 'slug di una pagina esistente', true, Indirizzi::riservato( 'chi-siamo', true ) );
 verifica( 'slug riservato: schede', true, Indirizzi::riservato( 'schede' ) );
 verifica( 'slug riservato: wp-admin', true, Indirizzi::riservato( 'wp-admin' ) );

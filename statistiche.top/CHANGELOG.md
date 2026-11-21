@@ -1,7 +1,28 @@
 # Changelog di statistiche.top
 
-Versionamento semantico. La versione è quella del plugin `statistiche-top`
-(intestazione di `plugin/statistiche-top/statistiche-top.php` e costante `VERSIONE`).
+Versionamento semantico. Il plugin `statistiche-top` ha la versione nell'intestazione di
+`plugin/statistiche-top/statistiche-top.php` e nella costante `VERSIONE`; il tema
+`statistiche-top-tema` nell'intestazione di `tema/statistiche-top-tema/style.css`.
+
+## [0.5.0] - 2026-11-21 (plugin) · tema 1.0.0
+
+### Aggiunto
+- **Tema separato** `statistiche-top-tema` (tema a blocchi autonomo): Newsreader ospitato sul sito, palette avorio/ardesia nei colori del tema, colonna di lettura di 38,75rem, testata con interruttore chiaro/scuro/automatico (`[st_tema]`, chiave `tema` in localStorage), piè di pagina, modelli per pagine, articoli, schede, archivi, ricerca e 404.
+- **Modulo semplice** (`[st_recensisci]`, anche `[st_nuova_scheda]`), usabile senza account: tipo (persona, azienda, prodotto), nome, categoria libera, stelle da 1 a 5, recensione fino a 2000 caratteri, email obbligatoria, telefono facoltativo, dettagli facoltativi (rapporto con il soggetto, aspetti), due dichiarazioni.
+- Dall'email si crea da solo un account leggero; un link di conferma (valido 7 giorni) verifica l'indirizzo; le recensioni mai confermate vengono cancellate di notte con le schede nate solo da loro.
+- Se la scheda esiste già (stesso nome, anche scritto diversamente) la recensione va in coda al moderatore; altrimenti nasce una scheda nuova in revisione.
+- Moderazione di ogni recensione: pagina "Recensioni da moderare" con testo, stelle, email, telefono, IP; "Approva e pubblica" o "Rifiuta".
+- Ogni invio viene notificato alla redazione: email dell'amministratore e indirizzo "email_notifiche" (predefinito informaticaetica@gmail.com).
+- **"Crea la tua scheda"** (`[st_crea_scheda]`): aziende, professionisti e produttori propongono la propria scheda o l'aggiornamento di quella esistente; la richiesta resta nel database (tipo st_richiesta), arriva per email con ricevuta a chi la invia; in bacheca si applica con un clic (crea o aggiorna la scheda, il richiedente diventa referente) o si scarta. Sulla scheda compare "Dati forniti dal soggetto", con partita IVA e anno di fondazione.
+- Tipo di scheda **prodotto**, con i suoi aspetti.
+
+### Modificato
+- **Nomi brevi senza trattini**: statistiche.top/officinarossi; gli indirizzi con i trattini e quelli vecchi reindirizzano (301). Database alla versione 4 (telefono e codice di conferma; conversione dei nomi esistenti).
+- La sezione della scheda "Scrivi una recensione" usa lo stesso modulo semplice.
+- Metodologia riscritta: conferma dell'email e moderazione al posto delle regole di anzianità e attività.
+
+### Tolto
+- Dal plugin: font, colori del sito e interruttore del tema (ora nel tema), la guida a passi, le regole di anzianità dell'account e dei giorni di accesso.
 
 ## [0.4.0] - 2026-11-21
 

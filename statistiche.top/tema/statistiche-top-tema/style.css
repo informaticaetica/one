@@ -1,0 +1,106 @@
+/*
+Theme Name: statistiche.top
+Theme URI: https://statistiche.top
+Description: Tema grafico di statistiche.top: colonna di lettura stretta, serif Newsreader ospitato sul sito, fondo avorio e testo ardesia, tema chiaro, scuro e automatico. Le schede e le recensioni sono nel plugin statistiche-top.
+Version: 1.0.0
+Requires at least: 6.6
+Requires PHP: 7.4
+Author: statistiche.top
+License: GPL-2.0-or-later
+License URI: https://www.gnu.org/licenses/gpl-2.0.html
+Text Domain: statistiche-top-tema
+*/
+
+/*
+ * I colori sono i token del tema (theme.json → variabili --wp--preset--color--*).
+ * Qui si ridefiniscono per il tema scuro: quando il sistema lo chiede (se l'utente
+ * non ha scelto "chiaro") e quando l'utente sceglie "scuro" (data-theme="dark").
+ * Gli stessi valori sono nei token --st-* del plugin e sono verificati da
+ * scripts/verifica_colori.py e scripts/verifica_tema.py.
+ */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --wp--preset--color--base: #1f1e1d;
+    --wp--preset--color--surface: #2b2a28;
+    --wp--preset--color--contrast: #f0eee6;
+    --wp--preset--color--secondary: #b0aea5;
+    --wp--preset--color--border: #8f8e87;
+    --wp--preset--color--primary: #9db4dd;
+    --wp--preset--color--primary-soft: #2a3240;
+    --wp--preset--color--accent: #f0b35f;
+    --wp--preset--color--accent-soft: #3a2d1b;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --wp--preset--color--base: #1f1e1d;
+  --wp--preset--color--surface: #2b2a28;
+  --wp--preset--color--contrast: #f0eee6;
+  --wp--preset--color--secondary: #b0aea5;
+  --wp--preset--color--border: #8f8e87;
+  --wp--preset--color--primary: #9db4dd;
+  --wp--preset--color--primary-soft: #2a3240;
+  --wp--preset--color--accent: #f0b35f;
+  --wp--preset--color--accent-soft: #3a2d1b;
+  color-scheme: dark;
+}
+
+body { text-rendering: optimizeLegibility; }
+p, li { text-wrap: pretty; }
+h1, h2, h3, h4 { text-wrap: balance; }
+a { text-decoration-thickness: .08em; text-underline-offset: .12em; }
+strong, b { font-weight: 600; }
+:focus-visible { outline: 3px solid var(--wp--preset--color--contrast); outline-offset: 2px; }
+::selection { background-color: var(--wp--preset--color--primary-soft); color: var(--wp--preset--color--contrast); }
+
+/* Testata: nome del sito a sinistra, menu e interruttore a destra */
+.tema-testata { padding-top: 1.5rem; padding-bottom: 1.5rem; }
+.tema-testata .wp-block-site-title a:hover { text-decoration: underline; }
+/* Il menu: link non sottolineati, la pagina corrente in grassetto e sottolineata */
+.wp-block-navigation a:hover { text-decoration: underline; }
+.wp-block-navigation .current-menu-item > a,
+.wp-block-navigation [aria-current="page"] { font-weight: 700; text-decoration: underline; }
+.wp-block-navigation .wp-block-navigation-item__content { padding-block: .4em; }
+.wp-block-navigation__responsive-container-open,
+.wp-block-navigation__responsive-container-close { min-width: 44px; min-height: 44px; justify-content: center; align-items: center; }
+
+/* Piè di pagina */
+.tema-piede { border-top: 1px solid var(--wp--preset--color--border); margin-top: 3rem; padding-top: 1.5rem; padding-bottom: 2rem; font-size: 1rem; color: var(--wp--preset--color--secondary); }
+.tema-piede a { color: var(--wp--preset--color--contrast); }
+
+/* Elenchi di articoli */
+.tema-elenco .wp-block-post-title { font-size: var(--wp--preset--font-size--large); margin: 0; }
+.tema-elenco .wp-block-post { padding: 1rem 0; border-bottom: 1px solid var(--wp--preset--color--border); }
+
+/* ---------- Interruttore del tema: automatico, chiaro, scuro ---------- */
+.st-tema {
+  display: inline-flex; align-items: center; gap: .5rem;
+  min-height: 44px; min-width: 44px; padding: 0 .5rem;
+  font: inherit; font-size: 1rem; color: var(--wp--preset--color--contrast);
+  background: transparent; border: 0; border-radius: .5rem; cursor: pointer;
+}
+.st-tema[hidden] { display: none; }
+.st-tema-pista {
+  position: relative; display: inline-block; flex: none;
+  width: 44px; height: 24px; border-radius: 2rem;
+  border: 1px solid var(--wp--preset--color--contrast); background-color: var(--wp--preset--color--surface);
+}
+.st-tema-pomello {
+  position: absolute; top: 2px; left: 2px;
+  display: grid; place-items: center;
+  width: 18px; height: 18px; border-radius: 50%;
+  background-color: var(--wp--preset--color--contrast); color: var(--wp--preset--color--base);
+}
+/* La posizione del pomello indica lo stato, insieme all'icona e alla parola */
+.st-tema[data-stato="auto"] .st-tema-pomello { left: 12px; }
+.st-tema[data-stato="dark"] .st-tema-pomello { left: 22px; }
+.st-tema-icona { display: block; }
+.st-tema:focus-visible { outline: 3px solid var(--wp--preset--color--contrast); outline-offset: 2px; }
+@media (max-width: 599px) {
+  .st-tema-etichetta { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  body { transition: background-color .2s linear, color .2s linear; }
+  .st-tema-pomello { transition: left .2s ease; }
+}

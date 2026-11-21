@@ -122,9 +122,14 @@ final class Amministrazione {
 			esc_html( Eccellenze::STATI[ $stato ] ?? $stato )
 		);
 		global $wpdb;
-		$attesa = (int) $wpdb->get_var( $wpdb->prepare( 'SELECT COUNT(*) FROM ' . Installazione::tabella_voti() . " WHERE scheda_id = %d AND stato = 'attesa'", $post->ID ) ); // phpcs:ignore WordPress.DB
-		if ( $attesa ) {
-			printf( '<p>Recensioni in attesa (di chi ha proposto la scheda): %d. Contano dopo la pubblicazione e i %d giorni dell\'account.</p>', $attesa, (int) Impostazioni::valore( 'eta_minima_giorni' ) );
+		$righe = $wpdb->get_results( $wpdb->prepare( 'SELECT stato, COUNT(*) AS n FROM ' . Installazione::tabella_voti() . ' WHERE scheda_id = %d GROUP BY stato', $post->ID ), ARRAY_A ); // phpcs:ignore WordPress.DB
+		if ( $righe ) {
+			echo '<p>Recensioni: ';
+			echo esc_html( implode( ', ', array_map( static function ( $r ) { return ( isset( Voti::NOMI_STATI[ $r['stato'] ] ) ? Voti::NOMI_STATI[ $r['stato'] ] : $r['stato'] ) . ' ' . (int) $r['n']; }, $righe ) ) );
+			echo ' — <a href="' . esc_url( admin_url( 'admin.php?page=st-recensioni' ) ) . '">moderazione</a></p>';
+		}
+		if ( get_post_meta( $post->ID, '_st_dal_soggetto', true ) ) {
+			echo '<p>Dati forniti dal soggetto (richiesta «Crea la tua scheda»).</p>';
 		}
 		echo '<p><a href="' . esc_url( admin_url( 'admin.php?page=st-eccellenze' ) ) . '">Coda di eccellenze.org</a></p>';
 	}
@@ -205,7 +210,8 @@ final class Amministrazione {
 	public static function menu() {
 		$segn   = Segnalazioni::aperte_conteggio();
 		$bolla  = $segn ? ' <span class="awaiting-mod">' . (int) $segn . '</span>' : '';
-		add_submenu_page( self::MENU, 'Recensioni da controllare', 'Recensioni da controllare', 'st_modera', 'st-recensioni', array( __CLASS__, 'pagina_recensioni' ) );
+		$da_moderare = count( Voti::da_moderare( 500 ) );
+		add_submenu_page( self::MENU, 'Recensioni da moderare', 'Recensioni da moderare' . ( $da_moderare ? ' <span class="awaiting-mod">' . (int) $da_moderare . '</span>' : '' ), 'st_modera', 'st-recensioni', array( __CLASS__, 'pagina_recensioni' ) );
 		add_submenu_page( self::MENU, 'Segnalazioni', 'Segnalazioni' . $bolla, 'st_modera', 'st-segnalazioni', array( __CLASS__, 'pagina_segnalazioni' ) );
 		add_submenu_page( self::MENU, 'Categorie da decidere', 'Categorie da decidere' . ( self::categorie_conteggio() ? ' <span class="awaiting-mod">' . (int) self::categorie_conteggio() . '</span>' : '' ), 'st_modera', 'st-categorie', array( __CLASS__, 'pagina_categorie' ) );
 		add_submenu_page( self::MENU, 'eccellenze.org', 'eccellenze.org', 'st_modera', 'st-eccellenze', array( __CLASS__, 'pagina_eccellenze' ) );
@@ -236,37 +242,67 @@ final class Amministrazione {
 	/* ---------- Recensioni sospese ---------- */
 
 	public static function pagina_recensioni() {
-		$righe = Voti::sospese();
-		echo '<div class="wrap"><h1>Recensioni da controllare</h1>';
+		$righe = Voti::da_moderare();
+		echo '<div class="wrap"><h1>Recensioni da moderare</h1>';
 		self::esito();
-		echo '<p>Qui arrivano le recensioni lasciate da uno stesso indirizzo di rete già usato da un altro utente sulla stessa scheda. Non contano finché non le convalidi.</p>';
+		printf(
+			'<p>Ogni recensione viene letta qui prima della pubblicazione. Approva quelle scritte con parole proprie, su un\'esperienza reale e senza conflitti di interesse; rifiuta testi offensivi, copiati, pubblicitari o scritti da programmi. Chi ha scritto riceve un\'email quando la recensione è pubblicata. In attesa di conferma dell\'email: %d.</p>',
+			(int) Voti::in_conferma_conteggio()
+		);
 		if ( ! $righe ) {
-			echo '<p><strong>Nessuna recensione in attesa.</strong></p></div>';
+			echo '<p><strong>Nessuna recensione da moderare.</strong></p></div>';
 			return;
 		}
-		echo '<table class="widefat striped"><caption class="screen-reader-text">Recensioni in attesa</caption><thead><tr><th scope="col">Scheda</th><th scope="col">Utente</th><th scope="col">Voto</th><th scope="col">Recensione</th><th scope="col">Data</th><th scope="col">Decisione</th></tr></thead><tbody>';
 		foreach ( $righe as $r ) {
-			$u = get_userdata( (int) $r['utente_id'] );
-			echo '<tr>';
-			printf( '<td><a href="%1$s">%2$s</a></td>', esc_url( get_edit_post_link( (int) $r['scheda_id'] ) ), esc_html( get_the_title( (int) $r['scheda_id'] ) ) );
-			printf( '<td>%s</td>', esc_html( $u ? $u->user_login . ' (dal ' . mysql2date( 'd/m/Y', $u->user_registered ) . ')' : '—' ) );
-			printf( '<td>%s</td>', esc_html( (int) $r['stelle'] . ' stelle su 5 — ' . count( $r['aspetti'] ) . ' aspetti valutati' ) );
-			printf( '<td><strong>%1$s</strong><br>%2$s</td>', esc_html( $r['titolo'] ), esc_html( wp_trim_words( trim( $r['pro'] . ' ' . $r['contro'] . ' ' . $r['commento'] ), 40 ) ) );
-			printf( '<td>%s</td>', esc_html( $r['creato'] ) );
-			echo '<td>';
-			foreach ( array( 'valido' => 'Convalida', 'annullato' => 'Annulla' ) as $stato => $etichetta ) {
+			$u      = get_userdata( (int) $r['utente_id'] );
+			$scheda = (int) $r['scheda_id'];
+			$stato  = get_post_status( $scheda );
+			$ip     = self::ip_recensione( (int) $r['id'] );
+			echo '<div class="card" style="max-width:none">';
+			printf(
+				'<h2>%1$s — <a href="%2$s">%3$s</a> %4$s</h2>',
+				esc_html( str_repeat( '★', (int) $r['stelle'] ) . ' ' . (int) $r['stelle'] . ' su 5' ),
+				esc_url( get_edit_post_link( $scheda ) ),
+				esc_html( get_the_title( $scheda ) ),
+				'publish' === $stato ? '' : '<strong>(scheda nuova, in revisione: pubblicala dalla sua pagina)</strong>'
+			);
+			echo wpautop( esc_html( $r['commento'] ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+			printf(
+				'<p><strong>Email:</strong> %1$s · <strong>Telefono:</strong> %2$s · <strong>Rapporto:</strong> %3$s · <strong>Inviata:</strong> %4$s · <strong>IP:</strong> %5$s%6$s</p>',
+				$u ? '<a href="mailto:' . esc_attr( $u->user_email ) . '">' . esc_html( $u->user_email ) . '</a>' : '—',
+				$r['telefono'] ? '<a href="tel:' . esc_attr( preg_replace( '/[^0-9+]/', '', $r['telefono'] ) ) . '">' . esc_html( $r['telefono'] ) . '</a>' : '—',
+				esc_html( isset( Voti::RELAZIONI[ $r['relazione'] ] ) ? Voti::RELAZIONI[ $r['relazione'] ][0] : 'non indicato' ),
+				esc_html( $r['creato'] ),
+				$ip ? '<a href="' . esc_url( add_query_arg( 'ip', $ip, admin_url( 'admin.php?page=st-registro' ) ) ) . '">' . esc_html( $ip ) . '</a>' : '—',
+				'sospeso' === $r['stato'] ? ' · <strong>Stessa rete di un\'altra recensione su questa scheda</strong>' : ''
+			);
+			if ( $r['aspetti'] ) {
+				$voti = array();
+				foreach ( $r['aspetti'] as $k => $v ) {
+					$voti[] = Punteggi::etichetta_aspetto( $k ) . ' ' . (int) $v;
+				}
+				printf( '<p><strong>Aspetti:</strong> %s</p>', esc_html( implode( ', ', $voti ) ) );
+			}
+			echo '<p>';
+			foreach ( array( 'valido' => 'Approva e pubblica', 'annullato' => 'Rifiuta' ) as $nuovo => $etichetta ) {
 				printf(
-					'<form method="post" action="%1$s" style="display:inline"><input type="hidden" name="action" value="st_modera_voto"><input type="hidden" name="voto" value="%2$d"><input type="hidden" name="stato" value="%3$s">%4$s<button class="button" type="submit">%5$s</button></form> ',
+					'<form method="post" action="%1$s" style="display:inline"><input type="hidden" name="action" value="st_modera_voto"><input type="hidden" name="voto" value="%2$d"><input type="hidden" name="stato" value="%3$s">%4$s<button class="button%6$s" type="submit">%5$s</button></form> ',
 					esc_url( admin_url( 'admin-post.php' ) ),
 					(int) $r['id'],
-					esc_attr( $stato ),
-					wp_nonce_field( 'st_modera_voto', '_wpnonce', true, false ),
-					esc_html( $etichetta )
+					esc_attr( $nuovo ),
+					wp_nonce_field( 'st_modera_voto', '_wpnonce', true, false ), // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+					esc_html( $etichetta ),
+					'valido' === $nuovo ? ' button-primary' : ''
 				);
 			}
-			echo '</td></tr>';
+			echo '</p></div>';
 		}
-		echo '</tbody></table></div>';
+		echo '</div>';
+	}
+
+	private static function ip_recensione( $voto_id ) {
+		global $wpdb;
+		return (string) $wpdb->get_var( $wpdb->prepare( 'SELECT ip FROM ' . Registro::tabella() . " WHERE voto_id = %d AND evento IN ('recensione','recensione_modificata') ORDER BY id DESC LIMIT 1", $voto_id ) ); // phpcs:ignore WordPress.DB
 	}
 
 	public static function azione_voto() {
@@ -496,7 +532,8 @@ final class Amministrazione {
 		echo '<table class="form-table" role="presentation">';
 		foreach ( Impostazioni::campi() as $chiave => $campo ) {
 			list( , $etichetta, $tipo, $min, $max ) = $campo;
-			$attr = 'url' === $tipo ? 'type="url" class="regular-text"' : sprintf( 'type="number" class="small-text" min="%1$s" max="%2$s" step="%3$s"', esc_attr( $min ), esc_attr( $max ), 'int' === $tipo ? '1' : '0.1' );
+			$attr = 'email' === $tipo ? 'type="email" class="regular-text"' : ( 'url' === $tipo ? 'type="url" class="regular-text"' : '' );
+			$attr = $attr ? $attr : sprintf( 'type="number" class="small-text" min="%1$s" max="%2$s" step="%3$s"', esc_attr( $min ), esc_attr( $max ), 'int' === $tipo ? '1' : '0.1' );
 			printf(
 				'<tr><th scope="row"><label for="st-%1$s">%2$s</label></th><td><input id="st-%1$s" name="%3$s[%1$s]" value="%4$s" %5$s></td></tr>',
 				esc_attr( $chiave ),

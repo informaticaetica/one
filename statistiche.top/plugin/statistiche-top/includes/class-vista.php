@@ -26,7 +26,15 @@ final class Vista {
 	public static function registra_risorse() {
 		wp_register_style( 'statistiche-top', plugins_url( 'assets/statistiche-top.css', FILE ), array(), VERSIONE );
 		wp_register_script( 'statistiche-top', plugins_url( 'assets/statistiche-top.js', FILE ), array(), VERSIONE, array( 'in_footer' => true, 'strategy' => 'defer' ) );
-		if ( is_singular( Schede::TIPO ) || is_post_type_archive( Schede::TIPO ) || is_tax( Schede::SETTORE ) ) {
+		$post    = get_post();
+		$codici  = array( 'st_recensisci', 'st_nuova_scheda', 'st_crea_scheda', 'st_metodologia', 'st_classifica' );
+		$con_codice = $post && is_singular() && array_filter(
+			$codici,
+			static function ( $c ) use ( $post ) {
+				return has_shortcode( $post->post_content, $c );
+			}
+		);
+		if ( $con_codice || is_singular( Schede::TIPO ) || is_post_type_archive( Schede::TIPO ) || is_tax( Schede::SETTORE ) ) {
 			self::accoda_risorse();
 		}
 	}
@@ -66,6 +74,18 @@ final class Vista {
 			'scheda_aggiunta_recensita' => 'La scheda è pubblicata con la tua recensione. La recensione conterà quando il tuo account avrà almeno 7 giorni.',
 			'recensione_in_attesa'    => 'La recensione è salvata e conterà quando la scheda sarà pubblicata e il tuo account avrà almeno 7 giorni.',
 			'utile_propria'           => 'Non puoi segnare come utile una tua recensione.',
+			'controlla_email'         => 'Grazie! Ti abbiamo mandato un\'email: apri il link per confermare l\'indirizzo. Dopo la conferma la recensione passa alla redazione.',
+			'scheda_in_revisione'     => 'Grazie! La scheda e la tua recensione sono arrivate alla redazione: ti scriveremo quando saranno pubblicate.',
+			'in_moderazione'          => 'Grazie! La recensione è arrivata alla redazione: ti scriveremo quando sarà pubblicata.',
+			'pubblicata_subito'       => 'La recensione è pubblicata.',
+			'email_confermata'        => 'Email confermata, grazie! La recensione è passata alla redazione: ti scriveremo quando sarà pubblicata.',
+			'conferma_non_valida'     => 'Il link di conferma non è valido o è già stato usato.',
+			'conferma_scaduta'        => 'Il link di conferma è scaduto: scrivi di nuovo la recensione.',
+			'troppi_invii'            => 'Hai inviato molti moduli nell\'ultima ora. Riprova più tardi.',
+			'conflitto'               => 'Risulti legato al soggetto (referente o legame dichiarato): non puoi recensirlo.',
+			'limite_giornaliero'      => 'Hai raggiunto il limite di recensioni per oggi. Riprova domani.',
+			'richiesta_non_valida'    => 'La richiesta non è valida. Ricarica la pagina e riprova.',
+			'richiesta_ricevuta'      => 'Grazie! La richiesta è arrivata alla redazione. Riceverai una ricevuta per email e poi l\'esito.',
 			'troppe_in_attesa'        => sprintf( 'Hai già %d schede in attesa di revisione. Potrai proporne altre quando saranno state esaminate.', Schede::MAX_IN_ATTESA ),
 			'modulo'                  => 'Alcuni campi vanno corretti: li trovi indicati qui sotto.',
 			'salvataggio'             => 'Non è stato possibile salvare. Riprova fra qualche minuto.',
@@ -79,7 +99,7 @@ final class Vista {
 			'email_non_valida'        => 'L\'indirizzo email non sembra valido.',
 			'troppe_segnalazioni'     => 'Hai inviato molte segnalazioni nell\'ultima ora. Riprova più tardi.',
 		);
-		return isset( $testi[ $codice ] ) ? $testi[ $codice ] : Regole::messaggio( $codice, Impostazioni::tutte() );
+		return isset( $testi[ $codice ] ) ? $testi[ $codice ] : 'Operazione non consentita.';
 	}
 
 	/** Messaggio di esito da mostrare in un punto preciso della pagina. */
@@ -183,7 +203,7 @@ final class Vista {
 		$sezioni = array(
 			'st-sintesi-titolo'     => 'Sintesi',
 			'st-radiografia-titolo' => 'Statistiche di gradimento',
-			'st-recensisci-titolo'  => 'La tua recensione',
+			'st-recensisci-titolo'  => 'Scrivi una recensione',
 		);
 		if ( Schede::aggregato( $id )['n_recensioni'] ) {
 			$sezioni = array_slice( $sezioni, 0, 2, true ) + array( 'st-recensioni-titolo' => 'Le recensioni' ) + array_slice( $sezioni, 2, null, true );
@@ -217,6 +237,9 @@ final class Vista {
 				<?php if ( in_array( $ecc, array( 'pubblicata', 'revisione_uscita' ), true ) ) : ?>
 					<p class="st-etichetta-eccellenza"><span aria-hidden="true">★</span> <strong>Presente su <a href="<?php echo esc_url( Impostazioni::valore( 'url_eccellenze' ) ); ?>">eccellenze.org</a></strong></p>
 				<?php endif; ?>
+				<?php if ( $d['dal_soggetto'] ) : ?>
+					<p class="st-nota"><strong>Dati forniti dal soggetto</strong> e verificati dalla redazione.</p>
+				<?php endif; ?>
 				<dl>
 					<div><dt>Tipo</dt><dd><?php echo esc_html( isset( Schede::TIPI_SOGGETTO[ $d['tipo'] ] ) ? Schede::TIPI_SOGGETTO[ $d['tipo'] ] : '—' ); ?></dd></div>
 					<div><dt>Settore</dt><dd>
@@ -240,6 +263,12 @@ final class Vista {
 						<?php endif; ?>
 					</dd></div>
 					<div><dt>Recensioni</dt><dd><?php echo esc_html( number_format_i18n( $a['n_recensioni'] ) ); ?></dd></div>
+					<?php if ( $d['anno'] ) : ?>
+						<div><dt>Fondazione</dt><dd><?php echo esc_html( $d['anno'] ); ?></dd></div>
+					<?php endif; ?>
+					<?php if ( $d['piva'] ) : ?>
+						<div><dt>Partita IVA</dt><dd><?php echo esc_html( $d['piva'] ); ?></dd></div>
+					<?php endif; ?>
 					<?php if ( $a['consiglia']['n'] ) : ?>
 						<div><dt>Lo consiglierebbe</dt><dd><?php echo esc_html( self::numero( $a['consiglia']['promotori'], 0 ) ); ?>%</dd></div>
 					<?php endif; ?>
@@ -301,53 +330,28 @@ final class Vista {
 		return $pagina ? get_permalink( $pagina ) : home_url( '/metodologia/' );
 	}
 
-	/** La sezione "La tua recensione": invito, guida a passi o motivo per cui non si può recensire. */
+	/** La sezione "Scrivi una recensione": il modulo semplice, già legato a questa scheda. */
 	private static function sezione_recensisci( $id ) {
 		ob_start();
 		echo '<section aria-labelledby="st-recensisci-titolo" id="st-recensisci">';
-		echo '<h2 id="st-recensisci-titolo">La tua recensione</h2>';
-		echo self::avviso( 'st-recensisci' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-
-		if ( ! is_user_logged_in() ) {
-			printf(
-				'<p>Per recensire serve un account con l\'email verificata. <a href="%1$s">Accedi</a>%2$s.</p>',
-				esc_url( wp_login_url( get_permalink( $id ) . '#st-recensisci' ) ),
-				get_option( 'users_can_register' ) ? ' oppure <a href="' . esc_url( wp_registration_url() ) . '">registrati</a>' : ''
-			);
-			echo '</section>';
-			return ob_get_clean();
-		}
-
+		echo '<h2 id="st-recensisci-titolo">Scrivi una recensione</h2>';
+		echo '<div id="st-modulo">' . self::avviso( 'st-modulo' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 		$utente_id = get_current_user_id();
-		$esistente = Voti::recensione_utente( $id, $utente_id );
-		list( $ammesso, $motivo ) = Regole::puo_recensire( Voti::fatti( $id, $utente_id, $esistente ), Impostazioni::tutte() );
+		$esistente = $utente_id ? Voti::recensione_utente( $id, $utente_id ) : null;
+		$conflitti = $utente_id ? array_map( 'intval', (array) get_user_meta( $utente_id, 'st_conflitti', true ) ) : array();
+		$legami    = $utente_id ? Schede::legami_utente( $id, $utente_id ) : array( 'e_referente' => false );
 		if ( $esistente && 'annullato' === $esistente['stato'] ) {
-			$ammesso = false;
-			$motivo  = 'recensione_annullata';
-		}
-		if ( $esistente && 'sospeso' === $esistente['stato'] ) {
-			echo '<p class="st-nota">La tua recensione è in attesa di un controllo della redazione.</p>';
-		} elseif ( $esistente && 'attesa' === $esistente['stato'] ) {
-			echo '<p class="st-nota">La tua recensione conterà quando la scheda sarà pubblicata e il tuo account avrà almeno ' . esc_html( (int) Impostazioni::valore( 'eta_minima_giorni' ) ) . ' giorni.</p>';
-		}
-
-		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- solo lettura del passo da mostrare.
-		$in_guida = isset( $_GET['st_passo'] );
-		if ( ! $ammesso ) {
-			echo '<p>' . esc_html( self::testo_esito( $motivo ) ) . '</p>';
-		} elseif ( $in_guida ) {
-			echo Guida::modulo( 'recensione', $id ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+			echo '<p>' . esc_html( self::testo_esito( 'recensione_annullata' ) ) . '</p>';
+		} elseif ( $legami['e_referente'] || in_array( $id, $conflitti, true ) ) {
+			echo '<p>' . esc_html( self::testo_esito( 'conflitto' ) ) . '</p>';
 		} else {
-			printf(
-				'<p>%1$s</p><p><a class="st-pulsante" href="%2$s">%3$s</a></p>',
-				$esistente ? esc_html( sprintf( 'Puoi modificare la tua recensione entro %d giorni dalla pubblicazione.', (int) Impostazioni::valore( 'giorni_modifica' ) ) ) : 'Racconta la tua esperienza in tre passi: com\'è andata, la radiografia degli aspetti e il racconto. Ci vogliono pochi minuti.',
-				esc_url( add_query_arg( 'st_passo', 'esperienza', get_permalink( $id ) ) . '#st-recensisci' ),
-				$esistente ? 'Modifica la tua recensione' : 'Scrivi una recensione'
-			);
+			if ( $esistente ) {
+				printf( '<p class="st-nota">Hai già una recensione su questa scheda (%s): se ne invii un\'altra, sostituisce la precedente e torna in moderazione.</p>', esc_html( strtolower( Voti::NOMI_STATI[ $esistente['stato'] ] ?? $esistente['stato'] ) ) );
+			}
+			echo Modulo::modulo( $id ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 		}
-
-		$conflitti = array_map( 'intval', (array) get_user_meta( $utente_id, 'st_conflitti', true ) );
-		if ( ! in_array( $id, $conflitti, true ) ) {
+		echo '</div>';
+		if ( $utente_id && ! in_array( $id, $conflitti, true ) ) {
 			?>
 			<details class="st-dettagli">
 				<summary>Hai un legame con questo soggetto?</summary>
@@ -462,30 +466,29 @@ final class Vista {
 		<div class="st-blocco st-metodologia">
 			<h2>Come nasce una scheda</h2>
 			<ul>
-				<li>Chi ha un account con l'email verificata propone una scheda con una guida in quattro passi: chi è, la propria esperienza, la radiografia degli aspetti, il racconto. <strong>Chi propone una scheda la recensisce anche</strong>: la sua recensione conta quando la scheda è pubblicata e il suo account ha almeno <?php echo esc_html( $i['eta_minima_giorni'] ); ?> giorni.</li>
-				<li>I membri di statistiche.top possono aggiungere schede interessanti anche senza recensirle.</li>
-				<li>Ogni scheda cita fonti verificabili e passa dalla revisione della redazione. La categoria la può suggerire chiunque con parole sue; quella definitiva la decide la redazione, come in un wiki.</li>
+				<li>Chiunque può recensire una persona con un ruolo pubblico, un'azienda o un prodotto con il modulo in home page, anche senza account: bastano un'email e qualche riga scritta con parole proprie. Se la scheda non esiste ancora, nasce insieme alla recensione.</li>
+				<li>Le aziende, i professionisti e i produttori possono proporre la propria scheda con i dati ufficiali dalla pagina «Crea la tua scheda». Su quelle schede compare l'indicazione «Dati forniti dal soggetto»; chi le rappresenta può rispondere, ma non recensirle.</li>
+				<li>Ogni scheda passa dalla redazione prima della pubblicazione. La categoria la può suggerire chiunque con parole sue; quella definitiva la decide la redazione, come in un wiki.</li>
 			</ul>
 
-			<h2>Chi può recensire</h2>
+			<h2>Come viene controllata una recensione</h2>
 			<ul>
-				<li>Chi ha un account con l'email verificata da almeno <?php echo esc_html( $i['eta_minima_giorni'] ); ?> giorni e ha visitato il sito in almeno <?php echo esc_html( $i['giorni_attivita_minimi'] ); ?> giorni diversi.</li>
-				<li>Ogni persona recensisce una scheda una sola volta e può modificare la recensione entro <?php echo esc_html( $i['giorni_modifica'] ); ?> giorni.</li>
-				<li>Al massimo <?php echo esc_html( $i['limite_giornaliero'] ); ?> recensioni nuove ogni 24 ore.</li>
-				<li>Non può recensire chi ha un conflitto di interesse: il soggetto stesso, i suoi dipendenti ed ex dipendenti, soci, familiari e concorrenti diretti. Le aziende possono avere un referente verificato che risponde, ma non vota.</li>
-				<li>Le recensioni che arrivano da uno stesso indirizzo di rete per la stessa scheda vengono controllate dalla redazione prima di essere conteggiate. Con la recensione conserviamo solo un'impronta cifrata dell'indirizzo; l'indirizzo vero resta nel registro delle richieste, visibile solo agli amministratori, per <?php echo esc_html( $i['giorni_registro'] ); ?> giorni.</li>
-				<li>Il segno <strong>«Utente verificato»</strong> vuol dire che l'indirizzo email è stato verificato. Non verifichiamo l'esperienza raccontata: per questo ogni recensione dice che rapporto ha avuto chi scrive con il soggetto, e quando.</li>
+				<li><strong>Conferma dell'email:</strong> chi scrive senza account riceve un link e la recensione va avanti solo dopo il clic. Così sappiamo che l'indirizzo esiste ed è di chi scrive.</li>
+				<li><strong>Moderazione:</strong> ogni recensione viene letta da una persona della redazione prima della pubblicazione. Togliamo testi offensivi, copiati, scritti da programmi o pubblicitari, e quelli di chi ha un conflitto di interesse.</li>
+				<li>Una sola recensione per persona su ogni scheda: una nuova recensione sostituisce la precedente e torna in moderazione. Al massimo <?php echo esc_html( $i['limite_giornaliero'] ); ?> recensioni nuove ogni 24 ore.</li>
+				<li>Non può recensire chi ha un conflitto di interesse: il soggetto stesso, i suoi dipendenti ed ex dipendenti, soci, familiari e concorrenti diretti, e i referenti delle aziende.</li>
+				<li>Per la sicurezza registriamo l'indirizzo di rete di ogni invio, visibile solo agli amministratori e cancellato dopo <?php echo esc_html( $i['giorni_registro'] ); ?> giorni.</li>
+				<li>Il segno <strong>«Utente verificato»</strong> vuol dire che l'email è stata confermata. Non verifichiamo l'esperienza raccontata: per questo la moderazione legge ogni testo, e ogni recensione può dire che rapporto ha avuto chi scrive con il soggetto.</li>
 			</ul>
 
 			<h2>La radiografia</h2>
 			<p>Ogni recensione contiene:</p>
 			<ul>
 				<li>il <strong>voto complessivo da 1 a 5 stelle</strong>, che entra nel punteggio;</li>
-				<li>un voto da 1 a 5 sugli <strong>aspetti</strong>, oppure «Non so» (le risposte «Non so» non contano). Per le aziende: <?php echo esc_html( strtolower( implode( ', ', Punteggi::ASPETTI_AZIENDA ) ) ); ?>. Per le persone con un ruolo pubblico: <?php echo esc_html( strtolower( implode( ', ', Punteggi::ASPETTI_PERSONA ) ) ); ?>;</li>
-				<li>quanto lo consiglierebbe da 0 a 10, se si rivolgerebbe di nuovo al soggetto e se gli eventuali problemi sono stati risolti;</li>
-				<li>che rapporto ha avuto con il soggetto, quando, quante volte e come.</li>
+				<li>il racconto dell'esperienza, con parole proprie, fino a 2000 caratteri;</li>
+				<li>se chi scrive lo indica, il rapporto con il soggetto e un voto da 1 a 5 sugli <strong>aspetti</strong>, oppure «Non so» (le risposte «Non so» non contano). Per le aziende: <?php echo esc_html( strtolower( implode( ', ', Punteggi::ASPETTI_AZIENDA ) ) ); ?>. Per le persone con un ruolo pubblico: <?php echo esc_html( strtolower( implode( ', ', Punteggi::ASPETTI_PERSONA ) ) ); ?>. Per i prodotti: <?php echo esc_html( strtolower( implode( ', ', Punteggi::ASPETTI_PRODOTTO ) ) ); ?>.</li>
 			</ul>
-			<p>Sulla scheda questi dati diventano la distribuzione delle stelle, la media per aspetto con i punti di forza e i punti deboli, la percentuale di chi lo consiglierebbe con convinzione (9 o 10) e l'indice di raccomandazione (chi dà 9-10 meno chi dà da 0 a 6), la percentuale di chi tornerebbe e dei problemi risolti.</p>
+			<p>Sulla scheda questi dati diventano la distribuzione delle stelle e, quando ci sono abbastanza risposte, la media per aspetto con i punti di forza e i punti deboli.</p>
 
 			<h2>Come si calcola il punteggio</h2>
 			<p>Il punteggio della scheda è una <strong>media bayesiana</strong> delle stelle: alla media delle recensioni aggiungiamo <?php echo esc_html( $f( $i['peso_bayes'] ) ); ?> "recensioni virtuali" con il voto medio di tutto il sito (ora <?php echo esc_html( number_format_i18n( Voti::media_generale(), 2 ) ); ?>). Così tre recensioni da 5 non bastano a fare un'eccellenza: il punteggio cresce solo quando i giudizi positivi sono tanti.</p>

@@ -54,6 +54,9 @@ final class Installazione {
 			if ( $prima && version_compare( $prima, '2', '<' ) ) {
 				self::migra_a_2();
 			}
+			if ( $prima && version_compare( $prima, '4', '<' ) ) {
+				self::migra_a_4();
+			}
 		}
 	}
 
@@ -100,6 +103,22 @@ final class Installazione {
 		}
 	}
 
+	/**
+	 * Versione 4: nomi brevi delle schede senza trattini ("officina-rossi" → "officinarossi").
+	 * Il vecchio nome resta come _wp_old_slug; gli indirizzi vecchi reindirizzano.
+	 */
+	private static function migra_a_4() {
+		foreach ( get_posts( array( 'post_type' => Schede::TIPO, 'post_status' => 'any', 'posts_per_page' => -1, 'fields' => 'ids' ) ) as $id ) {
+			$vecchio = get_post_field( 'post_name', $id );
+			if ( '' === $vecchio || false === strpos( $vecchio, '-' ) ) {
+				continue;
+			}
+			$nuovo = Indirizzi::slug_unico( $vecchio, $id, get_post_status( $id ), Schede::TIPO, 0, $vecchio );
+			wp_update_post( array( 'ID' => $id, 'post_name' => $nuovo ) );
+			add_post_meta( $id, '_wp_old_slug', $vecchio );
+		}
+	}
+
 	private static function crea_tabelle() {
 		global $wpdb;
 		require_once ABSPATH . 'wp-admin/includes/upgrade.php';
@@ -128,6 +147,8 @@ final class Installazione {
   commento text NULL,
   da_proposta tinyint(1) unsigned NOT NULL DEFAULT 0,
   utili int(10) unsigned NOT NULL DEFAULT 0,
+  telefono varchar(20) NOT NULL DEFAULT '',
+  token char(32) NOT NULL DEFAULT '',
   competenza tinyint(1) unsigned NULL,
   affidabilita tinyint(1) unsigned NULL,
   impatto tinyint(1) unsigned NULL,
@@ -140,7 +161,8 @@ final class Installazione {
   UNIQUE KEY scheda_utente (scheda_id,utente_id),
   KEY utente_creato (utente_id,creato),
   KEY scheda_stato (scheda_id,stato),
-  KEY scheda_ip (scheda_id,ip_hash)
+  KEY scheda_ip (scheda_id,ip_hash),
+  KEY token (token)
 ) $charset;"
 		);
 

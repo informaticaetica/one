@@ -3,12 +3,16 @@
  * Collaudo su un WordPress vero (gira in CI con WP-CLI e SQLite):
  *   wp eval-file statistiche.top/tests/smoke-wordpress.php
  *
- * Crea dati di prova, simula 100 recensioni, esegue il calcolo notturno e
- * controlla candidatura, decisione manuale, API e pagine pubbliche.
+ * Simula il modulo semplice (anche senza account), la conferma dell'email, la
+ * moderazione, la richiesta "Crea la tua scheda", gli indirizzi wiki senza
+ * trattini, il calcolo notturno ed eccellenze.org.
  */
 
 use StatisticheTop\Eccellenze;
+use StatisticheTop\Indirizzi;
 use StatisticheTop\Installazione;
+use StatisticheTop\Modulo;
+use StatisticheTop\Registro;
 use StatisticheTop\Schede;
 use StatisticheTop\Vista;
 use StatisticheTop\Voti;
@@ -25,116 +29,107 @@ function controlla( $nome, $condizione ) {
 }
 
 global $wpdb;
+// Le email non partono davvero: le contiamo.
+$GLOBALS['email_inviate'] = array();
+add_filter(
+	'pre_wp_mail',
+	static function ( $nulla, $atts ) {
+		$GLOBALS['email_inviate'][] = $atts;
+		return true;
+	},
+	10,
+	2
+);
 
-// Tabelle create all'attivazione.
 controlla( 'tabella voti presente', (bool) $wpdb->get_var( $wpdb->prepare( 'SHOW TABLES LIKE %s', Installazione::tabella_voti() ) ) );
+controlla( 'tabella registro presente', (bool) $wpdb->get_var( $wpdb->prepare( 'SHOW TABLES LIKE %s', Registro::tabella() ) ) );
 controlla( 'calcolo notturno pianificato', (bool) wp_next_scheduled( Installazione::EVENTO_NOTTURNO ) );
 
-// Una scheda pubblicata.
-$settore = wp_insert_term( 'Industria', Schede::SETTORE );
-$autore  = wp_insert_user( array( 'user_login' => 'autore', 'user_pass' => wp_generate_password(), 'user_email' => 'autore@example.org' ) );
-$scheda  = wp_insert_post(
-	array(
-		'post_type'    => Schede::TIPO,
-		'post_status'  => 'publish',
-		'post_title'   => 'Azienda di prova',
-		'post_content' => 'Azienda di prova usata dal collaudo automatico del plugin.',
-		'post_author'  => $autore,
-	)
-);
-wp_set_object_terms( $scheda, array( (int) $settore['term_id'] ), Schede::SETTORE );
+// Validazione del modulo semplice.
+$errori = Modulo::valida( array( 'st_tipo' => 'azienda', 'st_nome' => 'X', 'st_stelle' => '6', 'st_recensione' => 'corta', 'st_email' => 'no' ), false, false, 'azienda' );
+controlla( 'modulo: errori su nome, stelle, testo, email, dichiarazioni', isset( $errori['st_nome'], $errori['st_stelle'], $errori['st_recensione'], $errori['st_email'], $errori['st_veridicita'], $errori['st_privacy'] ) );
+$errori = Modulo::valida( array( 'st_tipo' => 'prodotto', 'st_nome' => 'Moka', 'st_stelle' => '5', 'st_recensione' => str_repeat( 'Ottima moka, fa un caffè buono. ', 3 ), 'st_email' => 'a@example.org', 'st_veridicita' => '1', 'st_privacy' => '1', 'st_relazione' => 'concorrente' ), false, false, 'prodotto' );
+controlla( 'modulo: un concorrente non può recensire', isset( $errori['st_relazione'] ) && 1 === count( $errori ) );
+
+// Account leggero creato dall'email, senza email di WordPress.
+$u1 = Modulo::utente_da_email( 'lettore@example.org' );
+controlla( 'account creato dall\'email', $u1 > 0 && Modulo::utente_da_email( 'lettore@example.org' ) === $u1 );
+controlla( 'nome visualizzato neutro', 0 === strpos( get_userdata( $u1 )->display_name, 'Recensore' ) );
+
+// Scheda nata da una recensione: in revisione, nome breve senza trattini.
+$scheda = wp_insert_post( array( 'post_type' => Schede::TIPO, 'post_status' => 'pending', 'post_title' => 'Officina Rossi Bologna', 'post_author' => $u1 ) );
 update_post_meta( $scheda, '_st_tipo', 'azienda' );
-update_post_meta( $scheda, '_st_fonti', array( array( 'url' => 'https://example.org', 'descrizione' => 'Sito ufficiale' ) ) );
+controlla( 'nome breve senza trattini', 'officinarossibologna' === get_post_field( 'post_name', $scheda ) );
+controlla( 'la stessa scheda si trova con il nome scritto in altro modo', $scheda === Schede::cerca_doppione( 'officina rossi bologna' ) );
 
-// Regole: l'autore non può recensire, un account appena creato nemmeno.
-$fatti = Voti::fatti( $scheda, $autore );
-controlla( 'autore riconosciuto', $fatti['e_autore_scheda'] );
-$nuovo = wp_insert_user( array( 'user_login' => 'nuovo', 'user_pass' => wp_generate_password(), 'user_email' => 'nuovo@example.org' ) );
-list( $ok, $motivo ) = StatisticheTop\Regole::puo_recensire( Voti::fatti( $scheda, $nuovo ), StatisticheTop\Impostazioni::tutte() );
-controlla( 'account nuovo respinto', ! $ok && 'account_recente' === $motivo );
+$dati = array( 'stelle' => 4, 'titolo' => 'Buon lavoro', 'aspetti' => array(), 'relazione' => 'cliente', 'esperienza' => '', 'frequenza' => '', 'canale' => '', 'consiglia' => null, 'tornerebbe' => null, 'problema' => '', 'pro' => '', 'contro' => '', 'commento' => 'Buon lavoro, prezzi onesti e tempi rispettati.' );
+$token = bin2hex( random_bytes( 16 ) );
+controlla( 'recensione senza account: da confermare', 'conferma' === Voti::salva( $scheda, $u1, $dati, 'conferma', true, array( 'telefono' => '+39 333 1234567', 'token' => $token ), true ) );
+$voto = Voti::recensione_utente( $scheda, $u1 );
+controlla( 'telefono e codice di conferma salvati', '+39 333 1234567' === $voto['telefono'] && $token === $voto['token'] );
+controlla( 'registro: la recensione è registrata con l\'autore', (bool) $wpdb->get_var( $wpdb->prepare( 'SELECT COUNT(*) FROM ' . Registro::tabella() . ' WHERE voto_id = %d AND utente_id = %d', $voto['id'], $u1 ) ) );
 
-// 100 recensioni da 100 utenti diversi, tutte da 5.
-$adesso = current_time( 'mysql' );
-for ( $i = 1; $i <= 100; $i++ ) {
-	$u = wp_insert_user( array( 'user_login' => "recensore$i", 'user_pass' => wp_generate_password(), 'user_email' => "r$i@example.org" ) );
-	$wpdb->insert(
-		Installazione::tabella_voti(),
-		array(
-			'scheda_id' => $scheda, 'utente_id' => $u, 'stelle' => 5, 'titolo' => "Recensione $i",
-			'aspetti' => wp_json_encode( array( 'qualita' => 5, 'prezzo' => 4, 'assistenza' => 5 ) ),
-			'relazione' => 'cliente', 'esperienza' => '2026-10', 'consiglia' => 10, 'tornerebbe' => 1, 'problema' => 'nessuno',
-			'commento' => 1 === $i ? 'Commento di prova.' : '', 'stato' => 'valido', 'ip_hash' => hash( 'sha256', "ip$i" ), 'creato' => $adesso, 'modificato' => $adesso,
-		)
-	);
-}
+// Conferma: simuliamo il clic sul link.
+$wpdb->update( Installazione::tabella_voti(), array( 'stato' => 'moderazione', 'token' => '' ), array( 'id' => $voto['id'] ) );
+controlla( 'dopo la conferma: in moderazione', 1 === count( array_filter( Voti::da_moderare(), static function ( $r ) use ( $voto ) { return (int) $r['id'] === (int) $voto['id']; } ) ) );
 
-// Doppio voto impedito dal vincolo UNIQUE.
-$wpdb->suppress_errors( true );
-$doppio = $wpdb->insert( Installazione::tabella_voti(), array( 'scheda_id' => $scheda, 'utente_id' => $u, 'stelle' => 1, 'stato' => 'valido', 'creato' => $adesso, 'modificato' => $adesso ) );
-$wpdb->suppress_errors( false );
-controlla( 'doppio voto impedito', false === $doppio );
+// La redazione pubblica la scheda e approva la recensione.
+wp_update_post( array( 'ID' => $scheda, 'post_status' => 'publish' ) );
+$GLOBALS['email_inviate'] = array();
+Voti::cambia_stato( (int) $voto['id'], 'valido' );
+controlla( 'recensione approvata: conta nella scheda', 1 === Schede::aggregato( $scheda )['n_recensioni'] );
+controlla( 'email di pubblicazione a chi ha scritto', (bool) array_filter( $GLOBALS['email_inviate'], static function ( $m ) { return 'lettore@example.org' === $m['to'] || array( 'lettore@example.org' ) === (array) $m['to']; } ) );
 
-Eccellenze::calcolo_notturno();
-$agg = Schede::aggregato( $scheda );
-controlla( '100 recensori contati', 100 === $agg['n_recensori'] );
-controlla( 'punteggio ponderato sopra 4,5', $agg['media_bayes'] >= 4.5 );
-controlla( 'radiografia: distribuzione e aspetti', 100 === $agg['distribuzione'][5] && 3 === count( $agg['aspetti'] ) && 100 === (int) $agg['consiglia']['nps'] );
-controlla( 'scheda candidata', 'candidata' === Eccellenze::stato( $scheda ) );
-controlla( 'decisione su stato sbagliato rifiutata', ! Eccellenze::decidi( $scheda, 'esci' ) );
-controlla( 'approvazione manuale', Eccellenze::decidi( $scheda, 'approva', 'Fonti verificate.' ) && 'pubblicata' === Eccellenze::stato( $scheda ) );
+// Indirizzi wiki.
+controlla( 'indirizzo wiki /officinarossibologna/', home_url( user_trailingslashit( 'officinarossibologna' ) ) === get_permalink( $scheda ) );
+$vars = Indirizzi::richiesta( array( 'pagename' => 'officina-rossi-bologna', 'page' => '' ) );
+controlla( 'l\'indirizzo con i trattini porta alla scheda', isset( $vars['post_type'] ) && Schede::TIPO === $vars['post_type'] && 'officinarossibologna' === $vars['name'] );
+wp_insert_post( array( 'post_type' => 'page', 'post_status' => 'publish', 'post_title' => 'Pagina', 'post_name' => 'nomeoccupato' ) );
+$omonima = wp_insert_post( array( 'post_type' => Schede::TIPO, 'post_status' => 'publish', 'post_title' => 'Nome occupato' ) );
+controlla( 'una scheda non prende il nome di una pagina', 'nomeoccupato2' === get_post_field( 'post_name', $omonima ) );
 
-// API per eccellenze.org.
-$risposta = rest_do_request( new WP_REST_Request( 'GET', '/statistiche-top/v1/eccellenze' ) );
-$dati     = $risposta->get_data();
-controlla( 'API risponde 200', 200 === $risposta->get_status() );
-controlla( 'API elenca la scheda con link di ritorno', 1 === count( $dati['schede'] ) && get_permalink( $scheda ) === $dati['schede'][0]['url'] );
-
-// Pagine pubbliche: metodologia e pagina della scheda generano HTML.
-controlla( 'metodologia', false !== strpos( Vista::shortcode_metodologia(), 'media bayesiana' ) );
-controlla( 'classifica', false !== strpos( Vista::shortcode_classifica( array( 'minimo' => 50 ) ), 'Azienda di prova' ) );
-$GLOBALS['wp_query'] = new WP_Query( array( 'p' => $scheda, 'post_type' => Schede::TIPO ) );
+// Pagina della scheda come voce wiki, con il modulo semplice.
+$GLOBALS['wp_query']     = new WP_Query( array( 'p' => $scheda, 'post_type' => Schede::TIPO ) );
 $GLOBALS['wp_the_query'] = $GLOBALS['wp_query'];
 $html = '';
 while ( have_posts() ) {
 	the_post();
 	$html = apply_filters( 'the_content', get_the_content() );
 }
-controlla( 'pagina della scheda con punteggio', false !== strpos( $html, 'st-punteggio' ) && false !== strpos( $html, 'eccellenze.org' ) );
-controlla( 'pagina della scheda con modulo di segnalazione', false !== strpos( $html, 'st_segnalazione' ) );
-controlla( 'nessun blocco autore sulle schede', '' === Vista::pulisci_blocchi_tema( '<p>autore</p>', array( 'blockName' => 'core/post-author-name' ), null ) );
-controlla( 'storico pubblico', false !== strpos( $html, 'Fonti verificate.' ) );
+controlla( 'voce wiki: riquadro, indice, statistiche, modulo', false !== strpos( $html, 'st-infobox' ) && false !== strpos( $html, 'st-indice' ) && false !== strpos( $html, 'st-radiografia' ) && false !== strpos( $html, 'name="action" value="st_recensione"' ) );
+wp_reset_postdata();
 
-// Modulo di proposta con gli aiuti a fumetto e interruttore del tema.
-wp_set_current_user( $nuovo );
-$modulo = StatisticheTop\Guida::shortcode_proposta();
-controlla( 'guida di proposta: primo passo con 8 aiuti', 8 === substr_count( $modulo, 'class="st-aiuto-pulsante"' ) && false !== strpos( $modulo, 'Passo 1 di 4' ) );
+// Home: modulo completo; "Crea la tua scheda".
+$modulo = Modulo::shortcode();
+controlla( 'modulo in home: nome, categoria, stelle, testo, email, telefono', false !== strpos( $modulo, 'st_nome' ) && false !== strpos( $modulo, 'st_categoria' ) && false !== strpos( $modulo, 'st_stelle' ) && false !== strpos( $modulo, 'maxlength="2000"' ) && false !== strpos( $modulo, 'st_email' ) && false !== strpos( $modulo, 'st_telefono' ) );
+controlla( 'modulo "Crea la tua scheda"', false !== strpos( StatisticheTop\Richieste::shortcode(), 'st_r_referente' ) );
+controlla( 'notifiche alla redazione: due indirizzi', in_array( 'informaticaetica@gmail.com', StatisticheTop\Notifiche::destinatari(), true ) );
 
-// Recensione di chi propone: in attesa finché l'account non ha 7 giorni.
-$proposta = wp_insert_post( array( 'post_type' => Schede::TIPO, 'post_status' => 'publish', 'post_title' => 'Scheda proposta', 'post_author' => $nuovo ) );
-update_post_meta( $proposta, '_st_tipo', 'azienda' );
-$dati = array( 'stelle' => 4, 'titolo' => 'Prova', 'aspetti' => array( 'qualita' => 4, 'prezzo' => 3, 'tempi' => 5 ), 'relazione' => 'cliente', 'esperienza' => '2026-10', 'frequenza' => 'una', 'canale' => 'online', 'consiglia' => 8, 'tornerebbe' => 1, 'problema' => 'nessuno', 'pro' => '', 'contro' => '', 'commento' => 'Esperienza di prova.' );
-controlla( 'recensione di chi propone: in attesa', 'attesa' === Voti::salva( $proposta, $nuovo, $dati, 'attesa', true ) && 0 === Schede::aggregato( $proposta )['n_recensioni'] );
-$wpdb->update( $wpdb->users, array( 'user_registered' => gmdate( 'Y-m-d H:i:s', time() - 8 * DAY_IN_SECONDS ) ), array( 'ID' => $nuovo ) );
-clean_user_cache( $nuovo );
-controlla( 'recensione di chi propone: valida dopo 7 giorni', 1 === Voti::promuovi_in_attesa( $proposta ) && 1 === Schede::aggregato( $proposta )['n_recensioni'] );
-controlla( 'interruttore del tema', false !== strpos( do_shortcode( '[st_tema]' ), 'data-st-tema' ) );
-wp_set_current_user( 0 );
+// eccellenze.org: 100 recensioni valide da 5.
+$adesso = current_time( 'mysql' );
+for ( $i = 1; $i <= 100; $i++ ) {
+	$u = Modulo::utente_da_email( "r$i@example.org" );
+	$wpdb->insert( Installazione::tabella_voti(), array( 'scheda_id' => $scheda, 'utente_id' => $u, 'stelle' => 5, 'titolo' => 'Ottimo', 'aspetti' => '[]', 'commento' => 'Ottimo servizio.', 'stato' => 'valido', 'creato' => $adesso, 'modificato' => $adesso ) );
+}
+Eccellenze::calcolo_notturno();
+controlla( 'scheda candidata a eccellenze.org', 'candidata' === Eccellenze::stato( $scheda ) );
+controlla( 'approvazione manuale', Eccellenze::decidi( $scheda, 'approva', 'Verificata.' ) && 'pubblicata' === Eccellenze::stato( $scheda ) );
+$risposta = rest_do_request( new WP_REST_Request( 'GET', '/statistiche-top/v1/eccellenze' ) );
+controlla( 'API per eccellenze.org', 200 === $risposta->get_status() && 1 === count( $risposta->get_data()['schede'] ) );
+controlla( 'metodologia', false !== strpos( Vista::shortcode_metodologia(), 'Conferma dell' ) );
 
-// Indirizzi wiki, registro delle richieste.
-$slug = get_post_field( 'post_name', $scheda );
-controlla( 'indirizzo wiki /nome-scheda/', home_url( user_trailingslashit( $slug ) ) === get_permalink( $scheda ) );
-$vars = StatisticheTop\Indirizzi::richiesta( array( 'pagename' => $slug, 'page' => '' ) );
-controlla( 'richiesta /nome-scheda/ risolta come scheda', isset( $vars['post_type'] ) && Schede::TIPO === $vars['post_type'] );
-$pagina = wp_insert_post( array( 'post_type' => 'page', 'post_status' => 'publish', 'post_title' => 'Pagina omonima', 'post_name' => 'nome-occupato' ) );
-$omonima = wp_insert_post( array( 'post_type' => Schede::TIPO, 'post_status' => 'publish', 'post_title' => 'Nome occupato' ) );
-controlla( 'una scheda non prende il nome di una pagina', 'nome-occupato' !== get_post_field( 'post_name', $omonima ) );
-global $wpdb;
-controlla( 'registro: la recensione di chi propone è registrata', (bool) $wpdb->get_var( $wpdb->prepare( 'SELECT COUNT(*) FROM ' . StatisticheTop\Registro::tabella() . " WHERE evento = 'recensione' AND scheda_id = %d", $proposta ) ) );
+// Recensioni mai confermate: cancellate dopo la scadenza, con la scheda nata solo da loro.
+$u2      = Modulo::utente_da_email( 'mai@example.org' );
+$fantasma = wp_insert_post( array( 'post_type' => Schede::TIPO, 'post_status' => 'pending', 'post_title' => 'Scheda fantasma', 'post_author' => $u2 ) );
+Voti::salva( $fantasma, $u2, $dati, 'conferma', true, array( 'token' => bin2hex( random_bytes( 16 ) ) ), true );
+$wpdb->update( Installazione::tabella_voti(), array( 'creato' => '2020-01-01 00:00:00' ), array( 'scheda_id' => $fantasma ) );
+controlla( 'recensione non confermata cancellata', 1 === Modulo::pulisci_non_confermate() && 'trash' === get_post_status( $fantasma ) );
 
 // Cancellazione di un utente: le sue recensioni spariscono (GDPR).
 require_once ABSPATH . 'wp-admin/includes/user.php';
-wp_delete_user( $u );
-controlla( 'recensioni dell\'utente cancellato rimosse', 99 === Schede::aggregato( $scheda )['n_recensori'] );
+$prima = Schede::aggregato( $scheda )['n_recensori'];
+wp_delete_user( $u1 );
+controlla( 'recensioni dell\'utente cancellato rimosse', $prima - 1 === Schede::aggregato( $scheda )['n_recensori'] );
 
 if ( $falliti ) {
 	WP_CLI::error( "$falliti controlli falliti." );

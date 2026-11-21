@@ -39,7 +39,7 @@ final class Registro {
 		return filter_var( $ip, FILTER_VALIDATE_IP ) ? $ip : '';
 	}
 
-	public static function scrivi( $evento, $scheda_id = 0, $voto_id = 0 ) {
+	public static function scrivi( $evento, $scheda_id = 0, $voto_id = 0, $utente_id = null ) {
 		if ( ! isset( self::EVENTI[ $evento ] ) ) {
 			return;
 		}
@@ -49,7 +49,7 @@ final class Registro {
 			self::tabella(),
 			array(
 				'evento'     => $evento,
-				'utente_id'  => get_current_user_id(),
+				'utente_id'  => null === $utente_id ? get_current_user_id() : (int) $utente_id,
 				'scheda_id'  => (int) $scheda_id,
 				'voto_id'    => (int) $voto_id,
 				'ip'         => self::ip(),

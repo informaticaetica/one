@@ -2,7 +2,7 @@
 
 Il repository contiene tre progetti: `guide/` (Guide APPO, GitHub Pages),
 `miglioramento.com/` (sito statico pubblicato su un server esterno) e
-`statistiche.top/` (plugin WordPress del sito statistiche.top).
+`statistiche.top/` (plugin e tema WordPress del sito statistiche.top).
 Lingua dei contenuti, dei commit e dei commenti: italiano.
 
 ## Accessibilità e daltonismo: sempre, su ogni modifica
@@ -19,7 +19,8 @@ Non sono facoltative.
   sottolineatura o grassetto (i link nel testo sono sottolineati, la pagina
   corrente del menu è in grassetto, i livelli dei capitoli hanno una lettera).
 - **Colori solo tramite i token** di `:root` in `statici/stile.css` (per
-  statistiche.top: i token `--st-*` in `assets/statistiche-top.css`), definiti per
+  statistiche.top: i token `--st-*` in `assets/statistiche-top.css` del plugin e la
+  palette di `theme.json` del tema, che devono coincidere), definiti per
   entrambi i temi; niente colori letterali nei componenti.
 - **Tema**: tre stati (automatico, chiaro, scuro). La scelta si salva in
   `localStorage` con la chiave `tema`, vale per tutto il sito e per le visite
@@ -50,7 +51,8 @@ Le stesse verifiche girano in CI (`.github/workflows/miglioramento.yml`).
 cd statistiche.top
 php tests/test-logica.php                   # punteggi, regole, soglie eccellenze.org
 python3 scripts/verifica_colori.py          # contrasto + daltonismo della palette
-find plugin -name '*.php' -exec php -l {} \;
+python3 scripts/verifica_tema.py            # tema coerente con il plugin
+find plugin tema -name '*.php' -exec php -l {} \;
 ```
 
 In CI (`.github/workflows/statistiche.yml`) gira anche il collaudo su un
@@ -68,4 +70,5 @@ Dettagli in `miglioramento.com/README.md`.
 Ogni modifica al plugin alza la versione nell'intestazione di
 `statistiche-top.php` e nella costante `VERSIONE`, con una voce in
 `statistiche.top/CHANGELOG.md` (versionamento semantico). Se cambia lo schema
-delle tabelle, alza anche `VERSIONE_DB`.
+delle tabelle, alza anche `VERSIONE_DB`. Il tema ha la sua versione
+nell'intestazione di `tema/statistiche-top-tema/style.css`.

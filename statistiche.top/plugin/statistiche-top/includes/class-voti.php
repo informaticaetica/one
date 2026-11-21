@@ -3,6 +3,8 @@
  * Le recensioni: salvataggio, stati, regole, voti "utile" e ricalcolo della radiografia.
  *
  * Stati di una recensione:
+ * - conferma: scritta senza account, attende il clic sul link nell'email;
+ * - moderazione: attende la decisione del moderatore;
  * - valido: conta nei punteggi;
  * - attesa: recensione di chi ha proposto la scheda, conta quando la scheda è
  *   pubblicata e l'account ha l'anzianità minima (promossa in automatico);
@@ -21,7 +23,17 @@ final class Voti {
 	const MAX_TESTO  = 3000;
 	const MAX_BREVE  = 600;
 	const MAX_TITOLO = 120;
-	const STATI      = array( 'valido', 'attesa', 'sospeso', 'annullato' );
+	const STATI      = array( 'valido', 'conferma', 'moderazione', 'attesa', 'sospeso', 'annullato' );
+
+	/** Nomi degli stati per la bacheca. */
+	const NOMI_STATI = array(
+		'valido'      => 'Pubblicata',
+		'conferma'    => 'Email da confermare',
+		'moderazione' => 'Da moderare',
+		'attesa'      => 'In attesa (vecchio sistema)',
+		'sospeso'     => 'Da controllare (stessa rete)',
+		'annullato'   => 'Annullata',
+	);
 
 	/** Che rapporto ha avuto chi recensisce con il soggetto. Le voci "conflitto" bloccano la recensione. */
 	const RELAZIONI = array(
@@ -167,39 +179,6 @@ final class Voti {
 		return $agg;
 	}
 
-	/* ---------- Regole ---------- */
-
-	/** Raccoglie i fatti che servono a Regole::puo_recensire(). */
-	public static function fatti( $scheda_id, $utente_id, $recensione = null ) {
-		global $wpdb;
-		$t      = Installazione::tabella_voti();
-		$adesso = current_time( 'timestamp', true );
-
-		$giorni_dalla = null;
-		if ( $recensione ) {
-			$giorni_dalla = (int) floor( ( current_time( 'timestamp' ) - strtotime( $recensione['creato'] ) ) / DAY_IN_SECONDS );
-		}
-
-		$ultime_24h = (int) $wpdb->get_var(
-			$wpdb->prepare(
-				"SELECT COUNT(*) FROM $t WHERE utente_id = %d AND creato >= %s",
-				$utente_id,
-				wp_date( 'Y-m-d H:i:s', $adesso - DAY_IN_SECONDS )
-			)
-		);
-
-		return array_merge(
-			array(
-				'eta_account_giorni'      => self::eta_account( $utente_id ),
-				'giorni_attivita'         => count( array_filter( (array) get_user_meta( $utente_id, 'st_giorni_accesso', true ) ) ),
-				'recensioni_24h'          => $ultime_24h,
-				'scheda_pubblicata'       => 'publish' === get_post_status( $scheda_id ),
-				'giorni_dalla_recensione' => $giorni_dalla,
-			),
-			Schede::legami_utente( $scheda_id, $utente_id )
-		);
-	}
-
 	public static function eta_account( $utente_id ) {
 		$utente = get_userdata( $utente_id );
 		return $utente ? (int) floor( ( current_time( 'timestamp', true ) - strtotime( $utente->user_registered . ' UTC' ) ) / DAY_IN_SECONDS ) : 0;
@@ -226,7 +205,7 @@ final class Voti {
 	 *                        salvo 'attesa' che viene ricontrollato).
 	 * @return string|false   stato finale, o false se il salvataggio non riesce.
 	 */
-	public static function salva( $scheda_id, $utente_id, array $d, $stato, $da_proposta = false ) {
+	public static function salva( $scheda_id, $utente_id, array $d, $stato, $da_proposta = false, array $extra = array(), $forza_stato = false ) {
 		global $wpdb;
 		$t         = Installazione::tabella_voti();
 		$adesso    = current_time( 'mysql' );
@@ -247,10 +226,18 @@ final class Voti {
 			'commento'   => (string) $d['commento'],
 			'modificato' => $adesso,
 		);
+		foreach ( array( 'telefono', 'token' ) as $k ) {
+			if ( isset( $extra[ $k ] ) ) {
+				$campi[ $k ] = (string) $extra[ $k ];
+			}
+		}
+		if ( $esistente && $forza_stato ) {
+			$campi['stato'] = $stato;
+		}
 
 		if ( $esistente ) {
 			$ok    = false !== $wpdb->update( $t, $campi, array( 'id' => (int) $esistente['id'] ) );
-			$stato = $esistente['stato'];
+			$stato = $forza_stato ? $stato : $esistente['stato'];
 		} else {
 			$ok = (bool) $wpdb->insert(
 				$t,
@@ -271,8 +258,8 @@ final class Voti {
 			return false;
 		}
 		$voto_id = $esistente ? (int) $esistente['id'] : (int) $wpdb->insert_id;
-		Registro::scrivi( $esistente ? 'recensione_modificata' : 'recensione', $scheda_id, $voto_id );
-		if ( ! $esistente && 'valido' === $stato ) {
+		Registro::scrivi( $esistente ? 'recensione_modificata' : 'recensione', $scheda_id, $voto_id, $utente_id );
+		if ( 'valido' === $stato && ( ! $esistente || 'valido' !== $esistente['stato'] ) ) {
 			do_action( 'st_recensione_valida', $voto_id );
 		}
 		if ( 'attesa' === $stato ) {
@@ -280,17 +267,6 @@ final class Voti {
 		}
 		self::ricalcola_scheda( $scheda_id );
 		return $stato;
-	}
-
-	/** Stato di una recensione nuova di un utente qualsiasi (non di chi propone). */
-	public static function stato_nuova( $scheda_id, $utente_id ) {
-		global $wpdb;
-		$ip    = self::impronta_ip();
-		$t     = Installazione::tabella_voti();
-		$altri = $ip ? (int) $wpdb->get_var(
-			$wpdb->prepare( "SELECT COUNT(DISTINCT utente_id) FROM $t WHERE scheda_id = %d AND ip_hash = %s AND utente_id <> %d", $scheda_id, $ip, $utente_id )
-		) : 0;
-		return Regole::stato_iniziale( $altri );
 	}
 
 	/**
@@ -305,7 +281,7 @@ final class Voti {
 		$t     = Installazione::tabella_voti();
 		$dove  = $scheda_id ? $wpdb->prepare( ' AND scheda_id = %d', $scheda_id ) : '';
 		$righe = $wpdb->get_results( "SELECT id, scheda_id, utente_id FROM $t WHERE stato = 'attesa'$dove", ARRAY_A ); // phpcs:ignore WordPress.DB
-		$eta   = (int) Impostazioni::valore( 'eta_minima_giorni' );
+		$eta   = 0; // Nel sistema attuale conta solo la pubblicazione della scheda.
 		$fatte = 0;
 		$da_ricalcolare = array();
 		foreach ( $righe as $r ) {
@@ -402,6 +378,18 @@ final class Voti {
 			do_action( 'st_recensione_valida', (int) $voto_id );
 		}
 		return true;
+	}
+
+	/** Recensioni da moderare (e quelle da controllare per la stessa rete), le più vecchie prima. */
+	public static function da_moderare( $limite = 100 ) {
+		global $wpdb;
+		$t = Installazione::tabella_voti();
+		return array_map( array( __CLASS__, 'prepara' ), $wpdb->get_results( $wpdb->prepare( "SELECT * FROM $t WHERE stato IN ('moderazione','sospeso') ORDER BY creato ASC LIMIT %d", $limite ), ARRAY_A ) );
+	}
+
+	public static function in_conferma_conteggio() {
+		global $wpdb;
+		return (int) $wpdb->get_var( 'SELECT COUNT(*) FROM ' . Installazione::tabella_voti() . " WHERE stato = 'conferma'" ); // phpcs:ignore WordPress.DB
 	}
 
 	public static function sospese( $limite = 50 ) {

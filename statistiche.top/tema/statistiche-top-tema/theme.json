@@ -1,0 +1,133 @@
+{
+	"$schema": "https://schemas.wp.org/wp/6.6/theme.json",
+	"version": 3,
+	"settings": {
+		"appearanceTools": true,
+		"useRootPaddingAwareAlignments": true,
+		"color": {
+			"defaultPalette": false,
+			"defaultGradients": false,
+			"defaultDuotone": false,
+			"custom": false,
+			"customGradient": false,
+			"palette": [
+				{ "slug": "base", "name": "Fondo", "color": "#f0eee6" },
+				{ "slug": "surface", "name": "Superficie", "color": "#faf9f5" },
+				{ "slug": "contrast", "name": "Testo", "color": "#1f1e1d" },
+				{ "slug": "secondary", "name": "Testo secondario", "color": "#5e5d59" },
+				{ "slug": "border", "name": "Bordo", "color": "#87867f" },
+				{ "slug": "primary", "name": "Blu", "color": "#23395d" },
+				{ "slug": "primary-soft", "name": "Blu tenue", "color": "#e2e5ec" },
+				{ "slug": "accent", "name": "Ambra", "color": "#82501a" },
+				{ "slug": "accent-soft", "name": "Ambra tenue", "color": "#f5e9d4" }
+			]
+		},
+		"layout": {
+			"contentSize": "38.75rem",
+			"wideSize": "60rem"
+		},
+		"spacing": {
+			"units": [ "px", "rem", "em", "%", "vw" ]
+		},
+		"typography": {
+			"defaultFontSizes": false,
+			"customFontSize": false,
+			"fluid": false,
+			"fontFamilies": [
+				{
+					"name": "Newsreader",
+					"slug": "newsreader",
+					"fontFamily": "Newsreader, Georgia, \"Times New Roman\", serif",
+					"fontFace": [
+						{ "fontFamily": "Newsreader", "fontStyle": "normal", "fontWeight": "200 800", "fontDisplay": "swap", "src": [ "file:./assets/fonts/newsreader.woff2" ] },
+						{ "fontFamily": "Newsreader", "fontStyle": "italic", "fontWeight": "200 800", "fontDisplay": "swap", "src": [ "file:./assets/fonts/newsreader-italic.woff2" ] }
+					]
+				},
+				{
+					"name": "Monospazio",
+					"slug": "mono",
+					"fontFamily": "ui-monospace, SFMono-Regular, Menlo, Consolas, monospace"
+				}
+			],
+			"fontSizes": [
+				{ "slug": "small", "name": "Piccolo", "size": "1rem" },
+				{ "slug": "medium", "name": "Testo", "size": "1.25rem" },
+				{ "slug": "large", "name": "Grande", "size": "1.5rem" },
+				{ "slug": "x-large", "name": "Molto grande", "size": "2rem" },
+				{ "slug": "xx-large", "name": "Titolo", "size": "clamp(2.4rem, 2rem + 2.5vw, 3.875rem)" }
+			]
+		}
+	},
+	"styles": {
+		"color": {
+			"background": "var:preset|color|base",
+			"text": "var:preset|color|contrast"
+		},
+		"spacing": {
+			"blockGap": "1.25rem",
+			"padding": { "top": "0", "bottom": "0", "left": "1rem", "right": "1rem" }
+		},
+		"typography": {
+			"fontFamily": "var:preset|font-family|newsreader",
+			"fontSize": "var:preset|font-size|medium",
+			"lineHeight": "1.6"
+		},
+		"elements": {
+			"link": {
+				"color": { "text": "var:preset|color|contrast" },
+				"typography": { "textDecoration": "underline" },
+				":hover": { "color": { "text": "var:preset|color|secondary" } }
+			},
+			"heading": {
+				"typography": { "fontWeight": "600", "lineHeight": "1.2" }
+			},
+			"h1": {
+				"typography": { "fontSize": "var:preset|font-size|xx-large", "fontWeight": "700", "lineHeight": "1.1" }
+			},
+			"h2": { "typography": { "fontSize": "var:preset|font-size|x-large" } },
+			"h3": { "typography": { "fontSize": "var:preset|font-size|large" } },
+			"h4": { "typography": { "fontSize": "var:preset|font-size|medium" } },
+			"button": {
+				"color": { "background": "var:preset|color|contrast", "text": "var:preset|color|base" },
+				"border": { "radius": "0.5rem", "width": "1px", "style": "solid", "color": "var:preset|color|contrast" },
+				"typography": { "fontSize": "1.15rem", "lineHeight": "1" },
+				"spacing": { "padding": { "top": "0.75em", "bottom": "0.65em", "left": "1em", "right": "1em" } },
+				":hover": { "color": { "background": "var:preset|color|secondary", "text": "var:preset|color|base" } }
+			},
+			"caption": {
+				"typography": { "fontSize": "var:preset|font-size|small" },
+				"color": { "text": "var:preset|color|secondary" }
+			}
+		},
+		"blocks": {
+			"core/site-title": {
+				"typography": { "fontSize": "1.2rem", "fontWeight": "600", "lineHeight": "1.25" },
+				"elements": { "link": { "typography": { "textDecoration": "none" } } }
+			},
+			"core/navigation": {
+				"typography": { "fontSize": "var:preset|font-size|small" },
+				"elements": { "link": { "typography": { "textDecoration": "none" } } }
+			},
+			"core/post-title": {
+				"typography": { "fontSize": "var:preset|font-size|xx-large", "fontWeight": "700", "lineHeight": "1.1" }
+			},
+			"core/post-date": {
+				"typography": { "fontSize": "var:preset|font-size|small" },
+				"color": { "text": "var:preset|color|secondary" }
+			},
+			"core/separator": {
+				"color": { "text": "var:preset|color|border" }
+			},
+			"core/quote": {
+				"border": { "left": { "color": "var:preset|color|border", "width": "1px", "style": "solid" } },
+				"typography": { "fontStyle": "italic" },
+				"spacing": { "padding": { "left": "1.25em" } }
+			}
+		}
+	},
+	"templateParts": [
+		{ "name": "header", "title": "Testata", "area": "header" },
+		{ "name": "footer", "title": "Piè di pagina", "area": "footer" }
+	],
+	"customTemplates": []
+}

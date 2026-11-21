@@ -16,17 +16,15 @@ final class Impostazioni {
 	/** Valori predefiniti: chiave => array( valore, etichetta, tipo, min, max ). */
 	public static function campi() {
 		return array(
-			'eta_minima_giorni'      => array( 7, 'Anzianità minima dell\'account per recensire (giorni)', 'int', 0, 365 ),
-			'giorni_attivita_minimi' => array( 2, 'Giorni distinti di accesso richiesti prima di recensire', 'int', 0, 60 ),
 			'limite_giornaliero'     => array( 10, 'Recensioni nuove consentite a un utente in 24 ore', 'int', 1, 200 ),
-			'giorni_modifica'        => array( 30, 'Giorni entro cui si può modificare la propria recensione', 'int', 0, 365 ),
 			'peso_bayes'             => array( 20, 'Peso della media generale (recensioni virtuali, C)', 'float', 0, 1000 ),
 			'media_priori'           => array( 3.5, 'Media generale usata finché il sito ha meno di 50 recensioni', 'float', 1, 5 ),
 			'min_recensori'          => array( 100, 'eccellenze.org: recensori unici necessari', 'int', 1, 100000 ),
 			'soglia_ingresso'        => array( 4.5, 'eccellenze.org: media bayesiana minima per la candidatura', 'float', 1, 5 ),
 			'soglia_uscita'          => array( 4.3, 'eccellenze.org: sotto questa media si apre la revisione di uscita', 'float', 1, 5 ),
 			'giorni_registro'        => array( 90, 'Giorni di conservazione del registro delle richieste (indirizzi IP)', 'int', 7, 365 ),
-			'aspetto'                => array( 1, 'Aspetto del sito di statistiche.top: font, colori, tema chiaro/scuro (1 = attivo, 0 = usa solo il tema)', 'int', 0, 1 ),
+			'giorni_conferma'        => array( 7, 'Giorni di validità del link di conferma dell\'email', 'int', 1, 30 ),
+			'email_notifiche'        => array( 'informaticaetica@gmail.com', 'Indirizzo che riceve una copia di ogni invio (oltre all\'amministratore)', 'email', null, null ),
 			'url_eccellenze'         => array( 'https://eccellenze.org', 'Indirizzo di eccellenze.org', 'url', null, null ),
 		);
 	}
@@ -69,7 +67,10 @@ final class Impostazioni {
 		foreach ( self::campi() as $chiave => $campo ) {
 			list( $predefinito, , $tipo, $min, $max ) = $campo;
 			$v = isset( $input[ $chiave ] ) ? wp_unslash( $input[ $chiave ] ) : $predefinito;
-			if ( 'url' === $tipo ) {
+			if ( 'email' === $tipo ) {
+				$v = sanitize_email( trim( (string) $v ) );
+				$v = is_email( $v ) ? $v : $predefinito;
+			} elseif ( 'url' === $tipo ) {
 				$v = esc_url_raw( trim( (string) $v ) );
 				$v = $v ? untrailingslashit( $v ) : $predefinito;
 			} else {
