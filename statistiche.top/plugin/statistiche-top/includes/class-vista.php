@@ -473,7 +473,7 @@ final class Vista {
 				<li>Ogni persona recensisce una scheda una sola volta e può modificare la recensione entro <?php echo esc_html( $i['giorni_modifica'] ); ?> giorni.</li>
 				<li>Al massimo <?php echo esc_html( $i['limite_giornaliero'] ); ?> recensioni nuove ogni 24 ore.</li>
 				<li>Non può recensire chi ha un conflitto di interesse: il soggetto stesso, i suoi dipendenti ed ex dipendenti, soci, familiari e concorrenti diretti. Le aziende possono avere un referente verificato che risponde, ma non vota.</li>
-				<li>Le recensioni che arrivano da uno stesso indirizzo di rete per la stessa scheda vengono controllate dalla redazione prima di essere conteggiate. Non conserviamo l'indirizzo, ma solo un'impronta cifrata che non permette di risalire a esso.</li>
+				<li>Le recensioni che arrivano da uno stesso indirizzo di rete per la stessa scheda vengono controllate dalla redazione prima di essere conteggiate. Con la recensione conserviamo solo un'impronta cifrata dell'indirizzo; l'indirizzo vero resta nel registro delle richieste, visibile solo agli amministratori, per <?php echo esc_html( $i['giorni_registro'] ); ?> giorni.</li>
 				<li>Il segno <strong>«Utente verificato»</strong> vuol dire che l'indirizzo email è stato verificato. Non verifichiamo l'esperienza raccontata: per questo ogni recensione dice che rapporto ha avuto chi scrive con il soggetto, e quando.</li>
 			</ul>
 
